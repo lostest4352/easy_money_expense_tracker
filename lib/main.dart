@@ -27,11 +27,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark(),
-      // home: const HomePage(),
-      routerConfig: goRouter,
+    return SafeArea(
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData.dark(),
+        // home: const HomePage(),
+        routerConfig: goRouter,
+      ),
     );
   }
 }

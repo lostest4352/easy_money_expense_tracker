@@ -1,19 +1,14 @@
-// TODO Remove this later
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:flutter_expense_tracker/widgets/app_drawer.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  final val = 4;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Expense App",
         ),
         actions: [
@@ -32,7 +27,7 @@ class HomePage extends StatelessWidget {
           showModalBottomSheet(
             context: context,
             builder: (context) {
-              return Container(
+              return const SizedBox(
                 height: 400,
                 child: Card(
                   color: Colors.black12,
@@ -44,22 +39,7 @@ class HomePage extends StatelessWidget {
         },
         child: const Icon(Icons.add),
       ),
-      drawer: AppDrawer(),
-      bottomNavigationBar: (val == 5)
-          ? null
-          : BottomNavigationBar(
-              backgroundColor: Colors.black12,
-              items: [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.account_balance_wallet_outlined),
-                  label: 'Transactions',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.incomplete_circle_outlined),
-                  label: 'Graphs',
-                ),
-              ],
-            ),
+      drawer: const AppDrawer(),
       body: Column(
         children: [
           Expanded(

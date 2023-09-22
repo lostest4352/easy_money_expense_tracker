@@ -10,8 +10,8 @@ class SettingsPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Settings"),
       ),
-      drawer: AppDrawer(),
-      body: Column(),
+      drawer: const AppDrawer(),
+      body: const Column(),
     );
   }
 }
