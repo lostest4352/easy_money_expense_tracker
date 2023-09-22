@@ -3,10 +3,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_expense_tracker/widgets/app_drawer.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
+
+  final val = 4;
 
   @override
   Widget build(BuildContext context) {
@@ -27,23 +28,38 @@ class HomePage extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            builder: (context) {
+              return Container(
+                height: 400,
+                child: Card(
+                  color: Colors.black12,
+                  child: Text("efeefe"),
+                ),
+              );
+            },
+          );
+        },
         child: const Icon(Icons.add),
       ),
       drawer: AppDrawer(),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.black12,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_balance_wallet_outlined),
-            label: 'Transactions',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.incomplete_circle_outlined),
-            label: 'Graphs',
-          ),
-        ],
-      ),
+      bottomNavigationBar: (val == 5)
+          ? null
+          : BottomNavigationBar(
+              backgroundColor: Colors.black12,
+              items: [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.account_balance_wallet_outlined),
+                  label: 'Transactions',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.incomplete_circle_outlined),
+                  label: 'Graphs',
+                ),
+              ],
+            ),
       body: Column(
         children: [
           Expanded(

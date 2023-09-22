@@ -58,6 +58,9 @@ class AppDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
+            onTap: () {
+              context.goNamed(AppRoutes.settingsPage.name);
+            },
             leading: const Icon(Icons.settings),
             title: Text(
               'Settings',

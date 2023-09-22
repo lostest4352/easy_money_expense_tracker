@@ -1,10 +1,12 @@
 import 'package:flutter_expense_tracker/pages/categories.dart';
 import 'package:flutter_expense_tracker/pages/home_page.dart';
+import 'package:flutter_expense_tracker/pages/settings_page.dart';
 import 'package:go_router/go_router.dart';
 
 enum AppRoutes {
   homePage,
   expenseCategoriesPage,
+  settingsPage,
 }
 
 final goRouter = GoRouter(
@@ -23,6 +25,13 @@ final goRouter = GoRouter(
       path: '/categories',
       builder: (context, state) {
         return const ExpenseCategories();
+      },
+    ),
+    GoRoute(
+      name: AppRoutes.settingsPage.name,
+      path: '/settingsPage',
+      builder: (context, state) {
+        return const SettingsPage();
       },
     ),
   ],
