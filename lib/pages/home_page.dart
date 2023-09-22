@@ -2,6 +2,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -32,13 +33,16 @@ class HomePage extends StatelessWidget {
             const SizedBox(
               height: 15,
             ),
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(
                 left: 20,
               ),
               child: Text(
                 'Million dollars',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                style: GoogleFonts.roboto(
+                  textStyle:
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                ),
               ),
             ),
             const Padding(
@@ -68,13 +72,9 @@ class HomePage extends StatelessWidget {
       ),
       bottomNavigationBar: BottomNavigationBar(items: [
         BottomNavigationBarItem(
-          icon: Icon(Icons.account_balance_wallet_outlined),
-          label: ''
-        ),
+            icon: Icon(Icons.account_balance_wallet_outlined), label: ''),
         BottomNavigationBarItem(
-          icon: Icon(Icons.incomplete_circle_outlined),
-          label: ''
-        ),
+            icon: Icon(Icons.incomplete_circle_outlined), label: ''),
       ]),
       body: Column(
         children: [
