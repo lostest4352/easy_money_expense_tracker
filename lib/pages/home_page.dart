@@ -49,14 +49,15 @@ class HomePage extends StatelessWidget {
                     const SizedBox(
                       height: 5,
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 12),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 12),
                       child: Align(
                         alignment: Alignment.topLeft,
                         child: Text(
                           "Amount",
                           style: TextStyle(
-                              color: Colors.blue, fontWeight: FontWeight.bold),
+                              color: Colors.blue.shade400,
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),
@@ -64,9 +65,9 @@ class HomePage extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: TextField(
                         decoration: InputDecoration(
-                          
                           hintText: "Enter Amount",
-                          fillColor: Colors.white70,
+                          filled: true,
+                          fillColor: Colors.black26,
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30)),
                         ),
