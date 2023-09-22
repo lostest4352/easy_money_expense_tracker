@@ -28,6 +28,8 @@ class HomePage extends StatelessWidget {
         child: const Icon(Icons.add),
       ),
       drawer: Drawer(
+        // TODO Remove later
+        width: 260,
         child: ListView(
           children: [
             DrawerHeader(
@@ -47,7 +49,7 @@ class HomePage extends StatelessWidget {
                     "Expense tracker",
                     style: TextStyle(fontWeight: FontWeight.w200, fontSize: 14),
                   ),
-                  Spacer()
+                  Spacer(),
                 ],
               ),
             ),
