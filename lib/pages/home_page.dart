@@ -30,31 +30,27 @@ class HomePage extends StatelessWidget {
       drawer: Drawer(
         child: ListView(
           children: [
-            const SizedBox(
-              height: 15,
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                left: 20,
-              ),
-              child: Text(
-                'Million dollars',
-                style: GoogleFonts.roboto(
-                  textStyle:
-                      TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                ),
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(
-                left: 20,
-              ),
-              child: Text(
-                "Expense tracker",
-                style: TextStyle(fontWeight: FontWeight.w200, fontSize: 14),
+            DrawerHeader(
+              margin: EdgeInsets.all(0),
+              padding: EdgeInsets.all(0),
+              child: Column(
+                children: [
+                  Spacer(),
+                  Text(
+                    'Million dollars',
+                    style: GoogleFonts.roboto(
+                      textStyle:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    ),
+                  ),
+                  Text(
+                    "Expense tracker",
+                    style: TextStyle(fontWeight: FontWeight.w200, fontSize: 14),
+                  ),
+                  Spacer()
+                ],
               ),
             ),
-            Divider(),
             ListTile(
               leading: Icon(Icons.account_balance_wallet_outlined),
               title: Text('Transactions'),
