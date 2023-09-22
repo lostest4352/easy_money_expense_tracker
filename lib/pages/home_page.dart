@@ -2,6 +2,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter_expense_tracker/widgets/app_drawer.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatelessWidget {
@@ -29,66 +30,18 @@ class HomePage extends StatelessWidget {
         onPressed: () {},
         child: const Icon(Icons.add),
       ),
-      drawer: Drawer(
-        // TODO Remove later
-        width: 260,
-        child: ListView(
-          children: [
-            DrawerHeader(
-              margin: EdgeInsets.all(0),
-              padding: EdgeInsets.all(0),
-              child: Column(
-                children: [
-                  Spacer(),
-                  Text(
-                    'Million dollars',
-                    style: GoogleFonts.roboto(
-                      textStyle:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                    ),
-                  ),
-                  Text(
-                    "Expense tracker",
-                    style: GoogleFonts.roboto(
-                      textStyle:
-                          TextStyle(fontWeight: FontWeight.w200, fontSize: 14),
-                    ),
-                  ),
-                  Spacer(),
-                ],
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.account_balance_wallet_outlined),
-              title: Text(
-                'Transactions',
-                style: GoogleFonts.roboto(),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.label),
-              title: Text(
-                'Categories',
-                style: GoogleFonts.roboto(),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.settings),
-              title: Text(
-                'Settings',
-                style: GoogleFonts.roboto(),
-              ),
-            ),
-          ],
-        ),
-      ),
+      drawer: AppDrawer(),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.black12,
         items: [
           BottomNavigationBarItem(
-              icon: Icon(Icons.account_balance_wallet_outlined), label: ''),
+            icon: Icon(Icons.account_balance_wallet_outlined),
+            label: 'Transactions',
+          ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.incomplete_circle_outlined), label: ''),
+            icon: Icon(Icons.incomplete_circle_outlined),
+            label: 'Graphs',
+          ),
         ],
       ),
       body: Column(

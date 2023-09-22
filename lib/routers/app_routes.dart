@@ -1,9 +1,10 @@
+import 'package:flutter_expense_tracker/pages/categories.dart';
 import 'package:flutter_expense_tracker/pages/home_page.dart';
 import 'package:go_router/go_router.dart';
 
 enum AppRoutes {
   homePage,
-  secondPage,
+  expenseCategoriesPage,
 }
 
 final goRouter = GoRouter(
@@ -17,15 +18,12 @@ final goRouter = GoRouter(
       },
       // routes: [],
     ),
-    // GoRoute(
-    //   name: AppRoutes.secondPage.name,
-    //   path: '/second/:filename',
-    //   builder: (context, state) {
-    //     final params = state.pathParameters['filename'];
-    //     return SecondPage(
-    //       filename: params ?? '',
-    //     );
-    //   },
-    // ),
+    GoRoute(
+      name: AppRoutes.expenseCategoriesPage.name,
+      path: '/categories',
+      builder: (context, state) {
+        return const ExpenseCategories();
+      },
+    ),
   ],
 );
