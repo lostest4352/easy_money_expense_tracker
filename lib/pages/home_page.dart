@@ -1,3 +1,6 @@
+// TODO Remove this later
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -23,7 +26,56 @@ class HomePage extends StatelessWidget {
         onPressed: () {},
         child: const Icon(Icons.add),
       ),
-      drawer: const Drawer(),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            const SizedBox(
+              height: 15,
+            ),
+            const Padding(
+              padding: EdgeInsets.only(
+                left: 20,
+              ),
+              child: Text(
+                'Million dollars',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(
+                left: 20,
+              ),
+              child: Text(
+                "Expense tracker",
+                style: TextStyle(fontWeight: FontWeight.w200, fontSize: 14),
+              ),
+            ),
+            Divider(),
+            ListTile(
+              leading: Icon(Icons.account_balance_wallet_outlined),
+              title: Text('Transactions'),
+            ),
+            ListTile(
+              leading: Icon(Icons.label),
+              title: Text('Categories'),
+            ),
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: Text('Settings'),
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(items: [
+        BottomNavigationBarItem(
+          icon: Icon(Icons.account_balance_wallet_outlined),
+          label: ''
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.incomplete_circle_outlined),
+          label: ''
+        ),
+      ]),
       body: Column(
         children: [
           Expanded(
