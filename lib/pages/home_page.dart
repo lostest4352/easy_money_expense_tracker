@@ -32,20 +32,6 @@ class HomePage extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: InkWell(
-                        onTap: () {
-                          context.pop();
-                        },
-                        child: const Text(
-                          "  x  ",
-                          style: TextStyle(
-                            color: Colors.blueGrey,
-                          ),
-                        ),
-                      ),
-                    ),
                     const SizedBox(
                       height: 5,
                     ),
@@ -61,20 +47,51 @@ class HomePage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: "Enter Amount",
-                          filled: true,
-                          fillColor: Colors.black26,
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30)),
+                    SizedBox(
+                      height: 60,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextField(
+                          decoration: InputDecoration(
+                            hintText: "Enter Amount",
+                            filled: true,
+                            fillColor: Colors.black26,
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(40)),
+                          ),
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 15,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10, bottom: 10),
+                          child: InkWell(
+                            onTap: () {
+                              context.pop();
+                            },
+                            child: Text(
+                              "Cancel",
+                              style: TextStyle(
+                                  color: Colors.red.shade400,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 10, bottom: 10),
+                          child: Text(
+                            "Save",
+                            style: TextStyle(
+                                color: Colors.blue.shade400,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
