@@ -11,7 +11,9 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Expense App"),
+        title: Text(
+          "Expense App",
+        ),
         actions: [
           IconButton(
             onPressed: () {},
@@ -47,7 +49,10 @@ class HomePage extends StatelessWidget {
                   ),
                   Text(
                     "Expense tracker",
-                    style: TextStyle(fontWeight: FontWeight.w200, fontSize: 14),
+                    style: GoogleFonts.roboto(
+                      textStyle:
+                          TextStyle(fontWeight: FontWeight.w200, fontSize: 14),
+                    ),
                   ),
                   Spacer(),
                 ],
@@ -55,25 +60,37 @@ class HomePage extends StatelessWidget {
             ),
             ListTile(
               leading: Icon(Icons.account_balance_wallet_outlined),
-              title: Text('Transactions'),
+              title: Text(
+                'Transactions',
+                style: GoogleFonts.roboto(),
+              ),
             ),
             ListTile(
               leading: Icon(Icons.label),
-              title: Text('Categories'),
+              title: Text(
+                'Categories',
+                style: GoogleFonts.roboto(),
+              ),
             ),
             ListTile(
               leading: Icon(Icons.settings),
-              title: Text('Settings'),
+              title: Text(
+                'Settings',
+                style: GoogleFonts.roboto(),
+              ),
             ),
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(items: [
-        BottomNavigationBarItem(
-            icon: Icon(Icons.account_balance_wallet_outlined), label: ''),
-        BottomNavigationBarItem(
-            icon: Icon(Icons.incomplete_circle_outlined), label: ''),
-      ]),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.black12,
+        items: [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.account_balance_wallet_outlined), label: ''),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.incomplete_circle_outlined), label: ''),
+        ],
+      ),
       body: Column(
         children: [
           Expanded(
