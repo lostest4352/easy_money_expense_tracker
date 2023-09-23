@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_expense_tracker/widgets/app_drawer.dart';
+import 'package:flutter_expense_tracker/widgets/popup_textfield_items.dart';
+import 'package:flutter_expense_tracker/widgets/popup_textfield_title.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_expense_tracker/widgets/app_drawer.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -34,41 +36,30 @@ class HomePage extends StatelessWidget {
                     Radius.circular(8),
                   ),
                 ),
-                backgroundColor: const Color.fromARGB(255, 28, 28, 28),
+                backgroundColor: Colors.grey.shade900,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const SizedBox(
+                      height: 15,
+                    ),
+                    const PopupTextFieldTitle(
+                      title: "Date",
+                    ),
+                    const PopupTextFieldItems(
+                      hintText: "Today",
+                    ),
+                    const SizedBox(
                       height: 5,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "Amount",
-                          style: TextStyle(
-                              color: Colors.blue.shade400,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
+                    const PopupTextFieldTitle(
+                      title: "Amount",
                     ),
-                    SizedBox(
-                      height: 50,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: 8, left: 8, right: 8, bottom: 2),
-                        child: TextField(
-                          decoration: InputDecoration(
-                            hintText: "Enter Amount",
-                            filled: true,
-                            fillColor: Colors.black26,
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius: BorderRadius.circular(55)),
-                          ),
-                        ),
-                      ),
+                    const PopupTextFieldItems(
+                      hintText: "Enter Amount",
+                    ),
+                    const SizedBox(
+                      height: 5,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -100,6 +91,25 @@ class HomePage extends StatelessWidget {
                           ),
                         ),
                       ],
+                    ),
+                    const Divider(),
+                    const PopupTextFieldTitle(
+                      title: "Category",
+                    ),
+                    const PopupTextFieldItems(
+                      hintText: "Select Category",
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    const PopupTextFieldTitle(
+                      title: "Note",
+                    ),
+                    const PopupTextFieldItems(
+                      hintText: "Note(Optional)",
+                    ),
+                    const SizedBox(
+                      height: 15,
                     ),
                   ],
                 ),
@@ -138,8 +148,8 @@ class HomePage extends StatelessWidget {
                 ),
                 for (int i = 0; i < 10; i++)
                   ListTile(
-                    title: Text("Title"),
-                    subtitle: Text("Subtitle"),
+                    title: const Text("Title"),
+                    subtitle: const Text("Subtitle"),
                     leading: CircleAvatar(
                       child: Text(
                         (i + 1).toString(),
