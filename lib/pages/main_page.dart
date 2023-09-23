@@ -22,17 +22,20 @@ class _MainPageState extends State<MainPage> {
     ),
   ];
 
+  void changePage(int value) {
+    setState(() {
+      currentPageIndex = value;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: allPages[currentPageIndex],
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.black12,
-        onTap: (value) {
-          setState(() {
-            currentPageIndex = value;
-          });
-        },
+        /// same as (value) {changePage(value);}
+        onTap: changePage,
         currentIndex: currentPageIndex,
         items: const [
           BottomNavigationBarItem(
