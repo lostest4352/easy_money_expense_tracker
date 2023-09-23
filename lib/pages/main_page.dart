@@ -13,8 +13,6 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int currentPageIndex = 0;
 
-  late PageController pageController;
-
   List<Widget> allPages = [
     const KeepPagesAlive(
       child: HomePage(),
@@ -25,38 +23,16 @@ class _MainPageState extends State<MainPage> {
   ];
 
   @override
-  void initState() {
-    super.initState();
-    pageController = PageController();
-  }
-
-  @override
-  void dispose() {
-    pageController.dispose();
-    super.dispose();
-  }
-
-  void navigationTapped(int page) {
-    pageController.jumpToPage(page);
-  }
-
-  void onPageChanged(int value) {
-    setState(() {
-      currentPageIndex = value;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(
-        controller: pageController,
-        onPageChanged: onPageChanged,
-        children: allPages,
-      ),
+      body: allPages[currentPageIndex],
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.black12,
-        onTap: navigationTapped,
+        onTap: (value) {
+          setState(() {
+            currentPageIndex = value;
+          });
+        },
         currentIndex: currentPageIndex,
         items: const [
           BottomNavigationBarItem(
