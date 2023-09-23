@@ -29,6 +29,12 @@ class HomePage extends StatelessWidget {
             context: context,
             builder: (context) {
               return Dialog(
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(8),
+                  ),
+                ),
+                backgroundColor: const Color.fromARGB(255, 28, 28, 28),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -36,7 +42,7 @@ class HomePage extends StatelessWidget {
                       height: 5,
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 12),
+                      padding: const EdgeInsets.only(left: 20),
                       child: Align(
                         alignment: Alignment.topLeft,
                         child: Text(
@@ -48,16 +54,18 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
                     SizedBox(
-                      height: 60,
+                      height: 50,
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.only(
+                            top: 8, left: 8, right: 8, bottom: 2),
                         child: TextField(
                           decoration: InputDecoration(
                             hintText: "Enter Amount",
                             filled: true,
                             fillColor: Colors.black26,
                             border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(40)),
+                                borderSide: BorderSide.none,
+                                borderRadius: BorderRadius.circular(55)),
                           ),
                         ),
                       ),
