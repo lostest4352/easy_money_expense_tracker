@@ -55,11 +55,11 @@ class ExpenseCategories extends StatelessWidget {
                     listItems[i]["income"] == true ? Colors.blue : Colors.red,
                 child: listItems[i]["income"] == true
                     ? Icon(
-                        Icons.add,
+                        Icons.addchart,
                         color: Colors.white,
                       )
                     : Icon(
-                        Icons.remove,
+                        Icons.highlight_remove_sharp,
                         color: Colors.white,
                       ),
               ),
