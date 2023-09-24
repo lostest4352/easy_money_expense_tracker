@@ -33,28 +33,39 @@ class _GraphsPageState extends State<GraphsPage>
     return Scaffold(
       appBar: AppBar(
         title: const Text("Graphs Page"),
-        bottom: TabBar(
-          controller: _tabController,
-          tabs: myTabs,
-        ),
+        toolbarHeight: 45,
       ),
-      body: TabBarView(
-        controller: _tabController,
-        // children: myTabs.map((Tab tab) {
-        //   final String label = tab.text!.toLowerCase();
-        //   return Center(
-        //     child: Text(
-        //       'This is the $label tab',
-        //       style: const TextStyle(fontSize: 36),
-        //     ),
-        //   );
-        // }).toList(),
+      body: Column(
         children: [
-          ListView(
-            children: [Text("one")],
+          TabBar(
+            controller: _tabController,
+            tabs: myTabs,
           ),
-          ListView(
-            children: [Text("two")],
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              // children: myTabs.map((Tab tab) {
+              //   final String label = tab.text!.toLowerCase();
+              //   return Center(
+              //     child: Text(
+              //       'This is the $label tab',
+              //       style: const TextStyle(fontSize: 36),
+              //     ),
+              //   );
+              // }).toList(),
+              children: [
+                ListView(
+                  children: [
+                    Center(child: Text("one")),
+                  ],
+                ),
+                ListView(
+                  children: [
+                    Center(child: Text("two")),
+                  ],
+                ),
+              ],
+            ),
           ),
         ],
       ),
