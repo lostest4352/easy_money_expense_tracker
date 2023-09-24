@@ -36,12 +36,12 @@ class HomePage extends StatelessWidget {
         isIncome: true,
       ),
       ExpenseModel(
-        year: 2023,
-        dateTime: "September 24, Sunday",
-        amount: 2000,
-        category: "Clothing",
-        isIncome: false,
-      ),
+          year: 2023,
+          dateTime: "September 24, Sunday",
+          amount: 2000,
+          category: "Clothing",
+          isIncome: false,
+          note: "Bought a t-shirt"),
     ];
 
     for (final expense in expenseList) {
@@ -184,32 +184,55 @@ class HomePage extends StatelessWidget {
                             color: const Color.fromARGB(120, 33, 149, 243),
                           ),
                           padding: EdgeInsets.all(8),
-                          child: Row(
+                          child: Column(
                             children: [
-                              CircleAvatar(
-                                backgroundColor: (expense.isIncome == true)
-                                    ? Colors.green
-                                    : null,
-                                maxRadius: 12,
-                                child: (expense.isIncome == true)
-                                    ? Icon(
-                                        Icons.add,
-                                        color: Colors.white,
-                                      )
-                                    : Icon(Icons.remove),
-                              ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Text(
-                                expense.category,
-                                style: TextStyle(fontWeight: FontWeight.w500),
-                              ),
-                              Spacer(),
-                              Text(
-                                "${expense.amount}",
-                                style: TextStyle(
-                                    fontSize: 17, fontWeight: FontWeight.w500),
+                              Row(
+                                children: [
+                                  CircleAvatar(
+                                    backgroundColor: (expense.isIncome == true)
+                                        ? Colors.green
+                                        : null,
+                                    maxRadius: 12,
+                                    child: (expense.isIncome == true)
+                                        ? Icon(
+                                            Icons.add,
+                                            color: Colors.white,
+                                          )
+                                        : Icon(Icons.remove),
+                                  ),
+                                  SizedBox(
+                                    width: 8,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        expense.category,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      (expense.note != null)
+                                          ? Column(
+                                              children: [
+                                                Text(
+                                                  "${expense.note}",
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                              ],
+                                            )
+                                          : Column(),
+                                    ],
+                                  ),
+                                  Spacer(),
+                                  Text(
+                                    "${expense.amount}",
+                                    style: TextStyle(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
