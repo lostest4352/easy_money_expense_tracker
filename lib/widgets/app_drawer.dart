@@ -20,7 +20,7 @@ class AppDrawer extends StatelessWidget {
               children: [
                 const Spacer(),
                 Text(
-                  'Million dollar',
+                  'Easy',
                   style: GoogleFonts.roboto(
                     textStyle: const TextStyle(
                         fontWeight: FontWeight.bold, fontSize: 20),
