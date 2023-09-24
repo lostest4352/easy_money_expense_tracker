@@ -28,18 +28,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: MaterialApp.router(
-        debugShowCheckedModeBanner: false,
-        theme: FlexThemeData.dark(
-          scheme: FlexScheme.mandyRed,
-          colorScheme: const ColorScheme.dark(primary: Colors.white),
-          appBarBackground: (Colors.grey[850]),
-          primary: Colors.blue,
-        ),
-        // home: const HomePage(),
-        routerConfig: goRouter,
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      theme: FlexThemeData.dark(
+        scheme: FlexScheme.mandyRed,
+        colorScheme: const ColorScheme.dark(primary: Colors.red),
+        appBarBackground: (Colors.grey[850]),
       ),
+      // home: const HomePage(),
+      routerConfig: goRouter,
+      builder: (_, child) {
+        return SafeArea(
+          child: child!,
+        );
+      },
     );
   }
 }
