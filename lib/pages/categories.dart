@@ -24,24 +24,10 @@ class ExpenseCategories extends StatelessWidget {
         title: const Text("Categories"),
       ),
       drawer: const AppDrawer(),
-      floatingActionButton: FloatingActionButton.extended(
-        extendedPadding: EdgeInsets.all(12),
-        label: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 4.0),
-              child: Icon(Icons.add),
-            ),
-            Text("Add category")
-          ],
-        ),
+      floatingActionButton: FloatingActionButton(
         backgroundColor: Color.fromARGB(255, 29, 89, 192),
         onPressed: () {},
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(30),
-          ),
-        ),
+        child: Icon(Icons.add),
       ),
       body: ListView(
         children: [

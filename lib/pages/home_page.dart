@@ -68,20 +68,7 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        extendedPadding: EdgeInsets.all(8),
-        label: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 4.0, top: 12, bottom: 12),
-              child: Icon(Icons.add),
-            ),
-            Text(
-              "Add Item",
-            ),
-          ],
-        ),
-        backgroundColor: Colors.blueAccent.shade400,
+      floatingActionButton: FloatingActionButton(
         onPressed: () {
           showDialog(
             context: context,
@@ -90,11 +77,8 @@ class HomePage extends StatelessWidget {
             },
           );
         },
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(40),
-          ),
-        ),
+        backgroundColor: Color.fromARGB(255, 29, 89, 192),
+        child: Icon(Icons.add),
       ),
       drawer: const AppDrawer(),
       body: Column(
