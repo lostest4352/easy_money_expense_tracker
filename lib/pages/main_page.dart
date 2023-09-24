@@ -39,11 +39,11 @@ class _MainPageState extends State<MainPage> {
         currentIndex: currentPageIndex,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_balance_wallet_outlined),
+            icon: Icon(Icons.add_chart),
             label: 'Transactions',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.incomplete_circle_outlined),
+            icon: Icon(Icons.pie_chart),
             label: 'Graphs',
           ),
         ],

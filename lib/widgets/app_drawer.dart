@@ -41,7 +41,7 @@ class AppDrawer extends StatelessWidget {
             onTap: () {
               context.goNamed(AppRoutes.homePage.name);
             },
-            leading: const Icon(Icons.account_balance_wallet_outlined),
+            leading: const Icon(Icons.account_balance_outlined),
             title: Text(
               'Transactions',
               style: GoogleFonts.roboto(),
