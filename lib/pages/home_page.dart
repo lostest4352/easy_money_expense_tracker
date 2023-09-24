@@ -1,17 +1,49 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:flutter_expense_tracker/models/expense_model.dart';
 import 'package:flutter_expense_tracker/pages/dialogs/entry_dialog.dart';
 import 'package:flutter_expense_tracker/widgets/app_drawer.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  final expenses = 500;
-  final income = 800;
-
   @override
   Widget build(BuildContext context) {
+    int totalExpenses = 0;
+    int totalIncome = 0;
+
+    List<ExpenseModel> expenseList = [
+      ExpenseModel(
+        year: 2023,
+        dateTime: "September 24, Sunday",
+        amount: 6000,
+        category: "Salary",
+        isIncome: true,
+      ),
+      ExpenseModel(
+        year: 2023,
+        dateTime: "September 24, Sunday",
+        amount: 5000,
+        category: "Food",
+        isIncome: false,
+      ),
+      ExpenseModel(
+        year: 2023,
+        dateTime: "September 24, Sunday",
+        amount: 7000,
+        category: "Wages",
+        isIncome: true,
+      ),
+      ExpenseModel(
+        year: 2023,
+        dateTime: "September 24, Sunday",
+        amount: 2000,
+        category: "Clothing",
+        isIncome: false,
+      ),
+    ];
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -74,7 +106,7 @@ class HomePage extends StatelessWidget {
                         child: Container(
                           color: Colors.grey.shade800,
                           padding: const EdgeInsets.all(10),
-                          child: Text("Income: Rs.$income"),
+                          child: Text("Income: Rs.$totalIncome"),
                         ),
                       ),
                       InkWell(
@@ -82,7 +114,7 @@ class HomePage extends StatelessWidget {
                         child: Container(
                           color: Colors.grey.shade800,
                           padding: const EdgeInsets.all(10),
-                          child: Text("Expenses: Rs.$expenses"),
+                          child: Text("Expenses: Rs.$totalExpenses"),
                         ),
                       ),
                       InkWell(
@@ -90,7 +122,8 @@ class HomePage extends StatelessWidget {
                         child: Container(
                           color: Colors.grey.shade800,
                           padding: const EdgeInsets.all(10),
-                          child: Text("Balance: Rs.${income - expenses}"),
+                          child: Text(
+                              "Balance: Rs.${totalIncome - totalExpenses}"),
                         ),
                       ),
                     ],
@@ -99,68 +132,98 @@ class HomePage extends StatelessWidget {
                 SizedBox(
                   height: 10,
                 ),
-                Center(child: Text("December 55")),
+                Center(
+                  child: Text("December 55"),
+                ),
                 SizedBox(
                   height: 10,
                 ),
-                Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                for (final expense in expenseList)
+                  Builder(builder: (context) {
+                    debugPrint("expense value is : ${expense.amount}");
+                    // totalIncome = expense.amount;
+                    // totalExpenses = expense.amount;
+                    if (expense.isIncome == true) {
+                      totalIncome = totalIncome + expense.amount;
+                    } else {
+                      totalExpenses = totalExpenses + expense.amount;
+                    }
+                    return Column(
                       children: [
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          "2023  ",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 20),
-                        ),
-                        Text("Dec 55, Sat"),
-                        Spacer(),
-                        Text(
-                          "Rs. 85",
-                          style: TextStyle(
-                              color: Colors.red, fontWeight: FontWeight.w500),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: const Color.fromARGB(120, 33, 149, 243),
-                        ),
-                        padding: EdgeInsets.all(8),
-                        child: Row(
+                        // ListTile(
+                        //   title: Text(totalIncome.toString()),
+                        //   subtitle: Text(totalExpenses.toString()),
+                        // ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            CircleAvatar(
-                              maxRadius: 12,
-                              child: Icon(Icons.remove),
-                            ),
                             SizedBox(
-                              width: 8,
+                              width: 20,
                             ),
                             Text(
-                              "Fuel",
-                              style: TextStyle(fontWeight: FontWeight.w500),
+                              "${expense.year}",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600, fontSize: 20),
                             ),
+                            Text(" "),
+                            Text(expense.dateTime),
                             Spacer(),
                             Text(
-                              "Rs. 85",
+                              "${expense.amount}",
                               style: TextStyle(
-                                  fontSize: 17, fontWeight: FontWeight.w500),
+                                  color: (expense.isIncome == true)
+                                      ? Colors.green
+                                      : Colors.red,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            SizedBox(
+                              width: 20,
                             ),
                           ],
                         ),
-                      ),
-                    ),
-                  ],
-                ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: const Color.fromARGB(120, 33, 149, 243),
+                            ),
+                            padding: EdgeInsets.all(8),
+                            child: Row(
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor: (expense.isIncome == true)
+                                      ? Colors.green
+                                      : null,
+                                  maxRadius: 12,
+                                  child: (expense.isIncome == true)
+                                      ? Icon(
+                                          Icons.add,
+                                          color: Colors.white,
+                                        )
+                                      : Icon(Icons.remove),
+                                ),
+                                SizedBox(
+                                  width: 8,
+                                ),
+                                Text(
+                                  expense.category,
+                                  style: TextStyle(fontWeight: FontWeight.w500),
+                                ),
+                                Spacer(),
+                                Text(
+                                  "${expense.amount}",
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }),
               ],
             ),
           ),
