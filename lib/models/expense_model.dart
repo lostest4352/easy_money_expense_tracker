@@ -6,6 +6,7 @@ class ExpenseModel {
   int amount;
   String category;
   bool isIncome;
+  String? note;
 
   ExpenseModel({
     required this.year,
@@ -13,6 +14,7 @@ class ExpenseModel {
     required this.amount,
     required this.category,
     required this.isIncome,
+    this.note,
   });
 
   Map<String, dynamic> toMap() {
@@ -22,6 +24,7 @@ class ExpenseModel {
       'amount': amount,
       'category': category,
       'isIncome': isIncome,
+      'note': note,
     };
   }
 
@@ -32,6 +35,7 @@ class ExpenseModel {
       amount: map['amount']?.toInt() ?? 0,
       category: map['category'] ?? '',
       isIncome: map['isIncome'] ?? false,
+      note: map['note'],
     );
   }
 
