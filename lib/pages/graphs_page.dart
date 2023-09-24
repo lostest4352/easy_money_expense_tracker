@@ -44,27 +44,32 @@ class _GraphsPageState extends State<GraphsPage>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              // children: myTabs.map((Tab tab) {
-              //   final String label = tab.text!.toLowerCase();
-              //   return Center(
-              //     child: Text(
-              //       'This is the $label tab',
-              //       style: const TextStyle(fontSize: 36),
-              //     ),
-              //   );
-              // }).toList(),
-              children: [
-                ListView(
-                  children: [
-                    Center(child: Text("one")),
-                  ],
-                ),
-                ListView(
-                  children: [
-                    Center(child: Text("two")),
-                  ],
-                ),
-              ],
+              children: myTabs.map((Tab tab) {
+                final String label = tab.text!.toLowerCase();
+                return Center(
+                  // child: Text(
+                  //   'This is the $label tab',
+                  //   style: const TextStyle(fontSize: 36),
+                  // ),
+                  child: ListView(
+                    children: [
+                      Text(label)
+                    ],
+                  ),
+                );
+              }).toList(),
+              // children: [
+              //   ListView(
+              //     children: [
+              //       Center(child: Text("one")),
+              //     ],
+              //   ),
+              //   ListView(
+              //     children: [
+              //       Center(child: Text("two")),
+              //     ],
+              //   ),
+              // ],
             ),
           ),
         ],

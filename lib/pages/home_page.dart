@@ -46,9 +46,9 @@ class HomePage extends StatelessWidget {
 
     for (final expense in expenseList) {
       if (expense.isIncome == true) {
-        totalIncome = totalIncome + expense.amount;
+        totalIncome += expense.amount;
       } else {
-        totalExpenses = totalExpenses + expense.amount;
+        totalExpenses += expense.amount;
       }
     }
 
