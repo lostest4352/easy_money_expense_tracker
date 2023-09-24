@@ -44,6 +44,14 @@ class HomePage extends StatelessWidget {
       ),
     ];
 
+    for (final expense in expenseList) {
+      if (expense.isIncome == true) {
+        totalIncome = totalIncome + expense.amount;
+      } else {
+        totalExpenses = totalExpenses + expense.amount;
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -139,91 +147,76 @@ class HomePage extends StatelessWidget {
                   height: 10,
                 ),
                 for (final expense in expenseList)
-                  Builder(builder: (context) {
-                    debugPrint("expense value is : ${expense.amount}");
-                    // totalIncome = expense.amount;
-                    // totalExpenses = expense.amount;
-                    if (expense.isIncome == true) {
-                      totalIncome = totalIncome + expense.amount;
-                    } else {
-                      totalExpenses = totalExpenses + expense.amount;
-                    }
-                    return Column(
-                      children: [
-                        // ListTile(
-                        //   title: Text(totalIncome.toString()),
-                        //   subtitle: Text(totalExpenses.toString()),
-                        // ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Text(
-                              "${expense.year}",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w600, fontSize: 20),
-                            ),
-                            Text(" "),
-                            Text(expense.dateTime),
-                            Spacer(),
-                            Text(
-                              "${expense.amount}",
-                              style: TextStyle(
-                                  color: (expense.isIncome == true)
-                                      ? Colors.green
-                                      : Colors.red,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: const Color.fromARGB(120, 33, 149, 243),
-                            ),
-                            padding: EdgeInsets.all(8),
-                            child: Row(
-                              children: [
-                                CircleAvatar(
-                                  backgroundColor: (expense.isIncome == true)
-                                      ? Colors.green
-                                      : null,
-                                  maxRadius: 12,
-                                  child: (expense.isIncome == true)
-                                      ? Icon(
-                                          Icons.add,
-                                          color: Colors.white,
-                                        )
-                                      : Icon(Icons.remove),
-                                ),
-                                SizedBox(
-                                  width: 8,
-                                ),
-                                Text(
-                                  expense.category,
-                                  style: TextStyle(fontWeight: FontWeight.w500),
-                                ),
-                                Spacer(),
-                                Text(
-                                  "${expense.amount}",
-                                  style: TextStyle(
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ],
-                            ),
+                  Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Text(
+                            "${expense.year}",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 20),
+                          ),
+                          Text(" "),
+                          Text(expense.dateTime),
+                          Spacer(),
+                          Text(
+                            "${expense.amount}",
+                            style: TextStyle(
+                                color: (expense.isIncome == true)
+                                    ? Colors.green
+                                    : Colors.red,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: const Color.fromARGB(120, 33, 149, 243),
+                          ),
+                          padding: EdgeInsets.all(8),
+                          child: Row(
+                            children: [
+                              CircleAvatar(
+                                backgroundColor: (expense.isIncome == true)
+                                    ? Colors.green
+                                    : null,
+                                maxRadius: 12,
+                                child: (expense.isIncome == true)
+                                    ? Icon(
+                                        Icons.add,
+                                        color: Colors.white,
+                                      )
+                                    : Icon(Icons.remove),
+                              ),
+                              SizedBox(
+                                width: 8,
+                              ),
+                              Text(
+                                expense.category,
+                                style: TextStyle(fontWeight: FontWeight.w500),
+                              ),
+                              Spacer(),
+                              Text(
+                                "${expense.amount}",
+                                style: TextStyle(
+                                    fontSize: 17, fontWeight: FontWeight.w500),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    );
-                  }),
+                      ),
+                    ],
+                  ),
               ],
             ),
           ),
