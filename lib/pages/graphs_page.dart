@@ -7,14 +7,57 @@ class GraphsPage extends StatefulWidget {
   State<GraphsPage> createState() => _GraphsPageState();
 }
 
-class _GraphsPageState extends State<GraphsPage> {
+class _GraphsPageState extends State<GraphsPage>
+    with SingleTickerProviderStateMixin {
+  static const List<Tab> myTabs = <Tab>[
+    Tab(text: 'Income'),
+    Tab(text: 'Expenses'),
+  ];
+
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(vsync: this, length: myTabs.length);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Graphs Page"),
+        bottom: TabBar(
+          controller: _tabController,
+          tabs: myTabs,
+        ),
       ),
-      body: Column(),
+      body: TabBarView(
+        controller: _tabController,
+        // children: myTabs.map((Tab tab) {
+        //   final String label = tab.text!.toLowerCase();
+        //   return Center(
+        //     child: Text(
+        //       'This is the $label tab',
+        //       style: const TextStyle(fontSize: 36),
+        //     ),
+        //   );
+        // }).toList(),
+        children: [
+          ListView(
+            children: [Text("one")],
+          ),
+          ListView(
+            children: [Text("two")],
+          ),
+        ],
+      ),
     );
   }
 }
