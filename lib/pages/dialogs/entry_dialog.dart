@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_expense_tracker/widgets/popup_textfield_items.dart';
-import 'package:flutter_expense_tracker/widgets/popup_textfield_title.dart';
+import 'package:flutter_expense_tracker/widgets/home_page_popup_items.dart';
 import 'package:go_router/go_router.dart';
 
 class EntryDialog extends StatelessWidget {
@@ -28,8 +27,8 @@ class EntryDialog extends StatelessWidget {
             const PopupTextFieldTitle(
               title: "Date",
             ),
-            const PopupTextFieldItems(
-              hintText: "Today",
+            const PopupCategoryItems(
+              title: "Today",
             ),
             const SizedBox(
               height: 5,
@@ -55,8 +54,9 @@ class EntryDialog extends StatelessWidget {
                     child: Text(
                       "Cancel",
                       style: TextStyle(
-                          color: Colors.red.shade400,
-                          fontWeight: FontWeight.bold),
+                        color: Colors.red.shade400,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
@@ -68,7 +68,9 @@ class EntryDialog extends StatelessWidget {
                   child: Text(
                     "Save",
                     style: TextStyle(
-                        color: Colors.blue.shade400, fontWeight: FontWeight.bold),
+                      color: Colors.blue.shade400,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ],
@@ -77,8 +79,8 @@ class EntryDialog extends StatelessWidget {
             const PopupTextFieldTitle(
               title: "Category",
             ),
-            const PopupTextFieldItems(
-              hintText: "Select Category",
+            const PopupCategoryItems(
+              title: "Select Category",
             ),
             const SizedBox(
               height: 5,

@@ -47,6 +47,7 @@ dependencies:
   bloc: ^8.1.2
   google_fonts: ^6.1.0
   fl_chart: ^0.63.0
+  table_calendar: ^3.0.9
 
 dev_dependencies:
   flutter_test:
