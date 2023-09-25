@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_expense_tracker/global_vars/global_expense.dart';
 
 class GraphsPage extends StatefulWidget {
@@ -53,10 +54,12 @@ class _GraphsPageState extends State<GraphsPage>
                 TransactionWidget(
                   isIncome: true,
                   dividedByValue: totalIncome,
+                  totalValue: totalIncome,
                 ),
                 TransactionWidget(
                   isIncome: false,
                   dividedByValue: totalExpenses,
+                  totalValue: totalExpenses,
                 )
               ],
             ),
@@ -70,10 +73,12 @@ class _GraphsPageState extends State<GraphsPage>
 class TransactionWidget extends StatelessWidget {
   final bool isIncome;
   final int dividedByValue;
+  final int totalValue;
   const TransactionWidget({
     Key? key,
     required this.isIncome,
     required this.dividedByValue,
+    required this.totalValue,
   }) : super(key: key);
 
   @override
@@ -84,8 +89,8 @@ class TransactionWidget extends StatelessWidget {
           aspectRatio: 1,
           child: PieChart(
             PieChartData(
-              sectionsSpace: 0,
-              centerSpaceRadius: 30,
+              // sectionsSpace: 0,
+              centerSpaceRadius: 50,
               sections: [
                 for (final transaction in transactionList)
                   if (transaction.isIncome == isIncome)
@@ -100,34 +105,51 @@ class TransactionWidget extends StatelessWidget {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(right: 15),
-          child: Column(
-            children: [
-              for (final transaction in transactionList)
-                if (transaction.isIncome == isIncome)
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 8),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(transaction.category),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Container(
-                            width: 8,
-                            height: 8,
-                            color: Color(transaction.colorsValue),
-                          ),
-                        ],
-                      ),
+        Column(
+          children: [
+            for (final transaction in transactionList)
+              if (transaction.isIncome == isIncome)
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(transaction.category),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Container(
+                          width: 8,
+                          height: 8,
+                          color: Color(transaction.colorsValue),
+                        ),
+                      ],
                     ),
                   ),
-            ],
-          ),
+                ),
+          ],
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Column(
+          children: [
+            const Divider(),
+            ListTile(
+              title: const Text("Total"),
+              trailing: Text("$totalValue"),
+            ),
+            const Divider(),
+            //
+            for (final transaction in transactionList)
+              if (transaction.isIncome == isIncome)
+                ListTile(
+                  title: Text(transaction.category),
+                  trailing: Text(transaction.amount.toString()),
+                )
+          ],
         ),
       ],
     );
