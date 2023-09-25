@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
-
 class ExpenseModel {
   int year;
   String dateTime;
@@ -10,7 +8,6 @@ class ExpenseModel {
   bool isIncome;
   int colorsValue;
   String? note;
-
 
   ExpenseModel({
     required this.year,
@@ -45,8 +42,6 @@ class ExpenseModel {
       note: map['note'],
     );
   }
-
-  
 
   String toJson() => json.encode(toMap());
 
