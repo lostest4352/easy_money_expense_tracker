@@ -88,14 +88,14 @@ class TransactionWidget extends StatelessWidget {
               sectionsSpace: 0,
               centerSpaceRadius: 30,
               sections: [
-                for (final expense in expenseList)
-                  if (expense.isIncome == isIncome)
+                for (final transaction in transactionList)
+                  if (transaction.isIncome == isIncome)
                     PieChartSectionData(
                       title:
-                          "${expense.category} ${((expense.amount / dividedByValue) * 100).toStringAsFixed(2)}%",
+                          "${transaction.category} ${((transaction.amount / dividedByValue) * 100).toStringAsFixed(2)}%",
                       titlePositionPercentageOffset: 1.8,
-                      value: expense.amount.toDouble(),
-                      color: Color(expense.colorsValue),
+                      value: transaction.amount.toDouble(),
+                      color: Color(transaction.colorsValue),
                     ),
               ],
             ),

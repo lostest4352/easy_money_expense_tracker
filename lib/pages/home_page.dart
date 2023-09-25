@@ -86,7 +86,7 @@ class HomePage extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                for (final expense in expenseList)
+                for (final transaction in transactionList)
                   Column(
                     children: [
                       Row(
@@ -96,17 +96,17 @@ class HomePage extends StatelessWidget {
                             width: 20,
                           ),
                           Text(
-                            "${expense.year}",
+                            "${transaction.year}",
                             style: const TextStyle(
                                 fontWeight: FontWeight.w600, fontSize: 20),
                           ),
                           const Text(" "),
-                          Text(expense.dateTime),
+                          Text(transaction.dateTime),
                           const Spacer(),
                           Text(
-                            "${expense.amount}",
+                            "${transaction.amount}",
                             style: TextStyle(
-                                color: (expense.isIncome == true)
+                                color: (transaction.isIncome == true)
                                     ? Colors.green
                                     : Colors.red,
                                 fontWeight: FontWeight.w500),
@@ -129,11 +129,12 @@ class HomePage extends StatelessWidget {
                               Row(
                                 children: [
                                   CircleAvatar(
-                                    backgroundColor: (expense.isIncome == true)
-                                        ? Colors.green
-                                        : null,
+                                    backgroundColor:
+                                        (transaction.isIncome == true)
+                                            ? Colors.green
+                                            : null,
                                     maxRadius: 12,
-                                    child: (expense.isIncome == true)
+                                    child: (transaction.isIncome == true)
                                         ? const Icon(
                                             Icons.add,
                                             color: Colors.white,
@@ -148,15 +149,15 @@ class HomePage extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        expense.category,
+                                        transaction.category,
                                         style: const TextStyle(
                                             fontWeight: FontWeight.w500),
                                       ),
-                                      (expense.note != null)
+                                      (transaction.note != null)
                                           ? Column(
                                               children: [
                                                 Text(
-                                                  "${expense.note}",
+                                                  "${transaction.note}",
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                 ),
@@ -167,7 +168,7 @@ class HomePage extends StatelessWidget {
                                   ),
                                   const Spacer(),
                                   Text(
-                                    "${expense.amount}",
+                                    "${transaction.amount}",
                                     style: const TextStyle(
                                         fontSize: 17,
                                         fontWeight: FontWeight.w500),

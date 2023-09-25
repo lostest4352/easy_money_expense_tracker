@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_expense_tracker/models/expense_model.dart';
+import 'package:flutter_expense_tracker/models/transaction_model.dart';
 
 //
 final listItems = [
@@ -17,8 +17,8 @@ final listItems = [
 int totalExpenses = 0;
 int totalIncome = 0;
 
-List<ExpenseModel> expenseList = [
-  ExpenseModel(
+List<TransactionModel> transactionList = [
+  TransactionModel(
     year: 2023,
     dateTime: "September 24, Sunday",
     amount: 6000,
@@ -26,7 +26,7 @@ List<ExpenseModel> expenseList = [
     isIncome: true,
     colorsValue: Colors.red.value,
   ),
-  ExpenseModel(
+  TransactionModel(
     year: 2023,
     dateTime: "September 24, Sunday",
     amount: 5000,
@@ -34,7 +34,7 @@ List<ExpenseModel> expenseList = [
     isIncome: false,
     colorsValue: Colors.green.value,
   ),
-  ExpenseModel(
+  TransactionModel(
     year: 2023,
     dateTime: "September 24, Sunday",
     amount: 7000,
@@ -42,7 +42,7 @@ List<ExpenseModel> expenseList = [
     isIncome: true,
     colorsValue: Colors.blue.value,
   ),
-  ExpenseModel(
+  TransactionModel(
     year: 2023,
     dateTime: "September 24, Sunday",
     amount: 2000,
@@ -51,7 +51,7 @@ List<ExpenseModel> expenseList = [
     colorsValue: Colors.yellow.value,
     note: "Bought a t-shirt",
   ),
-  ExpenseModel(
+  TransactionModel(
     year: 2023,
     dateTime: "September 24, Sunday",
     amount: 7000,
@@ -59,7 +59,7 @@ List<ExpenseModel> expenseList = [
     isIncome: true,
     colorsValue: Colors.orange.value,
   ),
-  ExpenseModel(
+  TransactionModel(
     year: 2023,
     dateTime: "September 24, Sunday",
     amount: 7000,
@@ -70,11 +70,11 @@ List<ExpenseModel> expenseList = [
 ];
 
 void getValue() {
-  for (final expense in expenseList) {
-    if (expense.isIncome == true) {
-      totalIncome += expense.amount;
+  for (final transaction in transactionList) {
+    if (transaction.isIncome == true) {
+      totalIncome += transaction.amount;
     } else {
-      totalExpenses += expense.amount;
+      totalExpenses += transaction.amount;
     }
   }
 }

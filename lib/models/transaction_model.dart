@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-class ExpenseModel {
+class TransactionModel {
   int year;
   String dateTime;
   int amount;
@@ -9,7 +9,7 @@ class ExpenseModel {
   int colorsValue;
   String? note;
 
-  ExpenseModel({
+  TransactionModel({
     required this.year,
     required this.dateTime,
     required this.amount,
@@ -31,8 +31,8 @@ class ExpenseModel {
     };
   }
 
-  factory ExpenseModel.fromMap(Map<String, dynamic> map) {
-    return ExpenseModel(
+  factory TransactionModel.fromMap(Map<String, dynamic> map) {
+    return TransactionModel(
       year: map['year']?.toInt() ?? 0,
       dateTime: map['dateTime'] ?? '',
       amount: map['amount']?.toInt() ?? 0,
@@ -45,6 +45,6 @@ class ExpenseModel {
 
   String toJson() => json.encode(toMap());
 
-  factory ExpenseModel.fromJson(String source) =>
-      ExpenseModel.fromMap(json.decode(source));
+  factory TransactionModel.fromJson(String source) =>
+      TransactionModel.fromMap(json.decode(source));
 }
