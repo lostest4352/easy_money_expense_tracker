@@ -53,12 +53,10 @@ class _GraphsPageState extends State<GraphsPage>
               children: [
                 TransactionWidget(
                   isIncome: true,
-                  dividedByValue: totalIncome,
                   totalValue: totalIncome,
                 ),
                 TransactionWidget(
                   isIncome: false,
-                  dividedByValue: totalExpenses,
                   totalValue: totalExpenses,
                 )
               ],
@@ -72,12 +70,11 @@ class _GraphsPageState extends State<GraphsPage>
 
 class TransactionWidget extends StatelessWidget {
   final bool isIncome;
-  final int dividedByValue;
+
   final int totalValue;
   const TransactionWidget({
     Key? key,
     required this.isIncome,
-    required this.dividedByValue,
     required this.totalValue,
   }) : super(key: key);
 
@@ -96,7 +93,7 @@ class TransactionWidget extends StatelessWidget {
                   if (transaction.isIncome == isIncome)
                     PieChartSectionData(
                       title:
-                          "${transaction.category} ${((transaction.amount / dividedByValue) * 100).toStringAsFixed(2)}%",
+                          "${transaction.category} ${((transaction.amount / totalValue) * 100).toStringAsFixed(2)}%",
                       titlePositionPercentageOffset: 1.8,
                       value: transaction.amount.toDouble(),
                       color: Color(transaction.colorsValue),
@@ -142,7 +139,6 @@ class TransactionWidget extends StatelessWidget {
               trailing: Text("$totalValue"),
             ),
             const Divider(),
-            //
             for (final transaction in transactionList)
               if (transaction.isIncome == isIncome)
                 ListTile(
