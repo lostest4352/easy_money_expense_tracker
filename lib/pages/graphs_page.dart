@@ -47,26 +47,14 @@ class _GraphsPageState extends State<GraphsPage>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              // children: myTabs.map((Tab tab) {
-              //   final String label = tab.text!.toLowerCase();
-              //   return Center(
-              //     // child: Text(
-              //     //   'This is the $label tab',
-              //     //   style: const TextStyle(fontSize: 36),
-              //     // ),
-              //     child: ListView(
-              //       children: [
-              //         Text(label)
-              //       ],
-              //     ),
-              //   );
-              // }).toList(),
-              children: const [
+              children: [
                 TransactionWidget(
                   isIncome: true,
+                  dividedByValue: totalIncome,
                 ),
                 TransactionWidget(
                   isIncome: false,
+                  dividedByValue: totalExpenses,
                 )
               ],
             ),
@@ -79,9 +67,11 @@ class _GraphsPageState extends State<GraphsPage>
 
 class TransactionWidget extends StatelessWidget {
   final bool isIncome;
+  final int dividedByValue;
   const TransactionWidget({
     Key? key,
     required this.isIncome,
+    required this.dividedByValue,
   }) : super(key: key);
 
   @override
@@ -102,7 +92,7 @@ class TransactionWidget extends StatelessWidget {
                   if (expense.isIncome == isIncome)
                     PieChartSectionData(
                       title:
-                          "${expense.category} ${((totalIncome / expense.amount) * 0.1).toStringAsFixed(2)}%",
+                          "${expense.category} ${((expense.amount / dividedByValue) * 100).toStringAsFixed(2)}%",
                       titlePositionPercentageOffset: 1.8,
                       value: expense.amount.toDouble(),
                       color: Color(expense.colorsValue),
