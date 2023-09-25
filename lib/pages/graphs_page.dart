@@ -1,6 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_expense_tracker/global_vars/global_expense.dart';
 
 class GraphsPage extends StatefulWidget {
@@ -22,7 +21,10 @@ class _GraphsPageState extends State<GraphsPage>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(vsync: this, length: myTabs.length);
+    _tabController = TabController(
+      vsync: this,
+      length: myTabs.length,
+    );
   }
 
   @override
@@ -82,9 +84,6 @@ class TransactionWidget extends StatelessWidget {
           aspectRatio: 1,
           child: PieChart(
             PieChartData(
-              borderData: FlBorderData(
-                show: false,
-              ),
               sectionsSpace: 0,
               centerSpaceRadius: 30,
               sections: [
@@ -99,6 +98,35 @@ class TransactionWidget extends StatelessWidget {
                     ),
               ],
             ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(right: 15),
+          child: Column(
+            children: [
+              for (final transaction in transactionList)
+                if (transaction.isIncome == isIncome)
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(transaction.category),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Container(
+                            width: 8,
+                            height: 8,
+                            color: Color(transaction.colorsValue),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+            ],
           ),
         ),
       ],
