@@ -1,7 +1,5 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:flutter/material.dart';
-import 'package:flutter_expense_tracker/models/expense_model.dart';
+import 'package:flutter_expense_tracker/global_vars/global_expense.dart';
 import 'package:flutter_expense_tracker/pages/dialogs/entry_dialog.dart';
 import 'package:flutter_expense_tracker/widgets/app_drawer.dart';
 
@@ -10,40 +8,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int totalExpenses = 0;
-    int totalIncome = 0;
-
-    List<ExpenseModel> expenseList = [
-      ExpenseModel(
-        year: 2023,
-        dateTime: "September 24, Sunday",
-        amount: 6000,
-        category: "Salary",
-        isIncome: true,
-      ),
-      ExpenseModel(
-        year: 2023,
-        dateTime: "September 24, Sunday",
-        amount: 5000,
-        category: "Food",
-        isIncome: false,
-      ),
-      ExpenseModel(
-        year: 2023,
-        dateTime: "September 24, Sunday",
-        amount: 7000,
-        category: "Wages",
-        isIncome: true,
-      ),
-      ExpenseModel(
-          year: 2023,
-          dateTime: "September 24, Sunday",
-          amount: 2000,
-          category: "Clothing",
-          isIncome: false,
-          note: "Bought a t-shirt"),
-    ];
-
     for (final expense in expenseList) {
       if (expense.isIncome == true) {
         totalIncome += expense.amount;
@@ -77,8 +41,8 @@ class HomePage extends StatelessWidget {
             },
           );
         },
-        backgroundColor: Color.fromARGB(255, 29, 89, 192),
-        child: Icon(Icons.add),
+        backgroundColor: Colors.deepPurple,
+        child: const Icon(Icons.add),
       ),
       drawer: const AppDrawer(),
       body: Column(
@@ -121,13 +85,13 @@ class HomePage extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
-                Center(
+                const Center(
                   child: Text("December 55"),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 for (final expense in expenseList)
@@ -136,17 +100,17 @@ class HomePage extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             width: 20,
                           ),
                           Text(
                             "${expense.year}",
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontWeight: FontWeight.w600, fontSize: 20),
                           ),
-                          Text(" "),
+                          const Text(" "),
                           Text(expense.dateTime),
-                          Spacer(),
+                          const Spacer(),
                           Text(
                             "${expense.amount}",
                             style: TextStyle(
@@ -155,7 +119,7 @@ class HomePage extends StatelessWidget {
                                     : Colors.red,
                                 fontWeight: FontWeight.w500),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 20,
                           ),
                         ],
@@ -167,7 +131,7 @@ class HomePage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(20),
                             color: const Color.fromARGB(120, 33, 149, 243),
                           ),
-                          padding: EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(8),
                           child: Column(
                             children: [
                               Row(
@@ -178,13 +142,13 @@ class HomePage extends StatelessWidget {
                                         : null,
                                     maxRadius: 12,
                                     child: (expense.isIncome == true)
-                                        ? Icon(
+                                        ? const Icon(
                                             Icons.add,
                                             color: Colors.white,
                                           )
-                                        : Icon(Icons.remove),
+                                        : const Icon(Icons.remove),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 8,
                                   ),
                                   Column(
@@ -193,7 +157,7 @@ class HomePage extends StatelessWidget {
                                     children: [
                                       Text(
                                         expense.category,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontWeight: FontWeight.w500),
                                       ),
                                       (expense.note != null)
@@ -206,13 +170,13 @@ class HomePage extends StatelessWidget {
                                                 ),
                                               ],
                                             )
-                                          : Column(),
+                                          : const Column(),
                                     ],
                                   ),
-                                  Spacer(),
+                                  const Spacer(),
                                   Text(
                                     "${expense.amount}",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 17,
                                         fontWeight: FontWeight.w500),
                                   ),

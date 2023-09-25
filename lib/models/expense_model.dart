@@ -1,12 +1,16 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+
 class ExpenseModel {
   int year;
   String dateTime;
   int amount;
   String category;
   bool isIncome;
+  int colorsValue;
   String? note;
+
 
   ExpenseModel({
     required this.year,
@@ -14,6 +18,7 @@ class ExpenseModel {
     required this.amount,
     required this.category,
     required this.isIncome,
+    required this.colorsValue,
     this.note,
   });
 
@@ -24,6 +29,7 @@ class ExpenseModel {
       'amount': amount,
       'category': category,
       'isIncome': isIncome,
+      'colorsValue': colorsValue,
       'note': note,
     };
   }
@@ -35,9 +41,12 @@ class ExpenseModel {
       amount: map['amount']?.toInt() ?? 0,
       category: map['category'] ?? '',
       isIncome: map['isIncome'] ?? false,
+      colorsValue: map['colorsValue']?.toInt() ?? 0,
       note: map['note'],
     );
   }
+
+  
 
   String toJson() => json.encode(toMap());
 
