@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_expense_tracker/global_vars/global_expense.dart';
 import 'package:flutter_expense_tracker/routers/app_routes.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
@@ -20,6 +21,8 @@ void main() {
     sqfliteFfiInit();
   }
   databaseFactory = databaseFactoryFfi;
+  // TODO Remove global later
+  getValue();
   runApp(const MyApp());
 }
 

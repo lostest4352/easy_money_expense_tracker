@@ -68,3 +68,13 @@ List<ExpenseModel> expenseList = [
     colorsValue: Colors.deepPurple.value,
   ),
 ];
+
+void getValue() {
+  for (final expense in expenseList) {
+    if (expense.isIncome == true) {
+      totalIncome += expense.amount;
+    } else {
+      totalExpenses += expense.amount;
+    }
+  }
+}

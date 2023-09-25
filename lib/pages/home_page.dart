@@ -8,14 +8,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    for (final expense in expenseList) {
-      if (expense.isIncome == true) {
-        totalIncome += expense.amount;
-      } else {
-        totalExpenses += expense.amount;
-      }
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: const Text(

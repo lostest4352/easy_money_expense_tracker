@@ -33,14 +33,6 @@ class _GraphsPageState extends State<GraphsPage>
 
   @override
   Widget build(BuildContext context) {
-    for (final expense in expenseList) {
-      if (expense.isIncome == true) {
-        totalIncome += expense.amount;
-      } else {
-        totalExpenses += expense.amount;
-      }
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("Graphs Page"),
@@ -109,7 +101,8 @@ class TransactionWidget extends StatelessWidget {
                 for (final expense in expenseList)
                   if (expense.isIncome == isIncome)
                     PieChartSectionData(
-                      title: "${expense.category} ${((totalIncome / expense.amount) * 0.1).toStringAsFixed(2)}%",
+                      title:
+                          "${expense.category} ${((totalIncome / expense.amount) * 0.1).toStringAsFixed(2)}%",
                       titlePositionPercentageOffset: 1.8,
                       value: expense.amount.toDouble(),
                       color: Color(expense.colorsValue),
