@@ -3,9 +3,14 @@ import 'package:flutter_expense_tracker/global_vars/global_expense.dart';
 import 'package:flutter_expense_tracker/pages/dialogs_widgets/entry_dialog.dart';
 import 'package:flutter_expense_tracker/widgets/app_drawer.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,7 +91,7 @@ class HomePage extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                for (final transaction in transactionList)
+                for (final transaction in transactionList.reversed)
                   Column(
                     children: [
                       Row(
