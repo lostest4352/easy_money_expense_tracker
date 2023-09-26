@@ -149,37 +149,20 @@ class _EntryDialogState extends State<EntryDialog> {
                     onTap: () {
                       // TODO
                       if (categoryValueFromListItem != null) {
-                        // transactionList.add(
-                        //   TransactionModel(
-                        //     year: 2023,
-                        //     dateTime: selectedDate.toString(),
-                        //     amount: int.parse(amountController.text),
-                        //     category:
-                        //         categoryValueFromListItem?["type"] as String,
-                        //     //  categoryItem.toString(),
-                        //     isIncome:
-                        //         categoryValueFromListItem?["income"] as bool,
-                        //     colorsValue:
-                        //         categoryValueFromListItem?["colorsValue"]
-                        //             as int,
-                        //     //  Colors.orange.value,
-                        //   ),
-                        // );
-                        final val = TransactionModel(
-                            year: 2023,
-                            dateTime: selectedDate.toString(),
-                            amount: int.parse(amountController.text),
-                            category:
-                                categoryValueFromListItem?["type"] as String,
-                            //  categoryItem.toString(),
-                            isIncome:
-                                categoryValueFromListItem?["income"] as bool,
-                            colorsValue:
-                                categoryValueFromListItem?["colorsValue"]
-                                    as int,
-                            //  Colors.orange.value,
-                          );
-                          widget.changeData(val);
+                        final transactionVal = TransactionModel(
+                          year: 2023,
+                          dateTime: selectedDate.toString(),
+                          amount: int.parse(amountController.text),
+                          category:
+                              categoryValueFromListItem?["type"] as String,
+                          //  categoryItem.toString(),
+                          isIncome:
+                              categoryValueFromListItem?["income"] as bool,
+                          colorsValue:
+                              categoryValueFromListItem?["colorsValue"] as int,
+                          //  Colors.orange.value,
+                        );
+                        widget.changeData(transactionVal);
                         debugPrint(transactionList.length.toString());
                       }
 
