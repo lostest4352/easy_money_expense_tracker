@@ -26,7 +26,11 @@ class _EntryDialogState extends State<EntryDialog> {
         children: [
           TableCalendar(
             firstDay: DateTime.utc(2010, 10, 16),
-            lastDay: DateTime.utc(2030, 3, 14),
+            lastDay: DateTime.now(),
+            pageJumpingEnabled: true,
+            availableCalendarFormats: const {
+              CalendarFormat.month: 'Month',
+            },
             focusedDay: DateTime.now(),
             onDaySelected: (selectedDay, focusedDay) {
               debugPrint(formattedDate.toString());
