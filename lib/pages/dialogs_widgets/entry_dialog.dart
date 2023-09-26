@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_expense_tracker/global_vars/global_expense.dart';
 import 'package:flutter_expense_tracker/widgets/home_page_popup_items.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -25,6 +26,9 @@ class _EntryDialogState extends State<EntryDialog> {
   String get formattedDate => formatter.format(selectedDate);
   //
   final currentDateFormatted = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
+  //
+  String categoryItem = "Select Category";
 
   //
   Dialog setDateTimeDialog(BuildContext context) {
@@ -112,45 +116,67 @@ class _EntryDialogState extends State<EntryDialog> {
             const SizedBox(
               height: 5,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 10, bottom: 10),
-                  child: InkWell(
-                    onTap: () {
-                      context.pop();
-                    },
-                    child: Text(
-                      "Cancel",
-                      style: TextStyle(
-                        color: Colors.red.shade400,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 10, bottom: 10),
-                  child: Text(
-                    "Save",
-                    style: TextStyle(
-                      color: Colors.blue.shade400,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            const SaveAndCancelRow(),
             const Divider(),
             const PopupTextFieldTitle(
               title: "Category",
             ),
-            const PopupCategoryItems(
-              title: "Select Category",
+            InkWell(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return Dialog(
+                      child: SizedBox(
+                        height: 400,
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    for (final listItem in listItems)
+                                      ListTile(
+                                        onTap: () {
+                                          setState(() {
+                                            categoryItem =
+                                                listItem["type"].toString();
+                                          });
+                                          context.pop();
+                                        },
+                                        leading: CircleAvatar(
+                                          backgroundColor:
+                                              listItem["income"] == true
+                                                  ? Colors.blue
+                                                  : Colors.red,
+                                          child: listItem["income"] == true
+                                              ? const Icon(
+                                                  Icons.addchart,
+                                                  color: Colors.white,
+                                                )
+                                              : const Icon(
+                                                  Icons.highlight_remove_sharp,
+                                                  color: Colors.white,
+                                                ),
+                                        ),
+                                        title: Text("${listItem["type"]}"),
+                                      ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            // TODO Create Make new category option. Remove expanded if not created
+                            // const SaveAndCancelRow(),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+              child: PopupCategoryItems(
+                title: categoryItem,
+              ),
             ),
             const SizedBox(
               height: 5,
@@ -168,6 +194,49 @@ class _EntryDialogState extends State<EntryDialog> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class SaveAndCancelRow extends StatelessWidget {
+  const SaveAndCancelRow({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 10, bottom: 10),
+          child: InkWell(
+            onTap: () {
+              context.pop();
+            },
+            child: Text(
+              "Cancel",
+              style: TextStyle(
+                color: Colors.red.shade400,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(
+          width: 10,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(right: 10, bottom: 10),
+          child: Text(
+            "Save",
+            style: TextStyle(
+              color: Colors.blue.shade400,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
