@@ -1,11 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_expense_tracker/widgets/home_page_popup_items.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
+import 'package:table_calendar/table_calendar.dart';
 
-class EntryDialog extends StatelessWidget {
+class EntryDialog extends StatefulWidget {
   const EntryDialog({
     super.key,
   });
+
+  @override
+  State<EntryDialog> createState() => _EntryDialogState();
+}
+
+class _EntryDialogState extends State<EntryDialog> {
+  DateTime selectedDate = DateTime.now();
+  final formatter = DateFormat('yyyy-MM-dd');
+  String get formattedDate => formatter.format(selectedDate);
+
+  // DateFormat('yyyy-MM-dd').format(DateTime.now())
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +40,39 @@ class EntryDialog extends StatelessWidget {
             const PopupTextFieldTitle(
               title: "Date",
             ),
-            const PopupCategoryItems(
-              title: "Today",
+            InkWell(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return Dialog(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          TableCalendar(
+                            firstDay: DateTime.utc(2010, 10, 16),
+                            lastDay: DateTime.utc(2030, 3, 14),
+                            focusedDay: DateTime.now(),
+                            onDaySelected: (selectedDay, focusedDay) {
+                              debugPrint(formattedDate.toString());
+                              setState(() {
+                                selectedDate = selectedDay;
+                              });
+                              context.pop();
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+              child: PopupCategoryItems(
+                title: (formattedDate ==
+                        DateFormat('yyyy-MM-dd').format(DateTime.now()))
+                    ? "Today"
+                    : formattedDate.toString(),
+              ),
             ),
             const SizedBox(
               height: 5,
