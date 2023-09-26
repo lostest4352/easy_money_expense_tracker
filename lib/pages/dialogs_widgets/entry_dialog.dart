@@ -164,6 +164,7 @@ class _EntryDialogState extends State<EntryDialog> {
                                 //  Colors.orange.value,
                               ),
                             );
+                            debugPrint(transactionList.length.toString());
                           }
                         },
                       );
