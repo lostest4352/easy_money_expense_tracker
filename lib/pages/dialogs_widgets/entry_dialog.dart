@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_expense_tracker/widgets/home_page_popup_items.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -14,6 +15,11 @@ class EntryDialog extends StatefulWidget {
 }
 
 class _EntryDialogState extends State<EntryDialog> {
+  //
+  final amountController = TextEditingController();
+  final noteController = TextEditingController();
+
+  //
   DateTime selectedDate = DateTime.now();
   final formatter = DateFormat('yyyy-MM-dd');
   String get formattedDate => formatter.format(selectedDate);
@@ -27,7 +33,6 @@ class _EntryDialogState extends State<EntryDialog> {
           TableCalendar(
             firstDay: DateTime.utc(2010, 10, 16),
             lastDay: DateTime.now(),
-            pageJumpingEnabled: true,
             availableCalendarFormats: const {
               CalendarFormat.month: 'Month',
             },
@@ -43,6 +48,13 @@ class _EntryDialogState extends State<EntryDialog> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    amountController.dispose();
+    noteController.dispose();
+    super.dispose();
   }
 
   @override
@@ -87,7 +99,12 @@ class _EntryDialogState extends State<EntryDialog> {
             const PopupTextFieldTitle(
               title: "Amount",
             ),
-            const PopupTextFieldItems(
+            PopupTextFieldItems(
+              textEditingController: amountController,
+              keyboardType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+              ],
               hintText: "Enter Amount",
             ),
             const SizedBox(
@@ -139,7 +156,8 @@ class _EntryDialogState extends State<EntryDialog> {
             const PopupTextFieldTitle(
               title: "Note",
             ),
-            const PopupTextFieldItems(
+            PopupTextFieldItems(
+              textEditingController: noteController,
               hintText: "Note(Optional)",
             ),
             const SizedBox(
