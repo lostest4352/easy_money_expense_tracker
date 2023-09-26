@@ -23,8 +23,10 @@ class _EntryDialogState extends State<EntryDialog> {
   DateTime selectedDate = DateTime.now();
   final formatter = DateFormat('yyyy-MM-dd');
   String get formattedDate => formatter.format(selectedDate);
+  //
+  final currentDateFormatted = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
-  // DateFormat('yyyy-MM-dd').format(DateTime.now())
+  //
   Dialog setDateTimeDialog(BuildContext context) {
     return Dialog(
       child: Column(
@@ -87,8 +89,7 @@ class _EntryDialogState extends State<EntryDialog> {
                 );
               },
               child: PopupCategoryItems(
-                title: (formattedDate ==
-                        DateFormat('yyyy-MM-dd').format(DateTime.now()))
+                title: (formattedDate == currentDateFormatted)
                     ? "Today"
                     : formattedDate.toString(),
               ),
