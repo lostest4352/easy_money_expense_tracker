@@ -28,7 +28,7 @@ class _EntryDialogState extends State<EntryDialog> {
   final currentDateFormatted = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
   //
-  String categoryItem = "Select Category";
+  String? categoryItem;
 
   //
   Dialog setDateTimeDialog(BuildContext context) {
@@ -175,7 +175,7 @@ class _EntryDialogState extends State<EntryDialog> {
                 );
               },
               child: PopupCategoryItems(
-                title: categoryItem,
+                title: (categoryItem == null) ? "Select Category" : categoryItem as String,
               ),
             ),
             const SizedBox(
