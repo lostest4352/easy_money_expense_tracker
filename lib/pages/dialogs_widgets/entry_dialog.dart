@@ -19,6 +19,27 @@ class _EntryDialogState extends State<EntryDialog> {
   String get formattedDate => formatter.format(selectedDate);
 
   // DateFormat('yyyy-MM-dd').format(DateTime.now())
+  Dialog setDateTimeDialog(BuildContext context) {
+    return Dialog(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TableCalendar(
+            firstDay: DateTime.utc(2010, 10, 16),
+            lastDay: DateTime.utc(2030, 3, 14),
+            focusedDay: DateTime.now(),
+            onDaySelected: (selectedDay, focusedDay) {
+              debugPrint(formattedDate.toString());
+              setState(() {
+                selectedDate = selectedDay;
+              });
+              context.pop();
+            },
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,25 +66,7 @@ class _EntryDialogState extends State<EntryDialog> {
                 showDialog(
                   context: context,
                   builder: (context) {
-                    return Dialog(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          TableCalendar(
-                            firstDay: DateTime.utc(2010, 10, 16),
-                            lastDay: DateTime.utc(2030, 3, 14),
-                            focusedDay: DateTime.now(),
-                            onDaySelected: (selectedDay, focusedDay) {
-                              debugPrint(formattedDate.toString());
-                              setState(() {
-                                selectedDate = selectedDay;
-                              });
-                              context.pop();
-                            },
-                          ),
-                        ],
-                      ),
-                    );
+                    return setDateTimeDialog(context);
                   },
                 );
               },

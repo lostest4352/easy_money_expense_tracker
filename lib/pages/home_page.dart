@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_expense_tracker/global_vars/global_expense.dart';
-import 'package:flutter_expense_tracker/pages/dialogs/entry_dialog.dart';
+import 'package:flutter_expense_tracker/pages/dialogs_widgets/entry_dialog.dart';
 import 'package:flutter_expense_tracker/widgets/app_drawer.dart';
 
 class HomePage extends StatelessWidget {
