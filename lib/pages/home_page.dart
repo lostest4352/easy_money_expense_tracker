@@ -44,149 +44,148 @@ class _HomePageState extends State<HomePage> {
       drawer: const AppDrawer(),
       body: Column(
         children: [
-          Expanded(
-            child: ListView(
+          const SizedBox(
+            height: 2,
+          ),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
               children: [
-                const SizedBox(
-                  height: 2,
-                ),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      InkWell(
-                        onTap: () {},
-                        child: Container(
-                          color: Colors.grey.shade800,
-                          padding: const EdgeInsets.all(10),
-                          child: Text("Income: Rs.$totalIncome"),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {},
-                        child: Container(
-                          color: Colors.grey.shade800,
-                          padding: const EdgeInsets.all(10),
-                          child: Text("Expenses: Rs.$totalExpenses"),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {},
-                        child: Container(
-                          color: Colors.grey.shade800,
-                          padding: const EdgeInsets.all(10),
-                          child: Text(
-                              "Balance: Rs.${totalIncome - totalExpenses}"),
-                        ),
-                      ),
-                    ],
+                InkWell(
+                  onTap: () {},
+                  child: Container(
+                    color: Colors.grey.shade800,
+                    padding: const EdgeInsets.all(10),
+                    child: Text("Income: Rs.$totalIncome"),
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
-                const Center(
-                  child: Text("December 55"),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                for (final transaction in transactionList.reversed)
-                  Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          Text(
-                            "${transaction.year}",
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w600, fontSize: 20),
-                          ),
-                          const Text(" "),
-                          Text(transaction.dateTime),
-                          const Spacer(),
-                          Text(
-                            "${transaction.amount}",
-                            style: TextStyle(
-                                color: (transaction.isIncome == true)
-                                    ? Colors.green
-                                    : Colors.red,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: const Color.fromARGB(120, 33, 149, 243),
-                          ),
-                          padding: const EdgeInsets.all(8),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundColor:
-                                        (transaction.isIncome == true)
-                                            ? Colors.green
-                                            : null,
-                                    maxRadius: 12,
-                                    child: (transaction.isIncome == true)
-                                        ? const Icon(
-                                            Icons.add,
-                                            color: Colors.white,
-                                          )
-                                        : const Icon(Icons.remove),
-                                  ),
-                                  const SizedBox(
-                                    width: 8,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        transaction.category,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                      (transaction.note != null)
-                                          ? Column(
-                                              children: [
-                                                Text(
-                                                  "${transaction.note}",
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
-                                              ],
-                                            )
-                                          : const Column(),
-                                    ],
-                                  ),
-                                  const Spacer(),
-                                  Text(
-                                    "${transaction.amount}",
-                                    style: const TextStyle(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
+                InkWell(
+                  onTap: () {},
+                  child: Container(
+                    color: Colors.grey.shade800,
+                    padding: const EdgeInsets.all(10),
+                    child: Text("Expenses: Rs.$totalExpenses"),
                   ),
+                ),
+                InkWell(
+                  onTap: () {},
+                  child: Container(
+                    color: Colors.grey.shade800,
+                    padding: const EdgeInsets.all(10),
+                    child: Text("Balance: Rs.${totalIncome - totalExpenses}"),
+                  ),
+                ),
               ],
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          const Center(
+            child: Text("December 55"),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          // for (final transaction in transactionList.reversed)
+          Expanded(
+            child: ListView.builder(
+              itemCount: transactionList.length,
+              itemBuilder: (context, index) {
+                return Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Text(
+                          "${transactionList[index].year}",
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w600, fontSize: 20),
+                        ),
+                        const Text(" "),
+                        Text(transactionList[index].dateTime),
+                        const Spacer(),
+                        Text(
+                          "${transactionList[index].amount}",
+                          style: TextStyle(
+                              color: (transactionList[index].isIncome == true)
+                                  ? Colors.green
+                                  : Colors.red,
+                              fontWeight: FontWeight.w500),
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: const Color.fromARGB(120, 33, 149, 243),
+                        ),
+                        padding: const EdgeInsets.all(8),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor:
+                                      (transactionList[index].isIncome == true)
+                                          ? Colors.green
+                                          : null,
+                                  maxRadius: 12,
+                                  child:
+                                      (transactionList[index].isIncome == true)
+                                          ? const Icon(
+                                              Icons.add,
+                                              color: Colors.white,
+                                            )
+                                          : const Icon(Icons.remove),
+                                ),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      transactionList[index].category,
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    (transactionList[index].note != null)
+                                        ? Column(
+                                            children: [
+                                              Text(
+                                                "${transactionList[index].note}",
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ],
+                                          )
+                                        : const Column(),
+                                  ],
+                                ),
+                                const Spacer(),
+                                Text(
+                                  "${transactionList[index].amount}",
+                                  style: const TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
             ),
           ),
         ],
