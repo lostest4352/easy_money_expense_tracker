@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_expense_tracker/global_vars/global_expense.dart';
+import 'package:flutter_expense_tracker/models/transaction_model.dart';
 import 'package:flutter_expense_tracker/widgets/home_page_popup_items.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -27,8 +28,9 @@ class _EntryDialogState extends State<EntryDialog> {
   //
   final currentDateFormatted = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
-  //
+  // temp
   String? categoryItem;
+  Map<String, Object>? categoryValueFromListItem;
 
   //
   Dialog setDateTimeDialog(BuildContext context) {
@@ -116,7 +118,68 @@ class _EntryDialogState extends State<EntryDialog> {
             const SizedBox(
               height: 5,
             ),
-            const SaveAndCancelRow(),
+            // const SaveAndCancelRow(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 10, bottom: 10),
+                  child: InkWell(
+                    onTap: () {
+                      context.pop();
+                    },
+                    child: Text(
+                      "Cancel",
+                      style: TextStyle(
+                        color: Colors.red.shade400,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 10, bottom: 10),
+                  child: InkWell(
+                    onTap: () {
+                      setState(
+                        () {
+                          // TODO
+                          if (categoryValueFromListItem != null) {
+                            transactionList.add(
+                              TransactionModel(
+                                year: 2023,
+                                dateTime: selectedDate.toString(),
+                                amount: int.parse(amountController.text),
+                                category: categoryValueFromListItem?["type"]
+                                    as String,
+                                //  categoryItem.toString(),
+                                isIncome: categoryValueFromListItem?["income"]
+                                    as bool,
+                                colorsValue:
+                                    categoryValueFromListItem?["colorsValue"]
+                                        as int,
+                                //  Colors.orange.value,
+                              ),
+                            );
+                          }
+                        },
+                      );
+                      context.pop();
+                    },
+                    child: Text(
+                      "Save",
+                      style: TextStyle(
+                        color: Colors.blue.shade400,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
             const Divider(),
             const PopupTextFieldTitle(
               title: "Category",
@@ -141,6 +204,8 @@ class _EntryDialogState extends State<EntryDialog> {
                                           setState(() {
                                             categoryItem =
                                                 listItem["type"].toString();
+                                            categoryValueFromListItem =
+                                                listItem;
                                           });
                                           context.pop();
                                         },
@@ -175,7 +240,9 @@ class _EntryDialogState extends State<EntryDialog> {
                 );
               },
               child: PopupCategoryItems(
-                title: (categoryItem == null) ? "Select Category" : categoryItem as String,
+                title: (categoryItem == null)
+                    ? "Select Category"
+                    : categoryItem as String,
               ),
             ),
             const SizedBox(
@@ -228,11 +295,14 @@ class SaveAndCancelRow extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.only(right: 10, bottom: 10),
-          child: Text(
-            "Save",
-            style: TextStyle(
-              color: Colors.blue.shade400,
-              fontWeight: FontWeight.bold,
+          child: InkWell(
+            onTap: () {},
+            child: Text(
+              "Save",
+              style: TextStyle(
+                color: Colors.blue.shade400,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),

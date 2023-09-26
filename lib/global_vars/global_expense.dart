@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_expense_tracker/models/transaction_model.dart';
 
-//
+// TODO Make a data class of this
 final listItems = [
-  {"type": "Clothing", "income": false},
-  {"type": "Entertainment", "income": false},
-  {"type": "Health", "income": false},
-  {"type": "Fuel", "income": false},
-  {"type": "Food", "income": false},
-  {"type": "Salary", "income": true},
-  {"type": "Bonus", "income": true},
-  {"type": "Wages", "income": true},
+  {"type": "Clothing", "income": false, "colorsValue" : Colors.yellow.value},
+  {"type": "Entertainment", "income": false, "colorsValue" : Colors.red.value},
+  {"type": "Health", "income": false, "colorsValue" : Colors.blue.value},
+  {"type": "Fuel", "income": false, "colorsValue" : Colors.green.value},
+  {"type": "Food", "income": false, "colorsValue" : Colors.deepOrange.value},
+  {"type": "Salary", "income": true, "colorsValue" : Colors.purple.value},
+  {"type": "Bonus", "income": true, "colorsValue" : Colors.indigo.value},
+  {"type": "Wages", "income": true, "colorsValue" : Colors.deepPurple.value},
 ];
 
 //
@@ -51,22 +51,22 @@ List<TransactionModel> transactionList = [
     colorsValue: Colors.yellow.value,
     note: "Bought a t-shirt",
   ),
-  TransactionModel(
-    year: 2023,
-    dateTime: "September 24, Sunday",
-    amount: 7000,
-    category: "Bonus",
-    isIncome: true,
-    colorsValue: Colors.orange.value,
-  ),
-  TransactionModel(
-    year: 2023,
-    dateTime: "September 24, Sunday",
-    amount: 7000,
-    category: "Lottery",
-    isIncome: true,
-    colorsValue: Colors.deepPurple.value,
-  ),
+  // TransactionModel(
+  //   year: 2023,
+  //   dateTime: "September 24, Sunday",
+  //   amount: 7000,
+  //   category: "Bonus",
+  //   isIncome: true,
+  //   colorsValue: Colors.orange.value,
+  // ),
+  // TransactionModel(
+  //   year: 2023,
+  //   dateTime: "September 24, Sunday",
+  //   amount: 7000,
+  //   category: "Lottery",
+  //   isIncome: true,
+  //   colorsValue: Colors.deepPurple.value,
+  // ),
 ];
 
 void getValue() {
