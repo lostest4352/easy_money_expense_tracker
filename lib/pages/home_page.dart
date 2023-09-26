@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_expense_tracker/global_vars/global_expense.dart';
+import 'package:flutter_expense_tracker/models/transaction_model.dart';
 import 'package:flutter_expense_tracker/pages/dialogs_widgets/entry_dialog.dart';
 import 'package:flutter_expense_tracker/widgets/app_drawer.dart';
 
@@ -11,6 +12,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  // TODO
+  void changeData(TransactionModel transactionModel) {
+    setState(() {
+      transactionList.add(transactionModel);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +42,9 @@ class _HomePageState extends State<HomePage> {
           showDialog(
             context: context,
             builder: (context) {
-              return const EntryDialog();
+              return EntryDialog(
+                changeData: changeData,
+              );
             },
           );
         },
@@ -87,105 +97,105 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(
             height: 10,
           ),
-          // for (final transaction in transactionList.reversed)
           Expanded(
-            child: ListView.builder(
-              itemCount: transactionList.length,
-              itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          "${transactionList[index].year}",
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 20),
-                        ),
-                        const Text(" "),
-                        Text(transactionList[index].dateTime),
-                        const Spacer(),
-                        Text(
-                          "${transactionList[index].amount}",
-                          style: TextStyle(
-                              color: (transactionList[index].isIncome == true)
-                                  ? Colors.green
-                                  : Colors.red,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: const Color.fromARGB(120, 33, 149, 243),
-                        ),
-                        padding: const EdgeInsets.all(8),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                CircleAvatar(
-                                  backgroundColor:
-                                      (transactionList[index].isIncome == true)
-                                          ? Colors.green
-                                          : null,
-                                  maxRadius: 12,
-                                  child:
-                                      (transactionList[index].isIncome == true)
-                                          ? const Icon(
-                                              Icons.add,
-                                              color: Colors.white,
-                                            )
-                                          : const Icon(Icons.remove),
-                                ),
-                                const SizedBox(
-                                  width: 8,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      transactionList[index].category,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    (transactionList[index].note != null)
-                                        ? Column(
-                                            children: [
-                                              Text(
-                                                "${transactionList[index].note}",
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                            ],
+            child: ListView(
+              children: [
+                for (final transaction in transactionList.reversed)
+                  Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          Text(
+                            "${transaction.year}",
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 20),
+                          ),
+                          const Text(" "),
+                          Text(transaction.dateTime),
+                          const Spacer(),
+                          Text(
+                            "${transaction.amount}",
+                            style: TextStyle(
+                                color: (transaction.isIncome == true)
+                                    ? Colors.green
+                                    : Colors.red,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: const Color.fromARGB(120, 33, 149, 243),
+                          ),
+                          padding: const EdgeInsets.all(8),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  CircleAvatar(
+                                    backgroundColor:
+                                        (transaction.isIncome == true)
+                                            ? Colors.green
+                                            : null,
+                                    maxRadius: 12,
+                                    child: (transaction.isIncome == true)
+                                        ? const Icon(
+                                            Icons.add,
+                                            color: Colors.white,
                                           )
-                                        : const Column(),
-                                  ],
-                                ),
-                                const Spacer(),
-                                Text(
-                                  "${transactionList[index].amount}",
-                                  style: const TextStyle(
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ],
-                            ),
-                          ],
+                                        : const Icon(Icons.remove),
+                                  ),
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        transaction.category,
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      (transaction.note != null)
+                                          ? Column(
+                                              children: [
+                                                Text(
+                                                  "${transaction.note}",
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                              ],
+                                            )
+                                          : const Column(),
+                                    ],
+                                  ),
+                                  const Spacer(),
+                                  Text(
+                                    "${transaction.amount}",
+                                    style: const TextStyle(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                );
-              },
+                    ],
+                  ),
+              ],
             ),
           ),
         ],

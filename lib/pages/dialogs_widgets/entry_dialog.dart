@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_expense_tracker/global_vars/global_expense.dart';
-import 'package:flutter_expense_tracker/models/transaction_model.dart';
-import 'package:flutter_expense_tracker/widgets/home_page_popup_items.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import 'package:flutter_expense_tracker/global_vars/global_expense.dart';
+import 'package:flutter_expense_tracker/models/transaction_model.dart';
+import 'package:flutter_expense_tracker/widgets/home_page_popup_items.dart';
+
 class EntryDialog extends StatefulWidget {
+  final Function(TransactionModel transactionModel) changeData;
   const EntryDialog({
-    super.key,
-  });
+    Key? key,
+    required this.changeData,
+  }) : super(key: key);
 
   @override
   State<EntryDialog> createState() => _EntryDialogState();
@@ -144,30 +147,42 @@ class _EntryDialogState extends State<EntryDialog> {
                   padding: const EdgeInsets.only(right: 10, bottom: 10),
                   child: InkWell(
                     onTap: () {
-                      setState(
-                        () {
-                          // TODO
-                          if (categoryValueFromListItem != null) {
-                            transactionList.add(
-                              TransactionModel(
-                                year: 2023,
-                                dateTime: selectedDate.toString(),
-                                amount: int.parse(amountController.text),
-                                category: categoryValueFromListItem?["type"]
-                                    as String,
-                                //  categoryItem.toString(),
-                                isIncome: categoryValueFromListItem?["income"]
-                                    as bool,
-                                colorsValue:
-                                    categoryValueFromListItem?["colorsValue"]
-                                        as int,
-                                //  Colors.orange.value,
-                              ),
-                            );
-                            debugPrint(transactionList.length.toString());
-                          }
-                        },
-                      );
+                      // TODO
+                      if (categoryValueFromListItem != null) {
+                        // transactionList.add(
+                        //   TransactionModel(
+                        //     year: 2023,
+                        //     dateTime: selectedDate.toString(),
+                        //     amount: int.parse(amountController.text),
+                        //     category:
+                        //         categoryValueFromListItem?["type"] as String,
+                        //     //  categoryItem.toString(),
+                        //     isIncome:
+                        //         categoryValueFromListItem?["income"] as bool,
+                        //     colorsValue:
+                        //         categoryValueFromListItem?["colorsValue"]
+                        //             as int,
+                        //     //  Colors.orange.value,
+                        //   ),
+                        // );
+                        final val = TransactionModel(
+                            year: 2023,
+                            dateTime: selectedDate.toString(),
+                            amount: int.parse(amountController.text),
+                            category:
+                                categoryValueFromListItem?["type"] as String,
+                            //  categoryItem.toString(),
+                            isIncome:
+                                categoryValueFromListItem?["income"] as bool,
+                            colorsValue:
+                                categoryValueFromListItem?["colorsValue"]
+                                    as int,
+                            //  Colors.orange.value,
+                          );
+                          widget.changeData(val);
+                        debugPrint(transactionList.length.toString());
+                      }
+
                       context.pop();
                     },
                     child: Text(
