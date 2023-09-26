@@ -103,7 +103,8 @@ class _EntryDialogState extends State<EntryDialog> {
               textEditingController: amountController,
               keyboardType: TextInputType.number,
               inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
+                // FilteringTextInputFormatter.digitsOnly,
+                FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}')),
               ],
               hintText: "Enter Amount",
             ),
