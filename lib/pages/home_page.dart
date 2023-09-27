@@ -40,6 +40,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+
+    // TODO
+    transactionList.sort((a, b) => a.dateTime.compareTo(b.dateTime));
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
