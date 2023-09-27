@@ -10,7 +10,7 @@ import 'package:flutter_expense_tracker/models/transaction_model.dart';
 import 'package:flutter_expense_tracker/widgets/home_page_popup_items.dart';
 
 class EntryDialog extends StatefulWidget {
-  final Function(TransactionModel transactionModel) changeData;
+  final Function(TransactionModel transactionModel, bool isIncome) changeData;
   const EntryDialog({
     Key? key,
     required this.changeData,
@@ -148,22 +148,19 @@ class _EntryDialogState extends State<EntryDialog> {
                   padding: const EdgeInsets.only(right: 10, bottom: 10),
                   child: InkWell(
                     onTap: () {
-                      
                       if (categoryValueFromListItem != null) {
                         final transactionVal = TransactionModel(
                           year: 2023,
                           dateTime: selectedDate.toString(),
                           amount: int.parse(amountController.text),
-                          category:
-                              categoryValueFromListItem?.transactionType as String,
-                          //  categoryItem.toString(),
-                          isIncome:
-                              categoryValueFromListItem?.isIncome as bool,
+                          category: categoryValueFromListItem?.transactionType
+                              as String,
+                          isIncome: categoryValueFromListItem?.isIncome as bool,
                           colorsValue:
                               categoryValueFromListItem?.colorsValue as int,
-                          //  Colors.orange.value,
                         );
-                        widget.changeData(transactionVal);
+                        widget.changeData(transactionVal,
+                            categoryValueFromListItem?.isIncome as bool);
                         debugPrint(transactionList.length.toString());
                       }
                       context.pop();
@@ -201,22 +198,19 @@ class _EntryDialogState extends State<EntryDialog> {
                                       ListTile(
                                         onTap: () {
                                           setState(() {
-                                            categoryItem =
-                                            
-                                                listItem.transactionType.toString();
+                                            categoryItem = listItem
+                                                .transactionType
+                                                .toString();
                                             categoryValueFromListItem =
-                                            
                                                 listItem;
                                           });
                                           context.pop();
                                         },
                                         leading: CircleAvatar(
                                           backgroundColor:
-                                          
                                               listItem.isIncome == true
                                                   ? Colors.blue
                                                   : Colors.red,
-                                                  
                                           child: listItem.isIncome == true
                                               ? const Icon(
                                                   Icons.addchart,
@@ -227,7 +221,7 @@ class _EntryDialogState extends State<EntryDialog> {
                                                   color: Colors.white,
                                                 ),
                                         ),
-                                        // 
+                                        //
                                         title: Text(listItem.transactionType),
                                       ),
                                   ],
@@ -268,49 +262,3 @@ class _EntryDialogState extends State<EntryDialog> {
     );
   }
 }
-
-// class SaveAndCancelRow extends StatelessWidget {
-//   const SaveAndCancelRow({
-//     super.key,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Row(
-//       mainAxisAlignment: MainAxisAlignment.end,
-//       children: [
-//         Padding(
-//           padding: const EdgeInsets.only(left: 10, bottom: 10),
-//           child: InkWell(
-//             onTap: () {
-//               context.pop();
-//             },
-//             child: Text(
-//               "Cancel",
-//               style: TextStyle(
-//                 color: Colors.red.shade400,
-//                 fontWeight: FontWeight.bold,
-//               ),
-//             ),
-//           ),
-//         ),
-//         const SizedBox(
-//           width: 10,
-//         ),
-//         Padding(
-//           padding: const EdgeInsets.only(right: 10, bottom: 10),
-//           child: InkWell(
-//             onTap: () {},
-//             child: Text(
-//               "Save",
-//               style: TextStyle(
-//                 color: Colors.blue.shade400,
-//                 fontWeight: FontWeight.bold,
-//               ),
-//             ),
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }

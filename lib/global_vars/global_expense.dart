@@ -3,16 +3,6 @@ import 'package:flutter_expense_tracker/models/category_model.dart';
 import 'package:flutter_expense_tracker/models/transaction_model.dart';
 
 // TODO If category deleted, move the values under other expenses/income
-// final listItems = [
-//   {"type": "Clothing", "income": false, "colorsValue" : Colors.yellow.value},
-//   {"type": "Entertainment", "income": false, "colorsValue" : Colors.red.value},
-//   {"type": "Health", "income": false, "colorsValue" : Colors.blue.value},
-//   {"type": "Fuel", "income": false, "colorsValue" : Colors.green.value},
-//   {"type": "Food", "income": false, "colorsValue" : Colors.deepOrange.value},
-//   {"type": "Salary", "income": true, "colorsValue" : Colors.purple.value},
-//   {"type": "Bonus", "income": true, "colorsValue" : Colors.indigo.value},
-//   {"type": "Wages", "income": true, "colorsValue" : Colors.deepPurple.value},
-// ];
 
 final listItems = [
   CategoryModel(
@@ -61,7 +51,7 @@ final listItems = [
 int totalExpenses = 0;
 int totalIncome = 0;
 
-List<TransactionModel> transactionList = [
+final transactionList = [
   TransactionModel(
     year: 2023,
     dateTime: "September 24, Sunday",

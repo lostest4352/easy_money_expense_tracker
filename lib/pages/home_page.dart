@@ -13,9 +13,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   // TODO
-  void changeData(TransactionModel transactionModel) {
+  void changeData(TransactionModel transactionModel, bool isIncome) {
     setState(() {
       transactionList.add(transactionModel);
+      if (isIncome == true) {
+        totalIncome += transactionModel.amount;
+      } else {
+        totalExpenses += transactionModel.amount;
+      }
     });
   }
 
