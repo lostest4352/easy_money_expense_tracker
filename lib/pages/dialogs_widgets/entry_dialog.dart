@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_expense_tracker/models/category_model.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -33,7 +34,7 @@ class _EntryDialogState extends State<EntryDialog> {
 
   // temp
   String? categoryItem;
-  Map<String, Object>? categoryValueFromListItem;
+  CategoryModel? categoryValueFromListItem;
 
   //
   Dialog setDateTimeDialog(BuildContext context) {
@@ -147,25 +148,24 @@ class _EntryDialogState extends State<EntryDialog> {
                   padding: const EdgeInsets.only(right: 10, bottom: 10),
                   child: InkWell(
                     onTap: () {
-                      // TODO
+                      
                       if (categoryValueFromListItem != null) {
                         final transactionVal = TransactionModel(
                           year: 2023,
                           dateTime: selectedDate.toString(),
                           amount: int.parse(amountController.text),
                           category:
-                              categoryValueFromListItem?["type"] as String,
+                              categoryValueFromListItem?.transactionType as String,
                           //  categoryItem.toString(),
                           isIncome:
-                              categoryValueFromListItem?["income"] as bool,
+                              categoryValueFromListItem?.isIncome as bool,
                           colorsValue:
-                              categoryValueFromListItem?["colorsValue"] as int,
+                              categoryValueFromListItem?.colorsValue as int,
                           //  Colors.orange.value,
                         );
                         widget.changeData(transactionVal);
                         debugPrint(transactionList.length.toString());
                       }
-
                       context.pop();
                     },
                     child: Text(
@@ -202,18 +202,22 @@ class _EntryDialogState extends State<EntryDialog> {
                                         onTap: () {
                                           setState(() {
                                             categoryItem =
-                                                listItem["type"].toString();
+                                            
+                                                listItem.transactionType.toString();
                                             categoryValueFromListItem =
+                                            
                                                 listItem;
                                           });
                                           context.pop();
                                         },
                                         leading: CircleAvatar(
                                           backgroundColor:
-                                              listItem["income"] == true
+                                          
+                                              listItem.isIncome == true
                                                   ? Colors.blue
                                                   : Colors.red,
-                                          child: listItem["income"] == true
+                                                  
+                                          child: listItem.isIncome == true
                                               ? const Icon(
                                                   Icons.addchart,
                                                   color: Colors.white,
@@ -223,7 +227,8 @@ class _EntryDialogState extends State<EntryDialog> {
                                                   color: Colors.white,
                                                 ),
                                         ),
-                                        title: Text("${listItem["type"]}"),
+                                        // 
+                                        title: Text(listItem.transactionType),
                                       ),
                                   ],
                                 ),
@@ -264,48 +269,48 @@ class _EntryDialogState extends State<EntryDialog> {
   }
 }
 
-class SaveAndCancelRow extends StatelessWidget {
-  const SaveAndCancelRow({
-    super.key,
-  });
+// class SaveAndCancelRow extends StatelessWidget {
+//   const SaveAndCancelRow({
+//     super.key,
+//   });
 
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 10, bottom: 10),
-          child: InkWell(
-            onTap: () {
-              context.pop();
-            },
-            child: Text(
-              "Cancel",
-              style: TextStyle(
-                color: Colors.red.shade400,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),
-        const SizedBox(
-          width: 10,
-        ),
-        Padding(
-          padding: const EdgeInsets.only(right: 10, bottom: 10),
-          child: InkWell(
-            onTap: () {},
-            child: Text(
-              "Save",
-              style: TextStyle(
-                color: Colors.blue.shade400,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Row(
+//       mainAxisAlignment: MainAxisAlignment.end,
+//       children: [
+//         Padding(
+//           padding: const EdgeInsets.only(left: 10, bottom: 10),
+//           child: InkWell(
+//             onTap: () {
+//               context.pop();
+//             },
+//             child: Text(
+//               "Cancel",
+//               style: TextStyle(
+//                 color: Colors.red.shade400,
+//                 fontWeight: FontWeight.bold,
+//               ),
+//             ),
+//           ),
+//         ),
+//         const SizedBox(
+//           width: 10,
+//         ),
+//         Padding(
+//           padding: const EdgeInsets.only(right: 10, bottom: 10),
+//           child: InkWell(
+//             onTap: () {},
+//             child: Text(
+//               "Save",
+//               style: TextStyle(
+//                 color: Colors.blue.shade400,
+//                 fontWeight: FontWeight.bold,
+//               ),
+//             ),
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }

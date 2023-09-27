@@ -26,8 +26,8 @@ class ExpenseCategories extends StatelessWidget {
             ListTile(
               leading: CircleAvatar(
                 backgroundColor:
-                    listItems[i]["income"] == true ? Colors.blue : Colors.red,
-                child: listItems[i]["income"] == true
+                    listItems[i].isIncome == true ? Colors.blue : Colors.red,
+                child: listItems[i].isIncome == true
                     ? const Icon(
                         Icons.addchart,
                         color: Colors.white,
@@ -37,7 +37,7 @@ class ExpenseCategories extends StatelessWidget {
                         color: Colors.white,
                       ),
               ),
-              title: Text("${listItems[i]["type"]}"),
+              title: Text(listItems[i].transactionType),
             ),
         ],
       ),

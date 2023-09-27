@@ -143,8 +143,10 @@ class TransactionWidget extends StatelessWidget {
               if (transaction.isIncome == isIncome)
                 ListTile(
                   title: Text(transaction.category),
-                  trailing: Text(transaction.amount.toString()),
-                )
+                  trailing: Text(
+                    transaction.amount.toString(),
+                  ),
+                ),
           ],
         ),
       ],

@@ -1,16 +1,60 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_expense_tracker/models/category_model.dart';
 import 'package:flutter_expense_tracker/models/transaction_model.dart';
 
-// TODO Make a data class of this
+// TODO If category deleted, move the values under other expenses/income
+// final listItems = [
+//   {"type": "Clothing", "income": false, "colorsValue" : Colors.yellow.value},
+//   {"type": "Entertainment", "income": false, "colorsValue" : Colors.red.value},
+//   {"type": "Health", "income": false, "colorsValue" : Colors.blue.value},
+//   {"type": "Fuel", "income": false, "colorsValue" : Colors.green.value},
+//   {"type": "Food", "income": false, "colorsValue" : Colors.deepOrange.value},
+//   {"type": "Salary", "income": true, "colorsValue" : Colors.purple.value},
+//   {"type": "Bonus", "income": true, "colorsValue" : Colors.indigo.value},
+//   {"type": "Wages", "income": true, "colorsValue" : Colors.deepPurple.value},
+// ];
+
 final listItems = [
-  {"type": "Clothing", "income": false, "colorsValue" : Colors.yellow.value},
-  {"type": "Entertainment", "income": false, "colorsValue" : Colors.red.value},
-  {"type": "Health", "income": false, "colorsValue" : Colors.blue.value},
-  {"type": "Fuel", "income": false, "colorsValue" : Colors.green.value},
-  {"type": "Food", "income": false, "colorsValue" : Colors.deepOrange.value},
-  {"type": "Salary", "income": true, "colorsValue" : Colors.purple.value},
-  {"type": "Bonus", "income": true, "colorsValue" : Colors.indigo.value},
-  {"type": "Wages", "income": true, "colorsValue" : Colors.deepPurple.value},
+  CategoryModel(
+    transactionType: "Clothing",
+    isIncome: false,
+    colorsValue: Colors.yellow.value,
+  ),
+  CategoryModel(
+    transactionType: "Entertainment",
+    isIncome: false,
+    colorsValue: Colors.red.value,
+  ),
+  CategoryModel(
+    transactionType: "Health",
+    isIncome: false,
+    colorsValue: Colors.blue.value,
+  ),
+  CategoryModel(
+    transactionType: "Fuel",
+    isIncome: false,
+    colorsValue: Colors.green.value,
+  ),
+  CategoryModel(
+    transactionType: "Food",
+    isIncome: false,
+    colorsValue: Colors.deepOrange.value,
+  ),
+  CategoryModel(
+    transactionType: "Salary",
+    isIncome: true,
+    colorsValue: Colors.purple.value,
+  ),
+  CategoryModel(
+    transactionType: "Bonus",
+    isIncome: true,
+    colorsValue: Colors.indigo.value,
+  ),
+  CategoryModel(
+    transactionType: "Wages",
+    isIncome: true,
+    colorsValue: Colors.deepPurple.value,
+  ),
 ];
 
 //
