@@ -158,6 +158,9 @@ class _EntryDialogState extends State<EntryDialog> {
                           isIncome: categoryValueFromListItem?.isIncome as bool,
                           colorsValue:
                               categoryValueFromListItem?.colorsValue as int,
+                          note: (noteController.text.trim() == "")
+                              ? null
+                              : noteController.text.trim(),
                         );
                         widget.changeData(transactionVal,
                             categoryValueFromListItem?.isIncome as bool);
