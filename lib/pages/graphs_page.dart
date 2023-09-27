@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_expense_tracker/global_vars/global_expense.dart';
+import 'package:flutter_expense_tracker/models/transaction_model.dart';
 
 class GraphsPage extends StatefulWidget {
   const GraphsPage({super.key});
@@ -80,6 +81,17 @@ class TransactionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final seen = <String>{};
+
+    // TODO remove/modify later
+    // This merges categories into one
+    List<TransactionModel> filteredTransaction = transactionList.where(
+      (transactionModel) {
+        var val = seen.add(transactionModel.category);
+        return val;
+      },
+    ).toList();
+
     return ListView(
       children: [
         AspectRatio(
