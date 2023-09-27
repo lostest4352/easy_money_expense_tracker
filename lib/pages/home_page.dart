@@ -3,6 +3,7 @@ import 'package:flutter_expense_tracker/global_vars/global_expense.dart';
 import 'package:flutter_expense_tracker/models/transaction_model.dart';
 import 'package:flutter_expense_tracker/pages/dialogs_widgets/entry_dialog.dart';
 import 'package:flutter_expense_tracker/widgets/app_drawer.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,6 +17,11 @@ class _HomePageState extends State<HomePage> {
   void changeData(TransactionModel transactionModel, bool isIncome) {
     setState(() {
       transactionList.add(transactionModel);
+      for (final item in listItems) {
+        if (item.transactionType == transactionModel.category) {
+          item.transactionAmount += transactionModel.amount;
+        }
+      }
       if (isIncome == true) {
         totalIncome += transactionModel.amount;
       } else {
@@ -23,6 +29,14 @@ class _HomePageState extends State<HomePage> {
       }
     });
   }
+
+  //
+  DateTime selectedDate = DateTime.now();
+  final formatter = DateFormat('yyyy-MM-dd');
+  String get formattedDate => formatter.format(selectedDate);
+  //
+  final currentDayFormatted =
+      DateFormat('MMMM dd, EEEE').format(DateTime.now());
 
   @override
   Widget build(BuildContext context) {
@@ -96,8 +110,8 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(
             height: 10,
           ),
-          const Center(
-            child: Text("December 55"),
+          Center(
+            child: Text(currentDayFormatted),
           ),
           const SizedBox(
             height: 10,

@@ -2,7 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_expense_tracker/global_vars/global_expense.dart';
-import 'package:flutter_expense_tracker/models/transaction_model.dart';
+import 'package:flutter_expense_tracker/models/category_model.dart';
 
 class GraphsPage extends StatefulWidget {
   const GraphsPage({super.key});
@@ -84,10 +84,9 @@ class TransactionWidget extends StatelessWidget {
     final seen = <String>{};
 
     // TODO remove/modify later
-    // This merges categories into one
-    List<TransactionModel> filteredTransaction = transactionList.where(
+    List<CategoryModel> filteredTransaction = listItems.where(
       (transactionModel) {
-        var val = seen.add(transactionModel.category);
+        var val = seen.add(transactionModel.transactionType);
         return val;
       },
     ).toList();
@@ -105,9 +104,9 @@ class TransactionWidget extends StatelessWidget {
                   if (transaction.isIncome == isIncome)
                     PieChartSectionData(
                       title:
-                          "${transaction.category} ${((transaction.amount / totalValue) * 100).toStringAsFixed(2)}%",
+                          "${transaction.transactionType} ${((transaction.transactionAmount / totalValue) * 100).toStringAsFixed(2)}%",
                       titlePositionPercentageOffset: 1.8,
-                      value: transaction.amount.toDouble(),
+                      value: transaction.transactionAmount.toDouble(),
                       color: Color(transaction.colorsValue),
                     ),
               ],
@@ -125,7 +124,7 @@ class TransactionWidget extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text(transaction.category),
+                        Text(transaction.transactionType),
                         const SizedBox(
                           width: 5,
                         ),
@@ -154,9 +153,9 @@ class TransactionWidget extends StatelessWidget {
             for (final transaction in filteredTransaction)
               if (transaction.isIncome == isIncome)
                 ListTile(
-                  title: Text(transaction.category),
+                  title: Text(transaction.transactionType),
                   trailing: Text(
-                    transaction.amount.toString(),
+                    transaction.transactionAmount.toString(),
                   ),
                 ),
           ],

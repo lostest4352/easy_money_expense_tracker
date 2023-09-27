@@ -4,10 +4,12 @@ class CategoryModel {
   String transactionType;
   bool isIncome;
   int colorsValue;
+  num transactionAmount;
   CategoryModel({
     required this.transactionType,
     required this.isIncome,
     required this.colorsValue,
+    this.transactionAmount = 0,
   });
 
   Map<String, dynamic> toMap() {
@@ -15,6 +17,7 @@ class CategoryModel {
       'transactionType': transactionType,
       'isIncome': isIncome,
       'colorsValue': colorsValue,
+      'transactionAmount': transactionAmount,
     };
   }
 
@@ -23,6 +26,7 @@ class CategoryModel {
       transactionType: map['transactionType'] ?? '',
       isIncome: map['isIncome'] ?? false,
       colorsValue: map['colorsValue']?.toInt() ?? 0,
+      transactionAmount: map['transactionAmount'] ?? 0,
     );
   }
 
