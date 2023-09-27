@@ -101,7 +101,7 @@ class TransactionWidget extends StatelessWidget {
               // sectionsSpace: 0,
               centerSpaceRadius: 50,
               sections: [
-                for (final transaction in transactionList)
+                for (final transaction in filteredTransaction)
                   if (transaction.isIncome == isIncome)
                     PieChartSectionData(
                       title:
@@ -116,7 +116,7 @@ class TransactionWidget extends StatelessWidget {
         ),
         Column(
           children: [
-            for (final transaction in transactionList)
+            for (final transaction in filteredTransaction)
               if (transaction.isIncome == isIncome)
                 Align(
                   alignment: Alignment.topLeft,
@@ -151,7 +151,7 @@ class TransactionWidget extends StatelessWidget {
               trailing: Text("$totalValue"),
             ),
             const Divider(),
-            for (final transaction in transactionList)
+            for (final transaction in filteredTransaction)
               if (transaction.isIncome == isIncome)
                 ListTile(
                   title: Text(transaction.category),

@@ -8,7 +8,7 @@ final listItems = [
   CategoryModel(
     transactionType: "Clothing",
     isIncome: false,
-    colorsValue: Colors.yellow.value,
+    colorsValue: Colors.greenAccent.value,
   ),
   CategoryModel(
     transactionType: "Entertainment",
@@ -23,7 +23,7 @@ final listItems = [
   CategoryModel(
     transactionType: "Fuel",
     isIncome: false,
-    colorsValue: Colors.green.value,
+    colorsValue: Colors.yellowAccent.value,
   ),
   CategoryModel(
     transactionType: "Food",
@@ -33,17 +33,17 @@ final listItems = [
   CategoryModel(
     transactionType: "Salary",
     isIncome: true,
-    colorsValue: Colors.purple.value,
+    colorsValue: Colors.blue.value,
   ),
   CategoryModel(
     transactionType: "Bonus",
     isIncome: true,
-    colorsValue: Colors.indigo.value,
+    colorsValue: Colors.red.value,
   ),
   CategoryModel(
     transactionType: "Wages",
     isIncome: true,
-    colorsValue: Colors.deepPurple.value,
+    colorsValue: Colors.green.value,
   ),
 ];
 
@@ -58,7 +58,7 @@ final transactionList = [
     amount: 6000,
     category: "Salary",
     isIncome: true,
-    colorsValue: Colors.red.value,
+    colorsValue: Colors.blue.value,
   ),
   TransactionModel(
     year: 2023,
@@ -66,7 +66,7 @@ final transactionList = [
     amount: 5000,
     category: "Food",
     isIncome: false,
-    colorsValue: Colors.green.value,
+    colorsValue: Colors.deepOrange.value,
   ),
   TransactionModel(
     year: 2023,
@@ -74,7 +74,7 @@ final transactionList = [
     amount: 7000,
     category: "Wages",
     isIncome: true,
-    colorsValue: Colors.blue.value,
+    colorsValue: Colors.green.value,
   ),
   TransactionModel(
     year: 2023,
@@ -82,7 +82,7 @@ final transactionList = [
     amount: 2000,
     category: "Clothing",
     isIncome: false,
-    colorsValue: Colors.yellow.value,
+    colorsValue: Colors.greenAccent.value,
     note: "Bought a t-shirt",
   ),
   // TransactionModel(
