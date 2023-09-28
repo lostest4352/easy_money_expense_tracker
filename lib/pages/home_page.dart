@@ -40,7 +40,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     // TODO
     transactionList.sort((a, b) => a.dateTime.compareTo(b.dateTime));
 
@@ -120,11 +119,13 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(
             height: 10,
           ),
-          Expanded(
+          Flexible(
             child: ListView(
               children: [
                 for (final transaction in transactionList.reversed)
+                  // TODO Make a builder and test. Extract widget
                   Column(
+                    // primary: false,
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
