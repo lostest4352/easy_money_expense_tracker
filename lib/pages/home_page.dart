@@ -30,6 +30,29 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  //
+  int calculateMonthsData(DateTime date) {
+    int monthlyAmt = 0;
+    for (final transaction in transactionList) {
+      //
+      final parsedTransactionDate = DateTime.parse(transaction.dateTime);
+      final formattedTransactionDate =
+          DateFormat("mm yy").format(parsedTransactionDate);
+      //
+      final formattedPassedDate = DateFormat("mm yy").format(date);
+      //
+      if (formattedTransactionDate == formattedPassedDate) {
+        if (transaction.isIncome == true) {
+          monthlyAmt += transaction.amount;
+        } else {
+          monthlyAmt -= transaction.amount;
+        }
+      }
+    }
+
+    return monthlyAmt;
+  }
+
   @override
   Widget build(BuildContext context) {
     // Code for sorting ascending/descending
@@ -107,43 +130,56 @@ class _HomePageState extends State<HomePage> {
             height: 10,
           ),
           Flexible(
-            child: Builder(
-              builder: (context) {
-                
-                return ListView(
-                  children: [
-                    for (final (index, transaction) in transactionList.indexed)
-                      Builder(
-                        builder: (context) {
-                          bool isSameDate = true;
-                          String dateString = transactionList[index].dateTime;
-                          DateTime date = DateTime.parse(dateString);
-
-                          //
-                          if (index == 0) {
-                            isSameDate = false;
-                          } else {
-                            String prevDateString =
-                                transactionList[index - 1].dateTime;
-                            DateTime prevDate = DateTime.parse(prevDateString);
-                            isSameDate = date.isSameDate(prevDate);
-                          }
-                          if (index == 0 || !isSameDate) {
-                            return Column(
-                              children: [
-                                Text(date.formatDate()),
-                                TransactionView(transaction: transaction),
-                              ],
-                            );
-                          } else {
-                            return TransactionView(transaction: transaction);
-                          }
-                        },
-                      ),
-                  ],
-                );
-              }
-            ),
+            child: Builder(builder: (context) {
+              return ListView(
+                children: [
+                  for (final (index, transaction) in transactionList.indexed)
+                    Builder(
+                      builder: (context) {
+                        bool isSameDate = true;
+                        String dateString = transactionList[index].dateTime;
+                        DateTime date = DateTime.parse(dateString);
+                        if (index == 0) {
+                          isSameDate = false;
+                        } else {
+                          String prevDateString =
+                              transactionList[index - 1].dateTime;
+                          DateTime prevDate = DateTime.parse(prevDateString);
+                          isSameDate = date.isSameDate(prevDate);
+                        }
+                        if (index == 0 || !isSameDate) {
+                          final calculatedData = calculateMonthsData(date);
+                          return Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 15, right: 15, top: 4, bottom: 4),
+                                child: Row(
+                                  children: [
+                                    Text(date.formatDate()),
+                                    const Spacer(),
+                                    Text(
+                                      "Total: $calculatedData",
+                                      style: TextStyle(
+                                        color: (calculatedData > 0)
+                                            ? Colors.green
+                                            : Colors.red,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              TransactionView(transaction: transaction),
+                            ],
+                          );
+                        } else {
+                          return TransactionView(transaction: transaction);
+                        }
+                      },
+                    ),
+                ],
+              );
+            }),
           ),
         ],
       ),
