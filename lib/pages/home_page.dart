@@ -130,56 +130,49 @@ class _HomePageState extends State<HomePage> {
             height: 10,
           ),
           Flexible(
-            child: Builder(builder: (context) {
-              return ListView(
-                children: [
-                  for (final (index, transaction) in transactionList.indexed)
-                    Builder(
-                      builder: (context) {
-                        bool isSameDate = true;
-                        String dateString = transactionList[index].dateTime;
-                        DateTime date = DateTime.parse(dateString);
-                        if (index == 0) {
-                          isSameDate = false;
-                        } else {
-                          String prevDateString =
-                              transactionList[index - 1].dateTime;
-                          DateTime prevDate = DateTime.parse(prevDateString);
-                          isSameDate = date.isSameDate(prevDate);
-                        }
-                        if (index == 0 || !isSameDate) {
-                          final calculatedData = calculateMonthsData(date);
-                          return Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 15, right: 15, top: 4, bottom: 4),
-                                child: Row(
-                                  children: [
-                                    Text(date.formatDate()),
-                                    const Spacer(),
-                                    Text(
-                                      "Total: $calculatedData",
-                                      style: TextStyle(
-                                        color: (calculatedData > 0)
-                                            ? Colors.green
-                                            : Colors.red,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+            child: ListView.builder(
+              itemCount: transactionList.length,
+              itemBuilder: (context, index) {
+                bool isSameDate = true;
+                String dateString = transactionList[index].dateTime;
+                DateTime date = DateTime.parse(dateString);
+                if (index == 0) {
+                  isSameDate = false;
+                } else {
+                  String prevDateString = transactionList[index - 1].dateTime;
+                  DateTime prevDate = DateTime.parse(prevDateString);
+                  isSameDate = date.isSameDate(prevDate);
+                }
+                if (index == 0 || !isSameDate) {
+                  final calculatedData = calculateMonthsData(date);
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 15, right: 15, top: 4, bottom: 4),
+                        child: Row(
+                          children: [
+                            Text(date.formatDate()),
+                            const Spacer(),
+                            Text(
+                              "Total: $calculatedData",
+                              style: TextStyle(
+                                color: (calculatedData > 0)
+                                    ? Colors.green
+                                    : Colors.red,
                               ),
-                              TransactionView(transaction: transaction),
-                            ],
-                          );
-                        } else {
-                          return TransactionView(transaction: transaction);
-                        }
-                      },
-                    ),
-                ],
-              );
-            }),
+                            ),
+                          ],
+                        ),
+                      ),
+                      TransactionView(transaction: transactionList[index]),
+                    ],
+                  );
+                } else {
+                  return TransactionView(transaction: transactionList[index]);
+                }
+              },
+            ),
           ),
         ],
       ),
