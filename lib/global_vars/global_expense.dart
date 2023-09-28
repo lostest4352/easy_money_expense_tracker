@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_expense_tracker/models/category_model.dart';
 import 'package:flutter_expense_tracker/models/transaction_model.dart';
+import 'package:intl/intl.dart';
 
 // TODO If category deleted, move the values under other expenses/income
 
@@ -112,4 +113,26 @@ void getValue() {
       totalExpenses += transaction.amount;
     }
   }
+}
+
+//
+int calculateMonthsData(DateTime date) {
+  int monthlyAmt = 0;
+  for (final transaction in transactionList) {
+    //
+    final parsedTransactionDate = DateTime.parse(transaction.dateTime);
+    final formattedTransactionDate =
+        DateFormat("mm yy").format(parsedTransactionDate);
+    //
+    final formattedPassedDate = DateFormat("mm yy").format(date);
+    //
+    if (formattedTransactionDate == formattedPassedDate) {
+      if (transaction.isIncome == true) {
+        monthlyAmt += transaction.amount;
+      } else {
+        monthlyAmt -= transaction.amount;
+      }
+    }
+  }
+  return monthlyAmt;
 }
