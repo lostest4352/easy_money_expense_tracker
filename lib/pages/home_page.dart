@@ -40,9 +40,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO
+    // Code for sorting ascending/descending
     // transactionList.sort((a, b) => a.dateTime.compareTo(b.dateTime));
-    // transactionList.reversed;
+    transactionList.sort((a, b) => b.dateTime.compareTo(a.dateTime));
 
     return Scaffold(
       appBar: AppBar(
@@ -114,24 +114,12 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(
             height: 10,
           ),
-          // Center(
-          //   child: Text(currentDayFormatted),
-          // ),
-          // const SizedBox(
-          //   height: 10,
-          // ),
           Flexible(
             child: ListView(
               children: [
                 for (final (index, transaction) in transactionList.indexed)
-                  // TODO Make a builder and test. Extract widget
                   Builder(
                     builder: (context) {
-                      //
-                      // final formatterYear = DateFormat('yyyy-MM');
-                      // String formattedDateYear = formatter.format(selectedDate);
-
-                      //
                       bool isSameDate = true;
                       String dateString = transactionList[index].dateTime;
                       DateTime date = DateTime.parse(dateString);
@@ -155,8 +143,6 @@ class _HomePageState extends State<HomePage> {
                       } else {
                         return TransactionView(transaction: transaction);
                       }
-
-                      // return TransactionView(transaction: transaction);
                     },
                   ),
               ],
@@ -180,32 +166,6 @@ class TransactionView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.center,
-        //   children: [
-        //     const SizedBox(
-        //       width: 20,
-        //     ),
-        //     // Text(
-        //     //   "${transaction.year}",
-        //     //   style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
-        //     // ),
-        //     // const Text(" "),
-        //     // Center(child: Text(DateFormat('yyyy MMMM dd').format(DateTime.parse(transaction.dateTime)))),
-        //     // const Spacer(),
-        //     // Text(
-        //     //   "${transaction.amount}",
-        //     //   style: TextStyle(
-        //     //       color: (transaction.isIncome == true)
-        //     //           ? Colors.green
-        //     //           : Colors.red,
-        //     //       fontWeight: FontWeight.w500),
-        //     // ),
-        //     const SizedBox(
-        //       width: 20,
-        //     ),
-        //   ],
-        // ),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
@@ -279,6 +239,7 @@ class TransactionView extends StatelessWidget {
   }
 }
 
+// extension method from SO
 const String dateFormatter = 'MMMM, y';
 
 extension DateHelper on DateTime {
