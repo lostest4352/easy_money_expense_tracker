@@ -246,7 +246,7 @@ class TransactionView extends StatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      DateFormat('MMM dd,EEEE').format(
+                      DateFormat('MMM dd,EE').format(
                         DateTime.parse(transaction.dateTime),
                       ),
                     ),
