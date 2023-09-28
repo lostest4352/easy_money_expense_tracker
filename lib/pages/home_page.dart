@@ -30,14 +30,6 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  //
-  DateTime selectedDate = DateTime.now();
-  final formatter = DateFormat('yyyy-MM-dd');
-  String get formattedDate => formatter.format(selectedDate);
-  //
-  final currentDayFormatted =
-      DateFormat('MMMM dd, EEEE').format(DateTime.now());
-
   @override
   Widget build(BuildContext context) {
     // Code for sorting ascending/descending
