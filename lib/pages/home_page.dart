@@ -41,7 +41,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     // TODO
-    transactionList.sort((a, b) => a.dateTime.compareTo(b.dateTime));
+    // transactionList.sort((a, b) => a.dateTime.compareTo(b.dateTime));
+    // transactionList.reversed;
 
     return Scaffold(
       appBar: AppBar(
@@ -113,111 +114,50 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(
             height: 10,
           ),
-          Center(
-            child: Text(currentDayFormatted),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
+          // Center(
+          //   child: Text(currentDayFormatted),
+          // ),
+          // const SizedBox(
+          //   height: 10,
+          // ),
           Flexible(
             child: ListView(
               children: [
-                for (final transaction in transactionList.reversed)
+                for (final (index, transaction) in transactionList.indexed)
                   // TODO Make a builder and test. Extract widget
-                  Column(
-                    // primary: false,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          Text(
-                            "${transaction.year}",
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w600, fontSize: 20),
-                          ),
-                          const Text(" "),
-                          Text(transaction.dateTime),
-                          const Spacer(),
-                          Text(
-                            "${transaction.amount}",
-                            style: TextStyle(
-                                color: (transaction.isIncome == true)
-                                    ? Colors.green
-                                    : Colors.red,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: const Color.fromARGB(120, 33, 149, 243),
-                          ),
-                          padding: const EdgeInsets.all(8),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundColor:
-                                        (transaction.isIncome == true)
-                                            ? Colors.green
-                                            : null,
-                                    maxRadius: 12,
-                                    child: (transaction.isIncome == true)
-                                        ? const Icon(
-                                            Icons.add,
-                                            color: Colors.white,
-                                          )
-                                        : const Icon(Icons.remove),
-                                  ),
-                                  const SizedBox(
-                                    width: 8,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        transaction.category,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                      (transaction.note != null)
-                                          ? Column(
-                                              children: [
-                                                Text(
-                                                  "${transaction.note}",
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
-                                              ],
-                                            )
-                                          : const Column(),
-                                    ],
-                                  ),
-                                  const Spacer(),
-                                  Text(
-                                    "${transaction.amount}",
-                                    style: const TextStyle(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
+                  Builder(
+                    builder: (context) {
+                      //
+                      // final formatterYear = DateFormat('yyyy-MM');
+                      // String formattedDateYear = formatter.format(selectedDate);
+
+                      //
+                      bool isSameDate = true;
+                      String dateString = transactionList[index].dateTime;
+                      DateTime date = DateTime.parse(dateString);
+
+                      //
+                      if (index == 0) {
+                        isSameDate = false;
+                      } else {
+                        String prevDateString =
+                            transactionList[index - 1].dateTime;
+                        DateTime prevDate = DateTime.parse(prevDateString);
+                        isSameDate = date.isSameDate(prevDate);
+                      }
+                      if (index == 0 || !isSameDate) {
+                        return Column(
+                          children: [
+                            Text(date.formatDate()),
+                            TransactionView(transaction: transaction),
+                          ],
+                        );
+                      } else {
+                        return TransactionView(transaction: transaction);
+                      }
+
+                      // return TransactionView(transaction: transaction);
+                    },
                   ),
               ],
             ),
@@ -225,5 +165,136 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
+  }
+}
+
+class TransactionView extends StatelessWidget {
+  const TransactionView({
+    super.key,
+    required this.transaction,
+  });
+
+  final TransactionModel transaction;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.center,
+        //   children: [
+        //     const SizedBox(
+        //       width: 20,
+        //     ),
+        //     // Text(
+        //     //   "${transaction.year}",
+        //     //   style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+        //     // ),
+        //     // const Text(" "),
+        //     // Center(child: Text(DateFormat('yyyy MMMM dd').format(DateTime.parse(transaction.dateTime)))),
+        //     // const Spacer(),
+        //     // Text(
+        //     //   "${transaction.amount}",
+        //     //   style: TextStyle(
+        //     //       color: (transaction.isIncome == true)
+        //     //           ? Colors.green
+        //     //           : Colors.red,
+        //     //       fontWeight: FontWeight.w500),
+        //     // ),
+        //     const SizedBox(
+        //       width: 20,
+        //     ),
+        //   ],
+        // ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: const Color.fromARGB(120, 33, 149, 243),
+            ),
+            padding: const EdgeInsets.all(8),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor:
+                          (transaction.isIncome == true) ? Colors.green : null,
+                      maxRadius: 12,
+                      child: (transaction.isIncome == true)
+                          ? const Icon(
+                              Icons.add,
+                              color: Colors.white,
+                            )
+                          : const Icon(Icons.remove),
+                    ),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          transaction.category,
+                          style: const TextStyle(fontWeight: FontWeight.w500),
+                        ),
+                        (transaction.note != null)
+                            ? Column(
+                                children: [
+                                  Text(
+                                    "${transaction.note}",
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              )
+                            : const Column(),
+                      ],
+                    ),
+                    const Spacer(),
+                    Text(
+                      DateFormat('yyyy MMMM dd').format(
+                        DateTime.parse(transaction.dateTime),
+                      ),
+                    ),
+                    const Spacer(),
+                    Text(
+                      "${transaction.amount}",
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                        color: (transaction.isIncome == true)
+                            ? Colors.green
+                            : Colors.red,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+const String dateFormatter = 'MMMM, y';
+
+extension DateHelper on DateTime {
+  String formatDate() {
+    final formatter = DateFormat(dateFormatter);
+    return formatter.format(this);
+  }
+
+  bool isSameDate(DateTime other) {
+    return year == other.year && month == other.month
+        // &&  day == other.day
+        ;
+  }
+
+  int getDifferenceInDaysWithNow() {
+    final now = DateTime.now();
+    return now.difference(this).inDays;
   }
 }
