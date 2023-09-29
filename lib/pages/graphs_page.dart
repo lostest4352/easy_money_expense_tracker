@@ -97,8 +97,8 @@ class TransactionWidget extends StatelessWidget {
       bool found = false;
       for (final pieChartModel in pieChartModelList) {
         if (pieChartModel.categoryModel == transaction.categoryModel) {
-          pieChartModel.amount += transaction.amount;
           found = true;
+          pieChartModel.amount += transaction.amount;
         }
       }
 
