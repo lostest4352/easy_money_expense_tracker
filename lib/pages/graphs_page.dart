@@ -81,8 +81,6 @@ class TransactionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final seen = <CategoryModel>{};
-
-    // TODO revert to this later and remove below pie chart thing if cant fix homepage
     // List<CategoryModel> filteredTransaction = listItems.where(
     //   (transactionModel) {
     //     var val = seen.add(transactionModel.transactionType);
@@ -90,7 +88,6 @@ class TransactionWidget extends StatelessWidget {
     //   },
     // ).toList();
 
-    //
     List<PieChartModel> pieChartModelList = [];
 
     for (final transaction in transactionList) {
@@ -121,14 +118,15 @@ class TransactionWidget extends StatelessWidget {
               // sectionsSpace: 0,
               centerSpaceRadius: 50,
               sections: [
-                for (final transaction in pieChartModelList) // TODO
-                  if (transaction.categoryModel.isIncome == isIncome)
+                for (final pieChartTransaction in pieChartModelList)
+                  if (pieChartTransaction.categoryModel.isIncome == isIncome)
                     PieChartSectionData(
                       title:
-                          "${transaction.categoryModel.transactionType} ${((transaction.amount / totalValue) * 100).toStringAsFixed(2)}%",
+                          "${pieChartTransaction.categoryModel.transactionType} ${((pieChartTransaction.amount / totalValue) * 100).toStringAsFixed(2)}%",
                       titlePositionPercentageOffset: 1.8,
-                      value: transaction.amount.toDouble(),
-                      color: Color(transaction.categoryModel.colorsValue),
+                      value: pieChartTransaction.amount.toDouble(),
+                      color:
+                          Color(pieChartTransaction.categoryModel.colorsValue),
                     ),
               ],
             ),
@@ -136,8 +134,8 @@ class TransactionWidget extends StatelessWidget {
         ),
         Column(
           children: [
-            for (final transaction in pieChartModelList) // TODO
-              if (transaction.categoryModel.isIncome == isIncome)
+            for (final pieChartTransaction in pieChartModelList)
+              if (pieChartTransaction.categoryModel.isIncome == isIncome)
                 Align(
                   alignment: Alignment.topLeft,
                   child: Padding(
@@ -145,14 +143,15 @@ class TransactionWidget extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text(transaction.categoryModel.transactionType),
+                        Text(pieChartTransaction.categoryModel.transactionType),
                         const SizedBox(
                           width: 5,
                         ),
                         Container(
                           width: 8,
                           height: 8,
-                          color: Color(transaction.categoryModel.colorsValue),
+                          color: Color(
+                              pieChartTransaction.categoryModel.colorsValue),
                         ),
                       ],
                     ),
@@ -171,12 +170,13 @@ class TransactionWidget extends StatelessWidget {
               trailing: Text("$totalValue"),
             ),
             const Divider(),
-            for (final transaction in pieChartModelList) // TODO
-              if (transaction.categoryModel.isIncome == isIncome)
+            for (final pieChartTransaction in pieChartModelList)
+              if (pieChartTransaction.categoryModel.isIncome == isIncome)
                 ListTile(
-                  title: Text(transaction.categoryModel.transactionType),
+                  title:
+                      Text(pieChartTransaction.categoryModel.transactionType),
                   trailing: Text(
-                    transaction.amount.toString(),
+                    pieChartTransaction.amount.toString(),
                   ),
                 ),
           ],

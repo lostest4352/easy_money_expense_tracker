@@ -150,21 +150,28 @@ class _EntryDialogState extends State<EntryDialog> {
                     onTap: () {
                       if (categoryValueFromListItem != null) {
                         final transactionVal = TransactionModel(
-                          year: 2023,
                           dateTime: selectedDate.toString(),
                           amount: int.parse(amountController.text),
-                          category: categoryValueFromListItem?.transactionType
-                              as String,
-                          isIncome: categoryValueFromListItem?.isIncome as bool,
-                          colorsValue:
-                              categoryValueFromListItem?.colorsValue as int,
+                          // category: categoryValueFromListItem?.transactionType
+                          //     as String,
+                          // isIncome: categoryValueFromListItem?.isIncome as bool,
+                          // colorsValue:
+                          //     categoryValueFromListItem?.colorsValue as int,
                           note: (noteController.text.trim() == "")
                               ? null
                               : noteController.text.trim(),
+                          categoryModel: CategoryModel(
+                            transactionType: categoryValueFromListItem
+                                ?.transactionType as String,
+                            isIncome:
+                                categoryValueFromListItem?.isIncome as bool,
+                            colorsValue:
+                                categoryValueFromListItem?.colorsValue as int,
+                          ),
                         );
                         widget.changeData(transactionVal,
                             categoryValueFromListItem?.isIncome as bool);
-                        debugPrint(transactionList.length.toString());
+                        // debugPrint(transactionList.length.toString());
                       }
                       context.pop();
                     },

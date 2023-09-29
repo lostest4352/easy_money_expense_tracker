@@ -17,11 +17,6 @@ class _HomePageState extends State<HomePage> {
   void changeData(TransactionModel transactionModel, bool isIncome) {
     setState(() {
       transactionList.add(transactionModel);
-      for (final item in listItems) {
-        if (item.transactionType == transactionModel.category) {
-          item.transactionAmount += transactionModel.amount;
-        }
-      }
       if (isIncome == true) {
         totalIncome += transactionModel.amount;
       } else {
@@ -120,8 +115,12 @@ class _HomePageState extends State<HomePage> {
                   DateTime prevDate = DateTime.parse(prevDateString);
                   isSameDate = date.isSameDate(prevDate);
                 }
-                if (index == 0 || !isSameDate) {
-                  final calculatedData = calculateMonthsData(date);
+                if (!isSameDate) {
+                  // int monthlyInc = calculateMonthsData(date).monthlyInc;
+                  // int monthlyExp = calculateMonthsData(date).monthlyExp;
+                  // int calculatedData = monthlyInc + monthlyExp;
+                  int calculatedData = calculateMonthsData(date);
+                  debugPrint("This is date: ${date.toString()}");
                   return Column(
                     children: [
                       Padding(
@@ -183,9 +182,11 @@ class TransactionView extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       backgroundColor:
-                          (transaction.isIncome == true) ? Colors.green : null,
+                          (transaction.categoryModel.isIncome == true)
+                              ? Colors.green
+                              : null,
                       maxRadius: 12,
-                      child: (transaction.isIncome == true)
+                      child: (transaction.categoryModel.isIncome == true)
                           ? const Icon(
                               Icons.add,
                               color: Colors.white,
@@ -199,7 +200,7 @@ class TransactionView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          transaction.category,
+                          transaction.categoryModel.transactionType,
                           style: const TextStyle(fontWeight: FontWeight.w500),
                         ),
                         (transaction.note != null)
@@ -216,7 +217,7 @@ class TransactionView extends StatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      DateFormat('MMM dd,EE').format(
+                      DateFormat("MMM dd, EE").format(
                         DateTime.parse(transaction.dateTime),
                       ),
                     ),
@@ -226,7 +227,7 @@ class TransactionView extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
-                        color: (transaction.isIncome == true)
+                        color: (transaction.categoryModel.isIncome == true)
                             ? Colors.green
                             : Colors.red,
                       ),
@@ -243,7 +244,7 @@ class TransactionView extends StatelessWidget {
 }
 
 // extension method from SO
-const String dateFormatter = 'MMMM, y';
+const String dateFormatter = "MMMM, y";
 
 extension DateHelper on DateTime {
   String formatDate() {

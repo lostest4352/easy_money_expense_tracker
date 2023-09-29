@@ -107,7 +107,7 @@ List<TransactionModel> transactionList = [];
 
 void getValue() {
   for (final transaction in transactionList) {
-    if (transaction.isIncome == true) {
+    if (transaction.categoryModel.isIncome == true) {
       totalIncome += transaction.amount;
     } else {
       totalExpenses += transaction.amount;
@@ -115,19 +115,19 @@ void getValue() {
   }
 }
 
-//
+// mm dateformat is minutes. MM is month
 int calculateMonthsData(DateTime date) {
   int monthlyAmt = 0;
+
   for (final transaction in transactionList) {
-    //
-    final parsedTransactionDate = DateTime.parse(transaction.dateTime);
+    final passedTransactionDate = DateTime.parse(transaction.dateTime);
     final formattedTransactionDate =
-        DateFormat("mm yy").format(parsedTransactionDate);
+        DateFormat("MMMM, y").format(passedTransactionDate);
     //
-    final formattedPassedDate = DateFormat("mm yy").format(date);
+    final formattedPassedDate = DateFormat("MMMM, y").format(date);
     //
     if (formattedTransactionDate == formattedPassedDate) {
-      if (transaction.isIncome == true) {
+      if (transaction.categoryModel.isIncome == true) {
         monthlyAmt += transaction.amount;
       } else {
         monthlyAmt -= transaction.amount;
