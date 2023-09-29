@@ -1,8 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_expense_tracker/global_vars/global_expense.dart';
-import 'package:flutter_expense_tracker/models/category_model.dart';
+import 'package:flutter_expense_tracker/models/pie_chart_model.dart';
 
 class GraphsPage extends StatefulWidget {
   const GraphsPage({super.key});
@@ -81,15 +80,37 @@ class TransactionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final seen = <String>{};
+    // final seen = <CategoryModel>{};
 
-    // TODO remove/modify later
-    List<CategoryModel> filteredTransaction = listItems.where(
-      (transactionModel) {
-        var val = seen.add(transactionModel.transactionType);
-        return val;
-      },
-    ).toList();
+    // TODO revert to this later and remove below pie chart thing if cant fix homepage
+    // List<CategoryModel> filteredTransaction = listItems.where(
+    //   (transactionModel) {
+    //     var val = seen.add(transactionModel.transactionType);
+    //     return val;
+    //   },
+    // ).toList();
+
+    //
+    List<PieChartModel> pieChartModelList = [];
+
+    for (final transaction in transactionList) {
+      bool found = false;
+      for (final pieChartModel in pieChartModelList) {
+        if (pieChartModel.categoryModel == transaction.categoryModel) {
+          pieChartModel.amount += transaction.amount;
+          found = true;
+        }
+      }
+
+      if (!found) {
+        pieChartModelList.add(
+          PieChartModel(
+            categoryModel: transaction.categoryModel,
+            amount: transaction.amount,
+          ),
+        );
+      }
+    }
 
     return ListView(
       children: [
@@ -100,14 +121,14 @@ class TransactionWidget extends StatelessWidget {
               // sectionsSpace: 0,
               centerSpaceRadius: 50,
               sections: [
-                for (final transaction in filteredTransaction)
-                  if (transaction.isIncome == isIncome)
+                for (final transaction in pieChartModelList) // TODO
+                  if (transaction.categoryModel.isIncome == isIncome)
                     PieChartSectionData(
                       title:
-                          "${transaction.transactionType} ${((transaction.transactionAmount / totalValue) * 100).toStringAsFixed(2)}%",
+                          "${transaction.categoryModel.transactionType} ${((transaction.amount / totalValue) * 100).toStringAsFixed(2)}%",
                       titlePositionPercentageOffset: 1.8,
-                      value: transaction.transactionAmount.toDouble(),
-                      color: Color(transaction.colorsValue),
+                      value: transaction.amount.toDouble(),
+                      color: Color(transaction.categoryModel.colorsValue),
                     ),
               ],
             ),
@@ -115,8 +136,8 @@ class TransactionWidget extends StatelessWidget {
         ),
         Column(
           children: [
-            for (final transaction in filteredTransaction)
-              if (transaction.isIncome == isIncome)
+            for (final transaction in pieChartModelList) // TODO
+              if (transaction.categoryModel.isIncome == isIncome)
                 Align(
                   alignment: Alignment.topLeft,
                   child: Padding(
@@ -124,14 +145,14 @@ class TransactionWidget extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text(transaction.transactionType),
+                        Text(transaction.categoryModel.transactionType),
                         const SizedBox(
                           width: 5,
                         ),
                         Container(
                           width: 8,
                           height: 8,
-                          color: Color(transaction.colorsValue),
+                          color: Color(transaction.categoryModel.colorsValue),
                         ),
                       ],
                     ),
@@ -150,12 +171,12 @@ class TransactionWidget extends StatelessWidget {
               trailing: Text("$totalValue"),
             ),
             const Divider(),
-            for (final transaction in filteredTransaction)
-              if (transaction.isIncome == isIncome)
+            for (final transaction in pieChartModelList) // TODO
+              if (transaction.categoryModel.isIncome == isIncome)
                 ListTile(
-                  title: Text(transaction.transactionType),
+                  title: Text(transaction.categoryModel.transactionType),
                   trailing: Text(
-                    transaction.transactionAmount.toString(),
+                    transaction.amount.toString(),
                   ),
                 ),
           ],
