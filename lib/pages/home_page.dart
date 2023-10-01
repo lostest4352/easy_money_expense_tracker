@@ -103,52 +103,71 @@ class _HomePageState extends State<HomePage> {
             height: 10,
           ),
           Flexible(
-            child: ListView.builder(
-              itemCount: transactionList.length,
-              itemBuilder: (context, index) {
-                bool isSameDate = true;
-                String dateString = transactionList[index].dateTime;
-                DateTime date = DateTime.parse(dateString);
-                if (index == 0) {
-                  isSameDate = false;
-                } else {
-                  String prevDateString = transactionList[index - 1].dateTime;
-                  DateTime prevDate = DateTime.parse(prevDateString);
-                  isSameDate = date.isSameDate(prevDate);
-                }
-                if (!isSameDate) {
-                  // int monthlyInc = calculateMonthsData(date).monthlyInc;
-                  // int monthlyExp = calculateMonthsData(date).monthlyExp;
-                  // int calculatedData = monthlyInc + monthlyExp;
-                  int calculatedData = calculateMonthsData(date);
-                  debugPrint("This is date: ${date.toString()}");
-                  return Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 15, right: 15, top: 4, bottom: 4),
-                        child: Row(
-                          children: [
-                            Text(date.formatDate()),
-                            const Spacer(),
-                            Text(
-                              "Total: $calculatedData",
-                              style: TextStyle(
-                                color: (calculatedData > 0)
-                                    ? Colors.green
-                                    : Colors.red,
-                              ),
+            child: Builder(
+              builder: (context) {
+                transactionList = transactionList.where((transaction) {
+                  // final dtt = DateTime.parse(transaction.dateTime);
+                  // final dttformat = DateTime(dtt.year, dtt.month);
+                  // final nowdate = DateTime.now();
+                  // final nowdatef = DateTime(nowdate.year, nowdate.month -1);
+                  // return dttformat == nowdatef;
+
+                  DateTimeRange firstdate = DateTimeRange(start: DateTime.parse("2023-08-01 21:29:37.782992"), end: DateTime.now(),);
+                  if (DateTime.parse(transaction.dateTime).isAfter(firstdate.start) && DateTime.parse(transaction.dateTime).isBefore(firstdate.end)) {
+                    return true;
+                  } else {
+                    return false;
+                  }
+
+                }).toList();
+                return ListView.builder(
+                  itemCount: transactionList.length,
+                  itemBuilder: (context, index) {
+                    bool isSameDate = true;
+                    String dateString = transactionList[index].dateTime;
+                    DateTime date = DateTime.parse(dateString);
+                    if (index == 0) {
+                      isSameDate = false;
+                    } else {
+                      String prevDateString = transactionList[index - 1].dateTime;
+                      DateTime prevDate = DateTime.parse(prevDateString);
+                      isSameDate = date.isSameDate(prevDate);
+                    }
+                    if (!isSameDate) {
+                      // int monthlyInc = calculateMonthsData(date).monthlyInc;
+                      // int monthlyExp = calculateMonthsData(date).monthlyExp;
+                      // int calculatedData = monthlyInc + monthlyExp;
+                      int calculatedData = calculateMonthsData(date);
+                      debugPrint("This is date: ${date.toString()}");
+                      return Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 15, right: 15, top: 4, bottom: 4),
+                            child: Row(
+                              children: [
+                                Text(date.formatDate()),
+                                const Spacer(),
+                                Text(
+                                  "Total: $calculatedData",
+                                  style: TextStyle(
+                                    color: (calculatedData > 0)
+                                        ? Colors.green
+                                        : Colors.red,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
-                      TransactionView(transaction: transactionList[index]),
-                    ],
-                  );
-                } else {
-                  return TransactionView(transaction: transactionList[index]);
-                }
-              },
+                          ),
+                          TransactionView(transaction: transactionList[index]),
+                        ],
+                      );
+                    } else {
+                      return TransactionView(transaction: transactionList[index]);
+                    }
+                  },
+                );
+              }
             ),
           ),
         ],
