@@ -36,32 +36,6 @@ class _EntryDialogState extends State<EntryDialog> {
   String? categoryItem;
   CategoryModel? categoryValueFromListItem;
 
-  //
-  Dialog setDateTimeDialog(BuildContext context) {
-    return Dialog(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          TableCalendar(
-            firstDay: DateTime.utc(2010, 10, 16),
-            lastDay: DateTime.now(),
-            availableCalendarFormats: const {
-              CalendarFormat.month: 'Month',
-            },
-            focusedDay: DateTime.now(),
-            onDaySelected: (selectedDay, focusedDay) {
-              debugPrint(formattedDate.toString());
-              setState(() {
-                selectedDate = selectedDay;
-              });
-              context.pop();
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   void dispose() {
     amountController.dispose();
@@ -94,7 +68,28 @@ class _EntryDialogState extends State<EntryDialog> {
                 showDialog(
                   context: context,
                   builder: (context) {
-                    return setDateTimeDialog(context);
+                    return Dialog(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          TableCalendar(
+                            firstDay: DateTime.utc(2010, 10, 16),
+                            lastDay: DateTime.now(),
+                            availableCalendarFormats: const {
+                              CalendarFormat.month: 'Month',
+                            },
+                            focusedDay: DateTime.now(),
+                            onDaySelected: (selectedDay, focusedDay) {
+                              debugPrint(formattedDate.toString());
+                              setState(() {
+                                selectedDate = selectedDay;
+                              });
+                              context.pop();
+                            },
+                          ),
+                        ],
+                      ),
+                    );
                   },
                 );
               },
