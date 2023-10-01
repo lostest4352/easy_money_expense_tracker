@@ -25,6 +25,15 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  // TODO temp
+  List<DateTime> datetimeList = [];
+
+  void getAllDateOnly() {
+    for (final trns in transactionList) {
+      datetimeList.add(DateTime.parse(trns.dateTime));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // Code for sorting ascending/descending
@@ -67,35 +76,27 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(
             height: 2,
           ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                InkWell(
-                  onTap: () {},
-                  child: Container(
-                    color: Colors.grey.shade800,
+          Container(
+            width: double.infinity,
+            color: Colors.grey.shade800,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  Container(
                     padding: const EdgeInsets.all(10),
                     child: Text("Income: Rs.$totalIncome"),
                   ),
-                ),
-                InkWell(
-                  onTap: () {},
-                  child: Container(
-                    color: Colors.grey.shade800,
+                  Container(
                     padding: const EdgeInsets.all(10),
                     child: Text("Expenses: Rs.$totalExpenses"),
                   ),
-                ),
-                InkWell(
-                  onTap: () {},
-                  child: Container(
-                    color: Colors.grey.shade800,
+                  Container(
                     padding: const EdgeInsets.all(10),
                     child: Text("Balance: Rs.${totalIncome - totalExpenses}"),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           const SizedBox(
