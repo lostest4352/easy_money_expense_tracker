@@ -107,7 +107,7 @@ class _EntryDialogState extends State<EntryDialog> {
             ),
             PopupTextFieldItems(
               textEditingController: amountController,
-              keyboardType: TextInputType.number,
+              keyboardType: const TextInputType.numberWithOptions(signed: true),
               inputFormatters: [
                 // FilteringTextInputFormatter.digitsOnly,
                 FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}')),
