@@ -36,6 +36,8 @@ class _EntryDialogState extends State<EntryDialog> {
   String? categoryItem;
   CategoryModel? categoryValueFromListItem;
 
+  DateTime focusedDaySelected = DateTime.now();
+
   @override
   void dispose() {
     amountController.dispose();
@@ -78,13 +80,19 @@ class _EntryDialogState extends State<EntryDialog> {
                             availableCalendarFormats: const {
                               CalendarFormat.month: 'Month',
                             },
-                            focusedDay: DateTime.now(),
+                            focusedDay: focusedDaySelected,
                             onDaySelected: (selectedDay, focusedDay) {
                               debugPrint(formattedDate.toString());
-                              setState(() {
-                                selectedDate = selectedDay;
-                              });
+                              setState(
+                                () {
+                                  selectedDate = selectedDay;
+                                  focusedDaySelected = selectedDay;
+                                },
+                              );
                               context.pop();
+                            },
+                            selectedDayPredicate: (day) {
+                              return isSameDay(selectedDate, day);
                             },
                           ),
                         ],
