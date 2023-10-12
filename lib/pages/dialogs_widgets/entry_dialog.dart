@@ -36,6 +36,8 @@ class _EntryDialogState extends State<EntryDialog> {
   String? categoryItem;
   CategoryModel? categoryValueFromListItem;
 
+  DateTime focusedDaySelected = DateTime.now();
+
   @override
   void dispose() {
     amountController.dispose();
@@ -71,34 +73,32 @@ class _EntryDialogState extends State<EntryDialog> {
                   context: context,
                   builder: (context) {
                     return Dialog(
-                      child: StatefulBuilder(builder: (context, setState) {
-                        return Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            TableCalendar(
-                              firstDay: DateTime.utc(2010, 10, 16),
-                              lastDay: DateTime.now(),
-                              availableCalendarFormats: const {
-                                CalendarFormat.month: 'Month',
-                              },
-                              focusedDay: focusedDayChanged,
-                              onDaySelected: (selectedDay, focusedDay) {
-                                debugPrint(formattedDate.toString());
-                                setState(() {
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          TableCalendar(
+                            firstDay: DateTime.utc(2010, 10, 16),
+                            lastDay: DateTime.now(),
+                            availableCalendarFormats: const {
+                              CalendarFormat.month: 'Month',
+                            },
+                            focusedDay: focusedDaySelected,
+                            onDaySelected: (selectedDay, focusedDay) {
+                              debugPrint(formattedDate.toString());
+                              setState(
+                                () {
                                   selectedDate = selectedDay;
-                                  focusedDayChanged = selectedDay;
-                                });
-                                context.pop();
-                              },
-                              selectedDayPredicate: (day) {
-                                final isSameDayValue =
-                                    isSameDay(day, selectedDate);
-                                return isSameDayValue;
-                              },
-                            ),
-                          ],
-                        );
-                      }),
+                                  focusedDaySelected = selectedDay;
+                                },
+                              );
+                              context.pop();
+                            },
+                            selectedDayPredicate: (day) {
+                              return isSameDay(selectedDate, day);
+                            },
+                          ),
+                        ],
+                      ),
                     );
                   },
                 );
