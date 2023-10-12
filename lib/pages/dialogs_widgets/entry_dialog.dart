@@ -43,6 +43,8 @@ class _EntryDialogState extends State<EntryDialog> {
     super.dispose();
   }
 
+  DateTime focusedDayChanged = DateTime.now();
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -69,26 +71,34 @@ class _EntryDialogState extends State<EntryDialog> {
                   context: context,
                   builder: (context) {
                     return Dialog(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          TableCalendar(
-                            firstDay: DateTime.utc(2010, 10, 16),
-                            lastDay: DateTime.now(),
-                            availableCalendarFormats: const {
-                              CalendarFormat.month: 'Month',
-                            },
-                            focusedDay: DateTime.now(),
-                            onDaySelected: (selectedDay, focusedDay) {
-                              debugPrint(formattedDate.toString());
-                              setState(() {
-                                selectedDate = selectedDay;
-                              });
-                              context.pop();
-                            },
-                          ),
-                        ],
-                      ),
+                      child: StatefulBuilder(builder: (context, setState) {
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            TableCalendar(
+                              firstDay: DateTime.utc(2010, 10, 16),
+                              lastDay: DateTime.now(),
+                              availableCalendarFormats: const {
+                                CalendarFormat.month: 'Month',
+                              },
+                              focusedDay: focusedDayChanged,
+                              onDaySelected: (selectedDay, focusedDay) {
+                                debugPrint(formattedDate.toString());
+                                setState(() {
+                                  selectedDate = selectedDay;
+                                  focusedDayChanged = selectedDay;
+                                });
+                                context.pop();
+                              },
+                              selectedDayPredicate: (day) {
+                                final isSameDayValue =
+                                    isSameDay(day, selectedDate);
+                                return isSameDayValue;
+                              },
+                            ),
+                          ],
+                        );
+                      }),
                     );
                   },
                 );

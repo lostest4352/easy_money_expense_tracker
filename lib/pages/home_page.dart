@@ -106,6 +106,7 @@ class _HomePageState extends State<HomePage> {
             child: Builder(
               builder: (context) {
                 transactionList = transactionList.where((transaction) {
+                  // TODO temp
                   // final dtt = DateTime.parse(transaction.dateTime);
                   // final dttformat = DateTime(dtt.year, dtt.month);
                   // final nowdate = DateTime.now();
