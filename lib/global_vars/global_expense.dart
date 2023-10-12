@@ -53,58 +53,8 @@ int totalExpenses = 0;
 int totalIncome = 0;
 
 List<TransactionModel> transactionList = [];
-// List<TransactionModel> transactionList = [
-//   TransactionModel(
-//     year: 2023,
-//     dateTime: "September 24, Sunday",
-//     amount: 6000,
-//     category: "Salary",
-//     isIncome: true,
-//     colorsValue: Colors.blue.value,
-//   ),
-//   TransactionModel(
-//     year: 2023,
-//     dateTime: "September 24, Sunday",
-//     amount: 5000,
-//     category: "Food",
-//     isIncome: false,
-//     colorsValue: Colors.deepOrange.value,
-//   ),
-//   TransactionModel(
-//     year: 2023,
-//     dateTime: "September 24, Sunday",
-//     amount: 7000,
-//     category: "Wages",
-//     isIncome: true,
-//     colorsValue: Colors.green.value,
-//   ),
-//   TransactionModel(
-//     year: 2023,
-//     dateTime: "September 24, Sunday",
-//     amount: 2000,
-//     category: "Clothing",
-//     isIncome: false,
-//     colorsValue: Colors.greenAccent.value,
-//     note: "Bought a t-shirt",
-//   ),
-//   TransactionModel(
-//     year: 2023,
-//     dateTime: "September 24, Sunday",
-//     amount: 7000,
-//     category: "Bonus",
-//     isIncome: true,
-//     colorsValue: Colors.orange.value,
-//   ),
-//   TransactionModel(
-//     year: 2023,
-//     dateTime: "September 24, Sunday",
-//     amount: 7000,
-//     category: "Lottery",
-//     isIncome: true,
-//     colorsValue: Colors.deepPurple.value,
-//   ),
-// ];
 
+//
 void getValue() {
   for (final transaction in transactionList) {
     if (transaction.categoryModel.isIncome == true) {
@@ -115,24 +65,4 @@ void getValue() {
   }
 }
 
-// mm dateformat is minutes. MM is month
-int calculateMonthsData(DateTime date) {
-  int monthlyAmt = 0;
 
-  for (final transaction in transactionList) {
-    final passedTransactionDate = DateTime.parse(transaction.dateTime);
-    final formattedTransactionDate =
-        DateFormat("MMMM, y").format(passedTransactionDate);
-    //
-    final formattedPassedDate = DateFormat("MMMM, y").format(date);
-    //
-    if (formattedTransactionDate == formattedPassedDate) {
-      if (transaction.categoryModel.isIncome == true) {
-        monthlyAmt += transaction.amount;
-      } else {
-        monthlyAmt -= transaction.amount;
-      }
-    }
-  }
-  return monthlyAmt;
-}

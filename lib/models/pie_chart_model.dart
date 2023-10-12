@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter_expense_tracker/models/category_model.dart';
 
-// TODO Add datetime
 class PieChartModel {
   CategoryModel categoryModel;
   int amount;
@@ -41,15 +40,16 @@ class PieChartModel {
   }
 
   @override
-  String toString() => 'PieChartModel(categoryModel: $categoryModel, amount: $amount)';
+  String toString() =>
+      'PieChartModel(categoryModel: $categoryModel, amount: $amount)';
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
+
     return other is PieChartModel &&
-      other.categoryModel == categoryModel &&
-      other.amount == amount;
+        other.categoryModel == categoryModel &&
+        other.amount == amount;
   }
 
   @override
