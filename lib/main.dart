@@ -18,8 +18,6 @@ void main() {
     );
   }
 
-  // TODO Remove global later
-  // getValue();
   runApp(const MyApp());
 }
 
