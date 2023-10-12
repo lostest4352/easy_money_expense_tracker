@@ -8,7 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import 'package:flutter_expense_tracker/models/transaction_model.dart';
-import 'package:flutter_expense_tracker/widgets/home_page_popup_items.dart';
+import 'package:flutter_expense_tracker/pages/local_widgets/home_page_popup_items.dart';
 
 class EntryDialog extends StatefulWidget {
   // final Function(TransactionModel transactionModel, bool isIncome) changeData;
