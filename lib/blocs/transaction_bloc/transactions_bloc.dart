@@ -9,6 +9,22 @@ part 'transactions_state.dart';
 
 class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
   //
+  TransactionsBloc() : super(TransactionsInitial()) {
+    on<AddTransactionEvent>((event, emit) {
+      //
+      emit(
+        AddTransactionState(
+          transactionList: transactionList,
+          totalExpenses: totalExpenses,
+          totalIncome: totalIncome,
+          changeData: changeData,
+          calculateMonthsData: calculateMonthsData,
+        ),
+      );
+    });
+  }
+
+  //
   final listItems = [
     CategoryModel(
       transactionType: "Clothing",
@@ -57,22 +73,6 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
   int totalIncome = 0;
 
   List<TransactionModel> transactionList = [];
-
-  //
-  TransactionsBloc() : super(TransactionsInitial()) {
-    on<AddTransactionEvent>((event, emit) {
-      //
-      emit(
-        AddTransactionState(
-          transactionList: transactionList,
-          totalExpenses: totalExpenses,
-          totalIncome: totalIncome,
-          changeData: changeData,
-          calculateMonthsData: calculateMonthsData,
-        ),
-      );
-    });
-  }
 
   // void getValue() {
   //   for (final transaction in transactionList) {

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
+
 import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
 import 'package:flutter_expense_tracker/models/transaction_model.dart';
 import 'package:flutter_expense_tracker/pages/dialogs_widgets/entry_dialog.dart';
 import 'package:flutter_expense_tracker/widgets/app_drawer.dart';
-import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -73,53 +74,14 @@ class _HomePageState extends State<HomePage> {
             Builder(
               builder: (context) {
                 if (state is AddTransactionState) {
-                  return Container(
-                    width: double.infinity,
-                    color: const Color(0x33BDE9FF),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            child: Text("Income: Rs.${state.totalIncome}"),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            child: Text("Expenses: Rs.${state.totalExpenses}"),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            child: Text(
-                                "Balance: Rs.${state.totalIncome - state.totalExpenses}"),
-                          ),
-                        ],
-                      ),
-                    ),
+                  return HomePageAppBar(
+                    income: state.totalIncome,
+                    expenses: state.totalExpenses,
                   );
                 } else {
-                  return Container(
-                    width: double.infinity,
-                    color: const Color(0x33BDE9FF),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            child: const Text("Income: Rs. 0"),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            child: const Text("Expenses: Rs. 0"),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            child: const Text("Balance: Rs. 0"),
-                          ),
-                        ],
-                      ),
-                    ),
+                  return const HomePageAppBar(
+                    income: 0,
+                    expenses: 0,
                   );
                 }
               },
@@ -190,6 +152,43 @@ class _HomePageState extends State<HomePage> {
           ],
         );
       }),
+    );
+  }
+}
+
+class HomePageAppBar extends StatelessWidget {
+  final int income;
+  final int expenses;
+  const HomePageAppBar({
+    Key? key,
+    required this.income,
+    required this.expenses,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      color: const Color(0x33BDE9FF),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              child: Text("Income: Rs. $income"),
+            ),
+            Container(
+              padding: const EdgeInsets.all(10),
+              child: Text("Expenses: Rs. $expenses"),
+            ),
+            Container(
+              padding: const EdgeInsets.all(10),
+              child: Text("Balance: Rs. ${income - expenses}"),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
