@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_expense_tracker/global_vars/global_expense.dart';
+import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
 import 'package:flutter_expense_tracker/widgets/app_drawer.dart';
 
-class ExpenseCategories extends StatelessWidget {
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+class ExpenseCategories extends StatefulWidget {
   const ExpenseCategories({super.key});
+
+  @override
+  State<ExpenseCategories> createState() => _ExpenseCategoriesState();
+}
+
+class _ExpenseCategoriesState extends State<ExpenseCategories> {
+
+  TransactionsBloc get blocTransaction => context.read<TransactionsBloc>();
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +32,12 @@ class ExpenseCategories extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          for (int i = 0; i < listItems.length; i++)
+          for (int i = 0; i < blocTransaction.listItems.length; i++)
             ListTile(
               leading: CircleAvatar(
                 backgroundColor:
-                    listItems[i].isIncome == true ? Colors.blue : Colors.red,
-                child: listItems[i].isIncome == true
+                    blocTransaction.listItems[i].isIncome == true ? Colors.blue : Colors.red,
+                child: blocTransaction.listItems[i].isIncome == true
                     ? const Icon(
                         Icons.addchart,
                         color: Colors.white,
@@ -37,7 +47,7 @@ class ExpenseCategories extends StatelessWidget {
                         color: Colors.white,
                       ),
               ),
-              title: Text(listItems[i].transactionType),
+              title: Text(blocTransaction.listItems[i].transactionType),
             ),
         ],
       ),

@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_expense_tracker/global_vars/global_expense.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
 import 'package:flutter_expense_tracker/models/pie_chart_model.dart';
 
 class GraphsPage extends StatefulWidget {
@@ -34,6 +35,8 @@ class _GraphsPageState extends State<GraphsPage>
     super.dispose();
   }
 
+  TransactionsBloc get blocTransaction => context.read<TransactionsBloc>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,11 +56,11 @@ class _GraphsPageState extends State<GraphsPage>
               children: [
                 TransactionWidget(
                   isIncome: true,
-                  totalValue: totalIncome,
+                  totalValue:  blocTransaction.totalIncome,
                 ),
                 TransactionWidget(
                   isIncome: false,
-                  totalValue: totalExpenses,
+                  totalValue: blocTransaction.totalExpenses,
                 )
               ],
             ),
@@ -68,7 +71,7 @@ class _GraphsPageState extends State<GraphsPage>
   }
 }
 
-class TransactionWidget extends StatelessWidget {
+class TransactionWidget extends StatefulWidget {
   final bool isIncome;
 
   final int totalValue;
@@ -77,6 +80,13 @@ class TransactionWidget extends StatelessWidget {
     required this.isIncome,
     required this.totalValue,
   }) : super(key: key);
+
+  @override
+  State<TransactionWidget> createState() => _TransactionWidgetState();
+}
+
+class _TransactionWidgetState extends State<TransactionWidget> {
+  TransactionsBloc get blocTransaction => context.read<TransactionsBloc>();
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +100,7 @@ class TransactionWidget extends StatelessWidget {
 
     List<PieChartModel> pieChartModelList = [];
 
-    for (final transaction in transactionList) {
+    for (final transaction in blocTransaction.transactionList) {
       bool found = false;
       for (final pieChartModel in pieChartModelList) {
         if (pieChartModel.categoryModel == transaction.categoryModel) {
@@ -119,10 +129,10 @@ class TransactionWidget extends StatelessWidget {
               centerSpaceRadius: 50,
               sections: [
                 for (final pieChartTransaction in pieChartModelList)
-                  if (pieChartTransaction.categoryModel.isIncome == isIncome)
+                  if (pieChartTransaction.categoryModel.isIncome == widget.isIncome)
                     PieChartSectionData(
                       title:
-                          "${pieChartTransaction.categoryModel.transactionType} ${((pieChartTransaction.amount / totalValue) * 100).toStringAsFixed(2)}%",
+                          "${pieChartTransaction.categoryModel.transactionType} ${((pieChartTransaction.amount / widget.totalValue) * 100).toStringAsFixed(2)}%",
                       titlePositionPercentageOffset: 1.8,
                       value: pieChartTransaction.amount.toDouble(),
                       color:
@@ -135,7 +145,7 @@ class TransactionWidget extends StatelessWidget {
         Column(
           children: [
             for (final pieChartTransaction in pieChartModelList)
-              if (pieChartTransaction.categoryModel.isIncome == isIncome)
+              if (pieChartTransaction.categoryModel.isIncome == widget.isIncome)
                 Align(
                   alignment: Alignment.topLeft,
                   child: Padding(
@@ -167,11 +177,11 @@ class TransactionWidget extends StatelessWidget {
             const Divider(),
             ListTile(
               title: const Text("Total"),
-              trailing: Text("$totalValue"),
+              trailing: Text("${widget.totalValue}"),
             ),
             const Divider(),
             for (final pieChartTransaction in pieChartModelList)
-              if (pieChartTransaction.categoryModel.isIncome == isIncome)
+              if (pieChartTransaction.categoryModel.isIncome == widget.isIncome)
                 ListTile(
                   title:
                       Text(pieChartTransaction.categoryModel.transactionType),

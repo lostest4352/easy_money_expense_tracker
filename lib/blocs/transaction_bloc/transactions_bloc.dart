@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expense_tracker/models/category_model.dart';
 import 'package:flutter_expense_tracker/models/transaction_model.dart';
+import 'package:intl/intl.dart';
 
 part 'transactions_event.dart';
 part 'transactions_state.dart';
@@ -61,18 +62,57 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
   TransactionsBloc() : super(TransactionsInitial()) {
     on<AddTransactionEvent>((event, emit) {
       //
-      emit(AddTransactionState());
+      emit(
+        AddTransactionState(
+          transactionList: transactionList,
+          totalExpenses: totalExpenses,
+          totalIncome: totalIncome,
+        ),
+      );
     });
   }
 
-  void getValue() {
-  for (final transaction in transactionList) {
-    if (transaction.categoryModel.isIncome == true) {
-      totalIncome += transaction.amount;
+  // void getValue() {
+  //   for (final transaction in transactionList) {
+  //     if (transaction.categoryModel.isIncome == true) {
+  //       totalIncome += transaction.amount;
+  //     } else {
+  //       totalExpenses += transaction.amount;
+  //     }
+  //     add(AddTransactionEvent());
+  //   }
+  // }
+
+  void changeData(TransactionModel transactionModel, bool isIncome) {
+    transactionList.add(transactionModel);
+    if (isIncome == true) {
+      totalIncome += transactionModel.amount;
     } else {
-      totalExpenses += transaction.amount;
+      totalExpenses += transactionModel.amount;
     }
+    // add(ChangeIncomeExpensesEvent());
     add(AddTransactionEvent());
   }
-}
+
+  // mm dateformat is minutes. MM is month
+  int calculateMonthsData(DateTime date) {
+    int monthlyAmt = 0;
+
+    for (final transaction in transactionList) {
+      final passedTransactionDate = DateTime.parse(transaction.dateTime);
+      final formattedTransactionDate =
+          DateFormat("MMMM, y").format(passedTransactionDate);
+      //
+      final formattedPassedDate = DateFormat("MMMM, y").format(date);
+      //
+      if (formattedTransactionDate == formattedPassedDate) {
+        if (transaction.categoryModel.isIncome == true) {
+          monthlyAmt += transaction.amount;
+        } else {
+          monthlyAmt -= transaction.amount;
+        }
+      }
+    }
+    return monthlyAmt;
+  }
 }

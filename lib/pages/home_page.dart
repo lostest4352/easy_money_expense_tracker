@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_expense_tracker/global_vars/global_expense.dart';
-import 'package:flutter_expense_tracker/helpers/calculate_data.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
 import 'package:flutter_expense_tracker/models/transaction_model.dart';
 import 'package:flutter_expense_tracker/pages/dialogs_widgets/entry_dialog.dart';
 import 'package:flutter_expense_tracker/widgets/app_drawer.dart';
@@ -15,31 +15,35 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   // TODO bloc
-  void changeData(TransactionModel transactionModel, bool isIncome) {
-    setState(() {
-      transactionList.add(transactionModel);
-      if (isIncome == true) {
-        totalIncome += transactionModel.amount;
-      } else {
-        totalExpenses += transactionModel.amount;
-      }
-    });
-  }
+  // void changeData(TransactionModel transactionModel, bool isIncome) {
+  //   setState(() {
+  //     transactionList.add(transactionModel);
+  //     if (isIncome == true) {
+  //       totalIncome += transactionModel.amount;
+  //     } else {
+  //       totalExpenses += transactionModel.amount;
+  //     }
+  //   });
+  // }
 
   // TODO temp
-  List<DateTime> datetimeList = [];
+  // List<DateTime> datetimeList = [];
 
-  void getAllDateOnly() {
-    for (final trns in transactionList) {
-      datetimeList.add(DateTime.parse(trns.dateTime));
-    }
-  }
+  // void getAllDateOnly() {
+  //   for (final trns in transactionList) {
+  //     datetimeList.add(DateTime.parse(trns.dateTime));
+  //   }
+  // }
+
+  TransactionsBloc get blocTransaction => context.read<TransactionsBloc>();
 
   @override
   Widget build(BuildContext context) {
     // Code for sorting ascending/descending
     // transactionList.sort((a, b) => a.dateTime.compareTo(b.dateTime));
-    transactionList.sort((a, b) => b.dateTime.compareTo(a.dateTime));
+
+    // blocTransaction.transactionList
+    //     .sort((a, b) => b.dateTime.compareTo(a.dateTime));
 
     return Scaffold(
       appBar: AppBar(
@@ -62,9 +66,9 @@ class _HomePageState extends State<HomePage> {
           showDialog(
             context: context,
             builder: (context) {
-              return EntryDialog(
-                changeData: changeData,
-              );
+              return const EntryDialog(
+                  // changeData: blocTransaction.changeData,
+                  );
             },
           );
         },
@@ -72,111 +76,156 @@ class _HomePageState extends State<HomePage> {
         child: const Icon(Icons.add),
       ),
       drawer: const AppDrawer(),
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 2,
-          ),
-          Container(
-            width: double.infinity,
-            color: const Color(0x33BDE9FF),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    child: Text("Income: Rs.$totalIncome"),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    child: Text("Expenses: Rs.$totalExpenses"),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    child: Text("Balance: Rs.${totalIncome - totalExpenses}"),
-                  ),
-                ],
-              ),
+      body: BlocBuilder<TransactionsBloc, TransactionsState>(
+          builder: (context, state) {
+        return Column(
+          children: [
+            const SizedBox(
+              height: 2,
             ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Flexible(
-            child: Builder(builder: (context) {
-              transactionList = transactionList.where((transaction) {
-                // TODO temp
-                // final dtt = DateTime.parse(transaction.dateTime);
-                // final dttformat = DateTime(dtt.year, dtt.month);
-                // final nowdate = DateTime.now();
-                // final nowdatef = DateTime(nowdate.year, nowdate.month -1);
-                // return dttformat == nowdatef;
-
-                DateTimeRange firstdate = DateTimeRange(
-                  start: DateTime.parse("2023-08-01 21:29:37.782992"),
-                  end: DateTime.now(),
-                );
-                if (DateTime.parse(transaction.dateTime)
-                        .isAfter(firstdate.start) &&
-                    DateTime.parse(transaction.dateTime)
-                        .isBefore(firstdate.end)) {
-                  return true;
-                } else {
-                  return false;
-                }
-              }).toList();
-              return ListView.builder(
-                itemCount: transactionList.length,
-                itemBuilder: (context, index) {
-                  bool isSameDate = true;
-                  String dateString = transactionList[index].dateTime;
-                  DateTime date = DateTime.parse(dateString);
-                  if (index == 0) {
-                    isSameDate = false;
-                  } else {
-                    String prevDateString = transactionList[index - 1].dateTime;
-                    DateTime prevDate = DateTime.parse(prevDateString);
-                    isSameDate = date.isSameDate(prevDate);
-                  }
-                  if (!isSameDate) {
-                    // int monthlyInc = calculateMonthsData(date).monthlyInc;
-                    // int monthlyExp = calculateMonthsData(date).monthlyExp;
-                    // int calculatedData = monthlyInc + monthlyExp;
-                    int calculatedData = calculateMonthsData(date);
-                    debugPrint("This is date: ${date.toString()}");
-                    return Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 15, right: 15, top: 4, bottom: 4),
-                          child: Row(
-                            children: [
-                              Text(date.formatDate()),
-                              const Spacer(),
-                              Text(
-                                "Total: $calculatedData",
-                                style: TextStyle(
-                                  color: (calculatedData > 0)
-                                      ? Colors.green
-                                      : Colors.red,
-                                ),
-                              ),
-                            ],
+            Builder(
+              builder: (context) {
+                if (state is AddTransactionState) {
+                  return Container(
+                    width: double.infinity,
+                    color: const Color(0x33BDE9FF),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(10),
+                            child: Text("Income: Rs.${state.totalIncome}"),
                           ),
-                        ),
-                        TransactionView(transaction: transactionList[index]),
-                      ],
-                    );
-                  } else {
-                    return TransactionView(transaction: transactionList[index]);
-                  }
-                },
-              );
-            }),
-          ),
-        ],
-      ),
+                          Container(
+                            padding: const EdgeInsets.all(10),
+                            child: Text("Expenses: Rs.${state.totalExpenses}"),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.all(10),
+                            child: Text(
+                                "Balance: Rs.${state.totalIncome - state.totalExpenses}"),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                } else {
+                  return Container(
+                    width: double.infinity,
+                    color: const Color(0x33BDE9FF),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(10),
+                            child: const Text("Income: Rs. 0"),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.all(10),
+                            child: const Text("Expenses: Rs. 0"),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.all(10),
+                            child: const Text("Balance: Rs. 0"),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Flexible(
+              child: Builder(builder: (context) {
+                //       state.transactionList =
+                //     blocTransaction.transactionList.where((transaction) {
+                //   // TODO temp
+                //   // final dtt = DateTime.parse(transaction.dateTime);
+                //   // final dttformat = DateTime(dtt.year, dtt.month);
+                //   // final nowdate = DateTime.now();
+                //   // final nowdatef = DateTime(nowdate.year, nowdate.month -1);
+                //   // return dttformat == nowdatef;
+
+                //   DateTimeRange firstdate = DateTimeRange(
+                //     start: DateTime.parse("2023-08-01 21:29:37.782992"),
+                //     end: DateTime.now(),
+                //   );
+                //   if (DateTime.parse(transaction.dateTime)
+                //           .isAfter(firstdate.start) &&
+                //       DateTime.parse(transaction.dateTime)
+                //           .isBefore(firstdate.end)) {
+                //     return true;
+                //   } else {
+                //     return false;
+                //   }
+                // }).toList();
+                if (state is AddTransactionState) {
+                  state.transactionList
+                      .sort((a, b) => b.dateTime.compareTo(a.dateTime));
+                  return ListView.builder(
+                    itemCount: state.transactionList.length,
+                    itemBuilder: (context, index) {
+                      bool isSameDate = true;
+                      String dateString = state.transactionList[index].dateTime;
+                      DateTime date = DateTime.parse(dateString);
+                      if (index == 0) {
+                        isSameDate = false;
+                      } else {
+                        String prevDateString =
+                            state.transactionList[index - 1].dateTime;
+                        DateTime prevDate = DateTime.parse(prevDateString);
+                        isSameDate = date.isSameDate(prevDate);
+                      }
+                      if (index == 0 || !isSameDate) {
+                        // int monthlyInc = calculateMonthsData(date).monthlyInc;
+                        // int monthlyExp = calculateMonthsData(date).monthlyExp;
+                        // int calculatedData = monthlyInc + monthlyExp;
+                        int calculatedData =
+                            blocTransaction.calculateMonthsData(date);
+                        debugPrint("This is date: ${date.toString()}");
+                        return Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 15, right: 15, top: 4, bottom: 4),
+                              child: Row(
+                                children: [
+                                  Text(date.formatDate()),
+                                  const Spacer(),
+                                  Text(
+                                    "Total: $calculatedData",
+                                    style: TextStyle(
+                                      color: (calculatedData > 0)
+                                          ? Colors.green
+                                          : Colors.red,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            TransactionView(
+                                transaction: state.transactionList[index]),
+                          ],
+                        );
+                      } else {
+                        return TransactionView(
+                            transaction: state.transactionList[index]);
+                      }
+                    },
+                  );
+                } else {
+                  return Container();
+                }
+              }),
+            ),
+          ],
+        );
+      }),
     );
   }
 }

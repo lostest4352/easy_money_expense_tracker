@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
-import 'package:flutter_expense_tracker/global_vars/global_expense.dart';
 import 'package:flutter_expense_tracker/routers/app_routes.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,7 +19,7 @@ void main() {
   }
 
   // TODO Remove global later
-  getValue();
+  // getValue();
   runApp(const MyApp());
 }
 
