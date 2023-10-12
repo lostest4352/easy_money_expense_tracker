@@ -26,22 +26,12 @@ class _HomePageState extends State<HomePage> {
   //   });
   // }
 
-  // TODO temp
-  // List<DateTime> datetimeList = [];
-
-  // void getAllDateOnly() {
-  //   for (final trns in transactionList) {
-  //     datetimeList.add(DateTime.parse(trns.dateTime));
-  //   }
-  // }
-
-  TransactionsBloc get blocTransaction => context.read<TransactionsBloc>();
+  // TransactionsBloc get blocTransaction => context.read<TransactionsBloc>();
 
   @override
   Widget build(BuildContext context) {
     // Code for sorting ascending/descending
     // transactionList.sort((a, b) => a.dateTime.compareTo(b.dateTime));
-
     // blocTransaction.transactionList
     //     .sort((a, b) => b.dateTime.compareTo(a.dateTime));
 
@@ -66,9 +56,7 @@ class _HomePageState extends State<HomePage> {
           showDialog(
             context: context,
             builder: (context) {
-              return const EntryDialog(
-                  // changeData: blocTransaction.changeData,
-                  );
+              return const EntryDialog();
             },
           );
         },
@@ -142,28 +130,6 @@ class _HomePageState extends State<HomePage> {
             ),
             Flexible(
               child: Builder(builder: (context) {
-                //       state.transactionList =
-                //     blocTransaction.transactionList.where((transaction) {
-                //   // TODO temp
-                //   // final dtt = DateTime.parse(transaction.dateTime);
-                //   // final dttformat = DateTime(dtt.year, dtt.month);
-                //   // final nowdate = DateTime.now();
-                //   // final nowdatef = DateTime(nowdate.year, nowdate.month -1);
-                //   // return dttformat == nowdatef;
-
-                //   DateTimeRange firstdate = DateTimeRange(
-                //     start: DateTime.parse("2023-08-01 21:29:37.782992"),
-                //     end: DateTime.now(),
-                //   );
-                //   if (DateTime.parse(transaction.dateTime)
-                //           .isAfter(firstdate.start) &&
-                //       DateTime.parse(transaction.dateTime)
-                //           .isBefore(firstdate.end)) {
-                //     return true;
-                //   } else {
-                //     return false;
-                //   }
-                // }).toList();
                 if (state is AddTransactionState) {
                   state.transactionList
                       .sort((a, b) => b.dateTime.compareTo(a.dateTime));
@@ -185,8 +151,7 @@ class _HomePageState extends State<HomePage> {
                         // int monthlyInc = calculateMonthsData(date).monthlyInc;
                         // int monthlyExp = calculateMonthsData(date).monthlyExp;
                         // int calculatedData = monthlyInc + monthlyExp;
-                        int calculatedData =
-                            blocTransaction.calculateMonthsData(date);
+                        int calculatedData = state.calculateMonthsData(date);
                         debugPrint("This is date: ${date.toString()}");
                         return Column(
                           children: [

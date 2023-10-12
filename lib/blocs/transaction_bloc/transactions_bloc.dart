@@ -67,6 +67,8 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
           transactionList: transactionList,
           totalExpenses: totalExpenses,
           totalIncome: totalIncome,
+          changeData: changeData,
+          calculateMonthsData: calculateMonthsData,
         ),
       );
     });

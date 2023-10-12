@@ -22,7 +22,6 @@ class _MainPageState extends State<MainPage> {
     ),
   ];
 
-  // TODO bloc
   void changePage(int value) {
     setState(() {
       currentPageIndex = value;
@@ -35,6 +34,7 @@ class _MainPageState extends State<MainPage> {
       body: allPages[currentPageIndex],
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.black12,
+
         /// same as (value) {changePage(value);}
         onTap: changePage,
         currentIndex: currentPageIndex,
