@@ -72,37 +72,56 @@ class _HomePageState extends State<HomePage> {
             ),
             Builder(
               builder: (context) {
-                final addTransactionState =
-                    (state is AddTransactionState) ? state : null;
-                String income =
-                    "Income: Rs.${addTransactionState?.totalIncome ?? 0}";
-                String expenses =
-                    "Expenses: Rs.${addTransactionState?.totalExpenses ?? 0}";
-                String balance =
-                    "Income: Rs.${(addTransactionState?.totalIncome ?? 0) - (addTransactionState?.totalExpenses ?? 0)}";
-                return Container(
-                  width: double.infinity,
-                  color: const Color(0x33BDE9FF),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(10),
-                          child: Text(income),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.all(10),
-                          child: Text(expenses),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.all(10),
-                          child: Text(balance),
-                        ),
-                      ],
+                if (state is AddTransactionState) {
+                  return Container(
+                    width: double.infinity,
+                    color: const Color(0x33BDE9FF),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(10),
+                            child: Text("Income: Rs.${state.totalIncome}"),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.all(10),
+                            child: Text("Expenses: Rs.${state.totalExpenses}"),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.all(10),
+                            child: Text(
+                                "Balance: Rs.${state.totalIncome - state.totalExpenses}"),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                );
+                  );
+                } else {
+                  return Container(
+                    width: double.infinity,
+                    color: const Color(0x33BDE9FF),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(10),
+                            child: const Text("Income: Rs. 0"),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.all(10),
+                            child: const Text("Expenses: Rs. 0"),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.all(10),
+                            child: const Text("Balance: Rs. 0"),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
               },
             ),
             const SizedBox(
