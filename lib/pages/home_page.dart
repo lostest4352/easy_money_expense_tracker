@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_expense_tracker/pages/local_widgets/homepage_appbar.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
 import 'package:flutter_expense_tracker/models/transaction_model.dart';
-import 'package:flutter_expense_tracker/pages/dialogs_widgets/entry_dialog.dart';
+import 'package:flutter_expense_tracker/pages/local_widgets/entry_dialog.dart';
 import 'package:flutter_expense_tracker/widgets/app_drawer.dart';
 
 class HomePage extends StatefulWidget {
@@ -156,43 +157,28 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class HomePageAppBar extends StatelessWidget {
-  final int income;
-  final int expenses;
-  const HomePageAppBar({
-    Key? key,
-    required this.income,
-    required this.expenses,
-  }) : super(key: key);
+// extension method from SO
+const String dateFormatter = "MMMM, y";
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      color: const Color(0x33BDE9FF),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(10),
-              child: Text("Income: Rs. $income"),
-            ),
-            Container(
-              padding: const EdgeInsets.all(10),
-              child: Text("Expenses: Rs. $expenses"),
-            ),
-            Container(
-              padding: const EdgeInsets.all(10),
-              child: Text("Balance: Rs. ${income - expenses}"),
-            ),
-          ],
-        ),
-      ),
-    );
+extension DateHelper on DateTime {
+  String formatDate() {
+    final formatter = DateFormat(dateFormatter);
+    return formatter.format(this);
+  }
+
+  bool isSameDate(DateTime other) {
+    return year == other.year && month == other.month
+        // &&  day == other.day
+        ;
+  }
+
+  int getDifferenceInDaysWithNow() {
+    final now = DateTime.now();
+    return now.difference(this).inDays;
   }
 }
 
+//
 class TransactionView extends StatelessWidget {
   const TransactionView({
     super.key,
@@ -280,26 +266,5 @@ class TransactionView extends StatelessWidget {
         ),
       ],
     );
-  }
-}
-
-// extension method from SO
-const String dateFormatter = "MMMM, y";
-
-extension DateHelper on DateTime {
-  String formatDate() {
-    final formatter = DateFormat(dateFormatter);
-    return formatter.format(this);
-  }
-
-  bool isSameDate(DateTime other) {
-    return year == other.year && month == other.month
-        // &&  day == other.day
-        ;
-  }
-
-  int getDifferenceInDaysWithNow() {
-    final now = DateTime.now();
-    return now.difference(this).inDays;
   }
 }
