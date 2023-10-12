@@ -22,6 +22,7 @@ class _MainPageState extends State<MainPage> {
     ),
   ];
 
+  // TODO bloc
   void changePage(int value) {
     setState(() {
       currentPageIndex = value;

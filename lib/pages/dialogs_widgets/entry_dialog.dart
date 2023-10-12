@@ -85,6 +85,7 @@ class _EntryDialogState extends State<EntryDialog> {
                             focusedDay: focusedDaySelected,
                             onDaySelected: (selectedDay, focusedDay) {
                               debugPrint(formattedDate.toString());
+                              // TODO bloc
                               setState(
                                 () {
                                   selectedDate = selectedDay;
@@ -212,6 +213,7 @@ class _EntryDialogState extends State<EntryDialog> {
                                     for (final listItem in listItems)
                                       ListTile(
                                         onTap: () {
+                                          // TODO bloc
                                           setState(() {
                                             categoryItem = listItem
                                                 .transactionType

@@ -13,7 +13,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // TODO
+  // TODO bloc
   void changeData(TransactionModel transactionModel, bool isIncome) {
     setState(() {
       transactionList.add(transactionModel);
