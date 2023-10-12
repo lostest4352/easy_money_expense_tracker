@@ -74,6 +74,7 @@ class _HomePageState extends State<HomePage> {
             Builder(
               builder: (context) {
                 if (state is AddTransactionState) {
+                  // test
                   return Container(
                     width: double.infinity,
                     color: const Color(0x33BDE9FF),
