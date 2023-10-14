@@ -105,60 +105,64 @@ class _HomePageState extends State<HomePage> {
                   //     .sort((a, b) => b.dateTime.compareTo(a.dateTime));
                   blocTransaction.transactionList
                       .sort((a, b) => b.dateTime.compareTo(a.dateTime));
-                  return ListView.builder(
-                    itemCount: blocTransaction.transactionList.length,
-                    itemBuilder: (context, index) {
-                      bool isSameDate = true;
-                      String dateString =
-                          blocTransaction.transactionList[index].dateTime;
-                      DateTime date = DateTime.parse(dateString);
-                      if (index == 0) {
-                        isSameDate = false;
-                      } else {
-                        String prevDateString =
-                            blocTransaction.transactionList[index - 1].dateTime;
-                        DateTime prevDate = DateTime.parse(prevDateString);
-                        isSameDate = date.isSameDate(prevDate);
-                      }
-                      if (index == 0 || !isSameDate) {
-                        // if income and expenses seperated for each month later
-                        // int monthlyInc = calculateMonthsData(date).monthlyInc;
-                        // int monthlyExp = calculateMonthsData(date).monthlyExp;
-                        // int calculatedData = monthlyInc + monthlyExp;
-                        int calculatedData = calculateMonthsData(
-                            date, blocTransaction.transactionList);
-                        debugPrint("This is date: ${date.toString()}");
-                        return Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 15, right: 15, top: 4, bottom: 4),
-                              child: Row(
-                                children: [
-                                  Text(date.formatDate()),
-                                  const Spacer(),
-                                  Text(
-                                    "Total: $calculatedData",
-                                    style: TextStyle(
-                                      color: (calculatedData > 0)
-                                          ? Colors.green
-                                          : Colors.red,
-                                    ),
+                  return CustomScrollView(
+                    slivers: [
+                      SliverList.builder(
+                        itemCount: blocTransaction.transactionList.length,
+                        itemBuilder: (context, index) {
+                          bool isSameDate = true;
+                          String dateString =
+                              blocTransaction.transactionList[index].dateTime;
+                          DateTime date = DateTime.parse(dateString);
+                          if (index == 0) {
+                            isSameDate = false;
+                          } else {
+                            String prevDateString =
+                                blocTransaction.transactionList[index - 1].dateTime;
+                            DateTime prevDate = DateTime.parse(prevDateString);
+                            isSameDate = date.isSameDate(prevDate);
+                          }
+                          if (index == 0 || !isSameDate) {
+                            // if income and expenses seperated for each month later
+                            // int monthlyInc = calculateMonthsData(date).monthlyInc;
+                            // int monthlyExp = calculateMonthsData(date).monthlyExp;
+                            // int calculatedData = monthlyInc + monthlyExp;
+                            int calculatedData = calculateMonthsData(
+                                date, blocTransaction.transactionList);
+                            debugPrint("This is date: ${date.toString()}");
+                            return Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 15, right: 15, top: 4, bottom: 4),
+                                  child: Row(
+                                    children: [
+                                      Text(date.formatDate()),
+                                      const Spacer(),
+                                      Text(
+                                        "Total: $calculatedData",
+                                        style: TextStyle(
+                                          color: (calculatedData > 0)
+                                              ? Colors.green
+                                              : Colors.red,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
-                            ),
-                            TransactionView(
+                                ),
+                                TransactionView(
+                                    transaction:
+                                        blocTransaction.transactionList[index]),
+                              ],
+                            );
+                          } else {
+                            return TransactionView(
                                 transaction:
-                                    blocTransaction.transactionList[index]),
-                          ],
-                        );
-                      } else {
-                        return TransactionView(
-                            transaction:
-                                blocTransaction.transactionList[index]);
-                      }
-                    },
+                                    blocTransaction.transactionList[index]);
+                          }
+                        },
+                      ),
+                    ],
                   );
                 } else {
                   return Container();
