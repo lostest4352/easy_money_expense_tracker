@@ -10,9 +10,7 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
   //
   TransactionsBloc() : super(TransactionsInitial()) {
     on<AddTransactionEvent>((event, emit) {
-      emit(AddTransactionState(
-        changeData: changeData,
-      ));
+      emit(AddTransactionState());
     });
   }
 
@@ -78,7 +76,6 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
     } else {
       totalExpenses += transactionModel.amount;
     }
-    // add(ChangeIncomeExpensesEvent());
     add(AddTransactionEvent(
       transactionList: transactionList,
       totalExpenses: totalExpenses,
