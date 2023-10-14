@@ -21,7 +21,7 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
     CategoryModel(
       transactionType: "Clothing",
       isIncome: false,
-      colorsValue: Colors.green.value,
+      colorsValue: Colors.deepPurple.value,
     ),
     CategoryModel(
       transactionType: "Entertainment",
@@ -41,7 +41,7 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
     CategoryModel(
       transactionType: "Food",
       isIncome: false,
-      colorsValue: Colors.brown.value,
+      colorsValue: Colors.green.value,
     ),
     CategoryModel(
       transactionType: "Salary",
