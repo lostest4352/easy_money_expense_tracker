@@ -21,7 +21,43 @@ class _ExpenseCategoriesState extends State<ExpenseCategories> {
       drawer: const AppDrawer(),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromARGB(255, 29, 89, 192),
-        onPressed: () {},
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return Dialog(
+                child: SizedBox(
+                  height: 400,
+                  child: Column(
+                    children: [
+                      Spacer(),
+                      TextField(
+                        decoration: InputDecoration(
+                          hintText: "Enter Category",
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      const DropdownMenu(dropdownMenuEntries: [
+                        DropdownMenuEntry(value: true, label: 'True'),
+                        DropdownMenuEntry(value: false, label: 'False'),
+                      ]),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextButton(
+                        onPressed: () {},
+                        child: Text("Save"),
+                      ),
+                      Spacer(),
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
+        },
         child: const Icon(Icons.add),
       ),
       body: BlocBuilder<CategoryBloc, CategoryState>(

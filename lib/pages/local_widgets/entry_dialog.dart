@@ -242,27 +242,8 @@ class _EntryDialogState extends State<EntryDialog> {
                                               MainAxisAlignment.end,
                                           children: [
                                             TextButton(
-                                              onPressed: () {
-                                                showDialog(
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return Dialog(
-                                                      
-                                                      child: SizedBox(
-                                                        height: 400,
-                                                        child: Column(
-                                                          children: [
-                                                            TextButton(
-                                                              onPressed: () {},
-                                                              child: Text("Save"),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    );
-                                                  },
-                                                );
-                                              },
+                                              // TODO entry here
+                                              onPressed: () {},
                                               child: const Text(
                                                 "+ Add Cateory",
                                                 style: TextStyle(
