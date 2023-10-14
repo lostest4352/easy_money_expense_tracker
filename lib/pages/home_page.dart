@@ -223,14 +223,17 @@ class TransactionView extends StatelessWidget {
                         backgroundColor:
                             (transaction.categoryModel.isIncome == true)
                                 ? Colors.green
-                                : null,
+                                : Colors.red,
                         maxRadius: 12,
                         child: (transaction.categoryModel.isIncome == true)
                             ? const Icon(
                                 Icons.add,
                                 color: Colors.white,
                               )
-                            : const Icon(Icons.remove),
+                            : const Icon(
+                                Icons.remove,
+                                color: Colors.white,
+                              ),
                       ),
                       const SizedBox(
                         width: 8,
