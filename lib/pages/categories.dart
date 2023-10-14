@@ -44,14 +44,12 @@ class _ExpenseCategoriesState extends State<ExpenseCategories> {
               const SizedBox(
                 height: 10,
               ),
-              for (int i = 0; i < blocCategories.listItems.length; i++)
+              for (final listItem in blocCategories.listItems)
                 ListTile(
                   leading: CircleAvatar(
                     backgroundColor:
-                        blocCategories.listItems[i].isIncome == true
-                            ? Colors.blue
-                            : Colors.red,
-                    child: blocCategories.listItems[i].isIncome == true
+                        listItem.isIncome == true ? Colors.blue : Colors.red,
+                    child: listItem.isIncome == true
                         ? const Icon(
                             Icons.addchart,
                             color: Colors.white,
@@ -61,7 +59,7 @@ class _ExpenseCategoriesState extends State<ExpenseCategories> {
                             color: Colors.white,
                           ),
                   ),
-                  title: Text(blocCategories.listItems[i].transactionType),
+                  title: Text(listItem.transactionType),
                 ),
             ],
           );
