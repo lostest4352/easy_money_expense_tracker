@@ -16,18 +16,28 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // void changeData(TransactionModel transactionModel, bool isIncome) {
-  //   setState(() {
-  //     transactionList.add(transactionModel);
-  //     if (isIncome == true) {
-  //       totalIncome += transactionModel.amount;
-  //     } else {
-  //       totalExpenses += transactionModel.amount;
-  //     }
-  //   });
-  // }
+  //
+  int calculateMonthsData(
+      DateTime date, List<TransactionModel> transactionList) {
+    int monthlyAmt = 0;
 
-  // TransactionsBloc get blocTransaction => context.read<TransactionsBloc>();
+    for (final transaction in transactionList) {
+      final passedTransactionDate = DateTime.parse(transaction.dateTime);
+      final formattedTransactionDate =
+          DateFormat("MMMM, y").format(passedTransactionDate);
+      //
+      final formattedPassedDate = DateFormat("MMMM, y").format(date);
+      //
+      if (formattedTransactionDate == formattedPassedDate) {
+        if (transaction.categoryModel.isIncome == true) {
+          monthlyAmt += transaction.amount;
+        } else {
+          monthlyAmt -= transaction.amount;
+        }
+      }
+    }
+    return monthlyAmt;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,8 +125,8 @@ class _HomePageState extends State<HomePage> {
                         // int monthlyInc = calculateMonthsData(date).monthlyInc;
                         // int monthlyExp = calculateMonthsData(date).monthlyExp;
                         // int calculatedData = monthlyInc + monthlyExp;
-                        int calculatedData =
-                            blocTransaction.calculateMonthsData(date);
+                        int calculatedData = calculateMonthsData(
+                            date, blocTransaction.transactionList);
                         debugPrint("This is date: ${date.toString()}");
                         return Column(
                           children: [
