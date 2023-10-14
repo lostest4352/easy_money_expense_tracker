@@ -76,10 +76,6 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
     } else {
       totalExpenses += transactionModel.amount;
     }
-    add(AddTransactionEvent(
-      transactionList: transactionList,
-      totalExpenses: totalExpenses,
-      totalIncome: totalIncome,
-    ));
+    add(AddTransactionEvent());
   }
 }
