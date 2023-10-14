@@ -86,6 +86,7 @@ class TransactionWidget extends StatefulWidget {
 }
 
 class _TransactionWidgetState extends State<TransactionWidget> {
+  // TODO make blocbuilder below
   TransactionsBloc get blocTransaction => context.read<TransactionsBloc>();
 
   @override

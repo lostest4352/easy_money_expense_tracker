@@ -33,8 +33,6 @@ class _EntryDialogState extends State<EntryDialog> {
   //
   final currentDateFormatted = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
-  TransactionsBloc get blocTransaction => context.read<TransactionsBloc>();
-
   // temp
   String? categoryItem;
   CategoryModel? categoryValueFromListItem;
@@ -54,6 +52,7 @@ class _EntryDialogState extends State<EntryDialog> {
   Widget build(BuildContext context) {
     return BlocBuilder<TransactionsBloc, TransactionsState>(
       builder: (context, state) {
+        TransactionsBloc blocTransaction = context.read<TransactionsBloc>();
         return Dialog(
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
