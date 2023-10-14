@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_expense_tracker/blocs/category_bloc/category_bloc.dart';
 import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
 import 'package:flutter_expense_tracker/models/category_model.dart';
 import 'package:go_router/go_router.dart';
@@ -45,7 +46,8 @@ class _EntryDialogState extends State<EntryDialog> {
   Widget build(BuildContext context) {
     return BlocBuilder<TransactionsBloc, TransactionsState>(
       builder: (context, state) {
-        TransactionsBloc blocTransaction = context.read<TransactionsBloc>();
+        final blocTransaction = context.read<TransactionsBloc>();
+        final blocCategories = context.read<CategoryBloc>();
         return Dialog(
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
@@ -203,7 +205,7 @@ class _EntryDialogState extends State<EntryDialog> {
                                     child: Column(
                                       children: [
                                         for (final listItem
-                                            in blocTransaction.listItems)
+                                            in blocCategories.listItems)
                                           ListTile(
                                             onTap: () {
                                               setState(() {
@@ -235,6 +237,40 @@ class _EntryDialogState extends State<EntryDialog> {
                                             title:
                                                 Text(listItem.transactionType),
                                           ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            TextButton(
+                                              onPressed: () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return Dialog(
+                                                      
+                                                      child: SizedBox(
+                                                        height: 400,
+                                                        child: Column(
+                                                          children: [
+                                                            TextButton(
+                                                              onPressed: () {},
+                                                              child: Text("Save"),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                              child: const Text(
+                                                "+ Add Cateory",
+                                                style: TextStyle(
+                                                    color: Colors.blue),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ],
                                     ),
                                   ),

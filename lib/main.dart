@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_expense_tracker/blocs/category_bloc/category_bloc.dart';
 import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
 import 'package:flutter_expense_tracker/routers/app_routes.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => TransactionsBloc(),
         ),
+        BlocProvider(create: (context) => CategoryBloc(),)
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

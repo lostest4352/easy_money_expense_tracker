@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
+import 'package:flutter_expense_tracker/blocs/category_bloc/category_bloc.dart';
 import 'package:flutter_expense_tracker/widgets/app_drawer.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,9 +12,6 @@ class ExpenseCategories extends StatefulWidget {
 }
 
 class _ExpenseCategoriesState extends State<ExpenseCategories> {
-
-  TransactionsBloc get blocTransaction => context.read<TransactionsBloc>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,29 +24,36 @@ class _ExpenseCategoriesState extends State<ExpenseCategories> {
         onPressed: () {},
         child: const Icon(Icons.add),
       ),
-      body: ListView(
-        children: [
-          const SizedBox(
-            height: 10,
-          ),
-          for (int i = 0; i < blocTransaction.listItems.length; i++)
-            ListTile(
-              leading: CircleAvatar(
-                backgroundColor:
-                    blocTransaction.listItems[i].isIncome == true ? Colors.blue : Colors.red,
-                child: blocTransaction.listItems[i].isIncome == true
-                    ? const Icon(
-                        Icons.addchart,
-                        color: Colors.white,
-                      )
-                    : const Icon(
-                        Icons.highlight_remove_sharp,
-                        color: Colors.white,
-                      ),
+      body: BlocBuilder<CategoryBloc, CategoryState>(
+        builder: (context, state) {
+          final blocCategories = context.read<CategoryBloc>();
+          return ListView(
+            children: [
+              const SizedBox(
+                height: 10,
               ),
-              title: Text(blocTransaction.listItems[i].transactionType),
-            ),
-        ],
+              for (int i = 0; i < blocCategories.listItems.length; i++)
+                ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor:
+                        blocCategories.listItems[i].isIncome == true
+                            ? Colors.blue
+                            : Colors.red,
+                    child: blocCategories.listItems[i].isIncome == true
+                        ? const Icon(
+                            Icons.addchart,
+                            color: Colors.white,
+                          )
+                        : const Icon(
+                            Icons.highlight_remove_sharp,
+                            color: Colors.white,
+                          ),
+                  ),
+                  title: Text(blocCategories.listItems[i].transactionType),
+                ),
+            ],
+          );
+        },
       ),
     );
   }
