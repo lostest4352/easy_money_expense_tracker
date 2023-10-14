@@ -16,7 +16,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  //
+  // In order to seperate listview by months
   int calculateMonthsData(
       DateTime date, List<TransactionModel> transactionList) {
     int monthlyAmt = 0;
@@ -41,11 +41,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // Code for sorting ascending/descending
-    // transactionList.sort((a, b) => a.dateTime.compareTo(b.dateTime));
-    // blocTransaction.transactionList
-    //     .sort((a, b) => b.dateTime.compareTo(a.dateTime));
-
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -104,6 +99,10 @@ class _HomePageState extends State<HomePage> {
             Flexible(
               child: Builder(builder: (context) {
                 if (state is AddTransactionState) {
+                  // Code for sorting ascending/descending
+                  // blocTransactionList.sort((a, b) => a.dateTime.compareTo(b.dateTime));
+                  // blocTransaction.transactionList
+                  //     .sort((a, b) => b.dateTime.compareTo(a.dateTime));
                   blocTransaction.transactionList
                       .sort((a, b) => b.dateTime.compareTo(a.dateTime));
                   return ListView.builder(
@@ -122,6 +121,7 @@ class _HomePageState extends State<HomePage> {
                         isSameDate = date.isSameDate(prevDate);
                       }
                       if (index == 0 || !isSameDate) {
+                        // if income and expenses seperated for each month later
                         // int monthlyInc = calculateMonthsData(date).monthlyInc;
                         // int monthlyExp = calculateMonthsData(date).monthlyExp;
                         // int calculatedData = monthlyInc + monthlyExp;
@@ -195,12 +195,11 @@ extension DateHelper on DateTime {
 
 //
 class TransactionView extends StatelessWidget {
+  final TransactionModel transaction;
   const TransactionView({
     super.key,
     required this.transaction,
   });
-
-  final TransactionModel transaction;
 
   @override
   Widget build(BuildContext context) {

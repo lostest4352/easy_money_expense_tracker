@@ -11,10 +11,8 @@ import 'package:flutter_expense_tracker/models/transaction_model.dart';
 import 'package:flutter_expense_tracker/pages/local_widgets/home_page_popup_items.dart';
 
 class EntryDialog extends StatefulWidget {
-  // final Function(TransactionModel transactionModel, bool isIncome) changeData;
   const EntryDialog({
     Key? key,
-    // required this.changeData,
   }) : super(key: key);
 
   @override
@@ -22,22 +20,19 @@ class EntryDialog extends StatefulWidget {
 }
 
 class _EntryDialogState extends State<EntryDialog> {
-  //
+  // Text Controllers
   final amountController = TextEditingController();
   final noteController = TextEditingController();
 
-  //
+  // Date Related
   DateTime selectedDate = DateTime.now();
   final formatter = DateFormat('yyyy-MM-dd');
   String get formattedDate => formatter.format(selectedDate);
-  //
+  // Current date unchanged unlike above
   final currentDateFormatted = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
-  // temp
   String? categoryItem;
   CategoryModel? categoryValueFromListItem;
-
-  // DateTime focusedDaySelected = DateTime.now();
 
   @override
   void dispose() {
@@ -45,8 +40,6 @@ class _EntryDialogState extends State<EntryDialog> {
     noteController.dispose();
     super.dispose();
   }
-
-  DateTime focusedDayChanged = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
