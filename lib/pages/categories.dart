@@ -12,6 +12,8 @@ class ExpenseCategories extends StatefulWidget {
 }
 
 class _ExpenseCategoriesState extends State<ExpenseCategories> {
+  final categoryController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,19 +32,26 @@ class _ExpenseCategoriesState extends State<ExpenseCategories> {
                   height: 400,
                   child: Column(
                     children: [
-                      Spacer(),
+                      const Spacer(),
                       TextField(
-                        decoration: InputDecoration(
+                        controller: categoryController,
+                        decoration: const InputDecoration(
                           hintText: "Enter Category",
                         ),
                       ),
                       const SizedBox(
                         height: 10,
                       ),
-                      const DropdownMenu(dropdownMenuEntries: [
-                        DropdownMenuEntry(value: true, label: 'True'),
-                        DropdownMenuEntry(value: false, label: 'False'),
-                      ]),
+                      DropdownButton(
+                        value: false,
+                        items: const [
+                          DropdownMenuItem(value: true, child: Text("True")),
+                          DropdownMenuItem(value: false, child: Text("False")),
+                        ],
+                        onChanged: (value) {
+                          value = value;
+                        },
+                      ),
                       const SizedBox(
                         height: 10,
                       ),
@@ -50,7 +59,7 @@ class _ExpenseCategoriesState extends State<ExpenseCategories> {
                         onPressed: () {},
                         child: Text("Save"),
                       ),
-                      Spacer(),
+                      const Spacer(),
                     ],
                   ),
                 ),
