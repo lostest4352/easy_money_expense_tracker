@@ -35,10 +35,9 @@ class _GraphsPageState extends State<GraphsPage>
     super.dispose();
   }
 
-  TransactionsBloc get blocTransaction => context.read<TransactionsBloc>();
-
   @override
   Widget build(BuildContext context) {
+    TransactionsBloc blocTransaction = context.read<TransactionsBloc>();
     return Scaffold(
       appBar: AppBar(
         title: const Text("Graphs Page"),
@@ -56,7 +55,7 @@ class _GraphsPageState extends State<GraphsPage>
               children: [
                 TransactionWidget(
                   isIncome: true,
-                  totalValue:  blocTransaction.totalIncome,
+                  totalValue: blocTransaction.totalIncome,
                 ),
                 TransactionWidget(
                   isIncome: false,
@@ -71,7 +70,7 @@ class _GraphsPageState extends State<GraphsPage>
   }
 }
 
-class TransactionWidget extends StatefulWidget {
+class TransactionWidget extends StatelessWidget {
   final bool isIncome;
 
   final int totalValue;
@@ -82,14 +81,6 @@ class TransactionWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<TransactionWidget> createState() => _TransactionWidgetState();
-}
-
-class _TransactionWidgetState extends State<TransactionWidget> {
-  // TODO make blocbuilder below
-  TransactionsBloc get blocTransaction => context.read<TransactionsBloc>();
-
-  @override
   Widget build(BuildContext context) {
     // final seen = <CategoryModel>{};
     // List<CategoryModel> filteredTransaction = listItems.where(
@@ -98,6 +89,8 @@ class _TransactionWidgetState extends State<TransactionWidget> {
     //     return val;
     //   },
     // ).toList();
+
+    TransactionsBloc blocTransaction = context.read<TransactionsBloc>();
 
     List<PieChartModel> pieChartModelList = [];
 
@@ -130,10 +123,10 @@ class _TransactionWidgetState extends State<TransactionWidget> {
               centerSpaceRadius: 50,
               sections: [
                 for (final pieChartTransaction in pieChartModelList)
-                  if (pieChartTransaction.categoryModel.isIncome == widget.isIncome)
+                  if (pieChartTransaction.categoryModel.isIncome == isIncome)
                     PieChartSectionData(
                       title:
-                          "${pieChartTransaction.categoryModel.transactionType} ${((pieChartTransaction.amount / widget.totalValue) * 100).toStringAsFixed(2)}%",
+                          "${pieChartTransaction.categoryModel.transactionType} ${((pieChartTransaction.amount / totalValue) * 100).toStringAsFixed(2)}%",
                       titlePositionPercentageOffset: 1.8,
                       value: pieChartTransaction.amount.toDouble(),
                       color:
@@ -146,7 +139,7 @@ class _TransactionWidgetState extends State<TransactionWidget> {
         Column(
           children: [
             for (final pieChartTransaction in pieChartModelList)
-              if (pieChartTransaction.categoryModel.isIncome == widget.isIncome)
+              if (pieChartTransaction.categoryModel.isIncome == isIncome)
                 Align(
                   alignment: Alignment.topLeft,
                   child: Padding(
@@ -178,11 +171,11 @@ class _TransactionWidgetState extends State<TransactionWidget> {
             const Divider(),
             ListTile(
               title: const Text("Total"),
-              trailing: Text("${widget.totalValue}"),
+              trailing: Text("$totalValue"),
             ),
             const Divider(),
             for (final pieChartTransaction in pieChartModelList)
-              if (pieChartTransaction.categoryModel.isIncome == widget.isIncome)
+              if (pieChartTransaction.categoryModel.isIncome == isIncome)
                 ListTile(
                   title:
                       Text(pieChartTransaction.categoryModel.transactionType),

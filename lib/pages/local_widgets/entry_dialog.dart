@@ -268,8 +268,6 @@ class _EntryDialogState extends State<EntryDialog> {
                                     ),
                                   ),
                                 ),
-                                // TODO Create Make new category option. Remove expanded if not created
-                                // const SaveAndCancelRow(),
                               ],
                             ),
                           ),
