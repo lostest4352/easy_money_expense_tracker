@@ -1,4 +1,4 @@
-part of 'category_bloc.dart';
+part of 'category_cubit.dart';
 
 @immutable
 sealed class CategoryState {}

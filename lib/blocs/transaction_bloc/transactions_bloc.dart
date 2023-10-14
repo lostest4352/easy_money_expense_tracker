@@ -11,16 +11,10 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
   //
   TransactionsBloc() : super(TransactionsInitial()) {
     on<AddTransactionEvent>((event, emit) {
-      //
-      emit(
-        AddTransactionState(
-          transactionList: transactionList,
-          totalExpenses: totalExpenses,
-          totalIncome: totalIncome,
-          changeData: changeData,
-          calculateMonthsData: calculateMonthsData,
-        ),
-      );
+      emit(AddTransactionState(
+        changeData: changeData,
+        calculateMonthsData: calculateMonthsData,
+      ));
     });
   }
 
@@ -74,17 +68,6 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
 
   List<TransactionModel> transactionList = [];
 
-  // void getValue() {
-  //   for (final transaction in transactionList) {
-  //     if (transaction.categoryModel.isIncome == true) {
-  //       totalIncome += transaction.amount;
-  //     } else {
-  //       totalExpenses += transaction.amount;
-  //     }
-  //     add(AddTransactionEvent());
-  //   }
-  // }
-
   void changeData(TransactionModel transactionModel, bool isIncome) {
     transactionList.add(transactionModel);
     if (isIncome == true) {
@@ -93,7 +76,11 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
       totalExpenses += transactionModel.amount;
     }
     // add(ChangeIncomeExpensesEvent());
-    add(AddTransactionEvent());
+    add(AddTransactionEvent(
+      transactionList: transactionList,
+      totalExpenses: totalExpenses,
+      totalIncome: totalIncome,
+    ));
   }
 
   // mm dateformat is minutes. MM is month

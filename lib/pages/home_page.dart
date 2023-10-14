@@ -67,6 +67,7 @@ class _HomePageState extends State<HomePage> {
       drawer: const AppDrawer(),
       body: BlocBuilder<TransactionsBloc, TransactionsState>(
           builder: (context, state) {
+        TransactionsBloc blocTransaction = context.read<TransactionsBloc>();
         return Column(
           children: [
             const SizedBox(
@@ -76,8 +77,8 @@ class _HomePageState extends State<HomePage> {
               builder: (context) {
                 if (state is AddTransactionState) {
                   return HomePageAppBar(
-                    income: state.totalIncome,
-                    expenses: state.totalExpenses,
+                    income: blocTransaction.totalIncome,
+                    expenses: blocTransaction.totalExpenses,
                   );
                 } else {
                   return const HomePageAppBar(
@@ -93,19 +94,20 @@ class _HomePageState extends State<HomePage> {
             Flexible(
               child: Builder(builder: (context) {
                 if (state is AddTransactionState) {
-                  state.transactionList
+                  blocTransaction.transactionList
                       .sort((a, b) => b.dateTime.compareTo(a.dateTime));
                   return ListView.builder(
-                    itemCount: state.transactionList.length,
+                    itemCount: blocTransaction.transactionList.length,
                     itemBuilder: (context, index) {
                       bool isSameDate = true;
-                      String dateString = state.transactionList[index].dateTime;
+                      String dateString =
+                          blocTransaction.transactionList[index].dateTime;
                       DateTime date = DateTime.parse(dateString);
                       if (index == 0) {
                         isSameDate = false;
                       } else {
                         String prevDateString =
-                            state.transactionList[index - 1].dateTime;
+                            blocTransaction.transactionList[index - 1].dateTime;
                         DateTime prevDate = DateTime.parse(prevDateString);
                         isSameDate = date.isSameDate(prevDate);
                       }
@@ -113,7 +115,8 @@ class _HomePageState extends State<HomePage> {
                         // int monthlyInc = calculateMonthsData(date).monthlyInc;
                         // int monthlyExp = calculateMonthsData(date).monthlyExp;
                         // int calculatedData = monthlyInc + monthlyExp;
-                        int calculatedData = state.calculateMonthsData(date);
+                        int calculatedData =
+                            blocTransaction.calculateMonthsData(date);
                         debugPrint("This is date: ${date.toString()}");
                         return Column(
                           children: [
@@ -136,12 +139,14 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                             TransactionView(
-                                transaction: state.transactionList[index]),
+                                transaction:
+                                    blocTransaction.transactionList[index]),
                           ],
                         );
                       } else {
                         return TransactionView(
-                            transaction: state.transactionList[index]);
+                            transaction:
+                                blocTransaction.transactionList[index]);
                       }
                     },
                   );
