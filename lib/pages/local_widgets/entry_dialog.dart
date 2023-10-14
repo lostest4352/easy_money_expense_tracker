@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expense_tracker/blocs/category_bloc/category_bloc.dart';
 import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
 import 'package:flutter_expense_tracker/models/category_model.dart';
+import 'package:flutter_expense_tracker/widgets/category_edit_dialog.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -24,6 +25,7 @@ class _EntryDialogState extends State<EntryDialog> {
   // Text Controllers
   final amountController = TextEditingController();
   final noteController = TextEditingController();
+  final categoryController = TextEditingController();
 
   // Date Related
   DateTime selectedDate = DateTime.now();
@@ -243,7 +245,17 @@ class _EntryDialogState extends State<EntryDialog> {
                                           children: [
                                             TextButton(
                                               // TODO entry here
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return CategoryAddOrEditDialog(
+                                                      categoryController:
+                                                          categoryController,
+                                                    );
+                                                  },
+                                                );
+                                              },
                                               child: const Text(
                                                 "+ Add Cateory",
                                                 style: TextStyle(
