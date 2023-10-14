@@ -244,7 +244,6 @@ class _EntryDialogState extends State<EntryDialog> {
                                               MainAxisAlignment.end,
                                           children: [
                                             TextButton(
-                                              // TODO entry here
                                               onPressed: () {
                                                 showDialog(
                                                   context: context,

@@ -13,10 +13,11 @@ class CategoryAddOrEditDialog extends StatefulWidget {
 }
 
 class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
+  bool isTrue = true;
+  int? colorsValue;
+
   @override
   Widget build(BuildContext context) {
-    bool isTrue = true;
-    int? colorsValue;
     return Dialog(
       child: SizedBox(
         height: 400,

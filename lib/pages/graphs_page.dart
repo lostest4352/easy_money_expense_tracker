@@ -35,9 +35,10 @@ class _GraphsPageState extends State<GraphsPage>
     super.dispose();
   }
 
+  TransactionsBloc get blocTransaction => context.read<TransactionsBloc>();
+
   @override
   Widget build(BuildContext context) {
-    TransactionsBloc blocTransaction = context.read<TransactionsBloc>();
     return Scaffold(
       appBar: AppBar(
         title: const Text("Graphs Page"),
