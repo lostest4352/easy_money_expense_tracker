@@ -8,14 +8,9 @@ import 'package:flutter_expense_tracker/models/transaction_model.dart';
 import 'package:flutter_expense_tracker/pages/local_widgets/entry_dialog.dart';
 import 'package:flutter_expense_tracker/widgets/app_drawer.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
   // In order to seperate listview by months
   int calculateMonthsData(
       DateTime date, List<TransactionModel> transactionList) {
@@ -117,8 +112,8 @@ class _HomePageState extends State<HomePage> {
                           if (index == 0) {
                             isSameDate = false;
                           } else {
-                            String prevDateString =
-                                blocTransaction.transactionList[index - 1].dateTime;
+                            String prevDateString = blocTransaction
+                                .transactionList[index - 1].dateTime;
                             DateTime prevDate = DateTime.parse(prevDateString);
                             isSameDate = date.isSameDate(prevDate);
                           }
@@ -151,14 +146,16 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                                 TransactionView(
-                                    transaction:
-                                        blocTransaction.transactionList[index]),
+                                  transaction:
+                                      blocTransaction.transactionList[index],
+                                ),
                               ],
                             );
                           } else {
                             return TransactionView(
-                                transaction:
-                                    blocTransaction.transactionList[index]);
+                              transaction:
+                                  blocTransaction.transactionList[index],
+                            );
                           }
                         },
                       ),
