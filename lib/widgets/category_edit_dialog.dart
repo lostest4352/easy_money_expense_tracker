@@ -23,13 +23,15 @@ class CategoryAddOrEditDialog extends StatefulWidget {
 }
 
 class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
-  bool isIncome = true;
-  int colorsValue = Colors.red.value;
+  late bool isIncome;
+  late int colorsValue;
   final TextEditingController categoryController = TextEditingController();
 
   @override
   void initState() {
     categoryController.text = widget.selectedListItem?.transactionType ?? "";
+    isIncome = widget.selectedListItem?.isIncome ?? true;
+    colorsValue = widget.selectedListItem?.colorsValue ?? Colors.red.value;
     super.initState();
   }
 
@@ -67,10 +69,7 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
                     const Text("Transaction Type"),
                     const Spacer(),
                     DropdownButton(
-                      // TODO
-                      value: (widget.editMode == true)
-                          ? widget.selectedListItem?.isIncome
-                          : isIncome,
+                      value: isIncome,
                       items: const [
                         DropdownMenuItem(
                           value: true,
@@ -84,7 +83,6 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
                       onChanged: (value) {
                         newState(() {
                           isIncome = value ?? true;
-                          widget.selectedListItem?.isIncome = value ?? true;
                         });
                       },
                     ),
@@ -101,9 +99,7 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
                     const Text("Select Color"),
                     const Spacer(),
                     DropdownButton(
-                      value: (widget.editMode == true)
-                          ? widget.selectedListItem?.colorsValue
-                          : colorsValue,
+                      value: colorsValue,
                       items: [
                         for (final dropdownColors in dropdownColorsList)
                           DropdownMenuItem(
@@ -114,8 +110,6 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
                       onChanged: (value) {
                         newState(() {
                           colorsValue = value ?? Colors.red.value;
-                          widget.selectedListItem?.colorsValue =
-                              value ?? Colors.red.value;
                         });
                       },
                     ),
@@ -125,7 +119,7 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
               const SizedBox(
                 height: 10,
               ),
-              BlocBuilder<CategoryBloc, CategoryState>(
+              BlocBuilder<TransactionsBloc, TransactionsState>(
                 builder: (context, state) {
                   final blocCategories = context.read<CategoryBloc>();
                   final blocTransactions = context.read<TransactionsBloc>();
@@ -157,15 +151,16 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
                                   colorsValue,
                                 );
                                 context.pop();
-                              }
-                              if (widget.editMode == true) {
-                                blocCategories.editCategory(
-                                  categoryController.text,
-                                  isIncome,
-                                  colorsValue,
-                                  widget.selectedListItem!,
-                                );
-                                context.pop();
+                              } else {
+                                if (widget.editMode == true) {
+                                  blocCategories.editCategory(
+                                    categoryController.text,
+                                    isIncome,
+                                    colorsValue,
+                                    widget.selectedListItem!,
+                                  );
+                                  context.pop();
+                                }
                               }
                             }
                           },
