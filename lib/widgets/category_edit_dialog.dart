@@ -156,21 +156,16 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
                                   isIncome,
                                   colorsValue,
                                 );
+                                context.pop();
                               }
-                              context.pop();
-                            }
-                            if (widget.editMode == true) {
-                              for (final transaction
-                                  in blocTransactions.transactionList) {
-                                if (transaction.categoryModel !=
-                                    widget.selectedListItem) {
-                                  blocCategories.editCategory(
-                                    categoryController.text,
-                                    isIncome,
-                                    colorsValue,
-                                    widget.selectedListItem!,
-                                  );
-                                }
+                              if (widget.editMode == true) {
+                                blocCategories.editCategory(
+                                  categoryController.text,
+                                  isIncome,
+                                  colorsValue,
+                                  widget.selectedListItem!,
+                                );
+                                context.pop();
                               }
                             }
                           },
