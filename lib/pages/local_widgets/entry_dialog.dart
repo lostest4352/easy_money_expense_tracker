@@ -214,13 +214,13 @@ class _EntryDialogState extends State<EntryDialog> {
                                                 in blocCategories.listItems)
                                               ListTile(
                                                 onTap: () {
-                                                  // setState(() {
+                                                  setState(() {
                                                     categoryItem = listItem
                                                         .transactionType
                                                         .toString();
                                                     categoryValueFromListItem =
                                                         listItem;
-                                                  // });
+                                                  });
                                                   context.pop();
                                                 },
                                                 leading: CircleAvatar(
@@ -256,6 +256,7 @@ class _EntryDialogState extends State<EntryDialog> {
                                                         return CategoryAddOrEditDialog(
                                                           categoryController:
                                                               categoryController,
+                                                              editMode: false,
                                                         );
                                                       },
                                                     );

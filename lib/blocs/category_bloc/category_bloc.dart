@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expense_tracker/models/category_model.dart';
+import 'package:flutter_expense_tracker/models/dropdown_colors.dart';
 
 part 'category_event.dart';
 part 'category_state.dart';
@@ -23,52 +24,56 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     add(AddCategoryEvent());
   }
 
+  void removeCategory() {
+    // listItems.remove(value);
+  }
+
   //
   final listItems = [
     CategoryModel(
       transactionType: "Clothing",
       isIncome: false,
-      colorsValue: Colors.deepPurple.value,
+      colorsValue: purpleColor.colorsValue,
     ),
     CategoryModel(
       transactionType: "Entertainment",
       isIncome: false,
-      colorsValue: Colors.red.value,
+      colorsValue: redColor.colorsValue,
     ),
     CategoryModel(
       transactionType: "Health",
       isIncome: false,
-      colorsValue: Colors.blue.value,
+      colorsValue: blueColor.colorsValue,
     ),
     CategoryModel(
       transactionType: "Fuel",
       isIncome: false,
-      colorsValue: Colors.yellow.value,
+      colorsValue: yellowColor.colorsValue,
     ),
     CategoryModel(
       transactionType: "Food",
       isIncome: false,
-      colorsValue: Colors.green.value,
+      colorsValue: greenColor.colorsValue,
     ),
     CategoryModel(
       transactionType: "Salary",
       isIncome: true,
-      colorsValue: Colors.blue.value,
+      colorsValue: blueColor.colorsValue,
     ),
     CategoryModel(
       transactionType: "Bonus",
       isIncome: true,
-      colorsValue: Colors.red.value,
+      colorsValue: redColor.colorsValue,
     ),
     CategoryModel(
       transactionType: "Wages",
       isIncome: true,
-      colorsValue: Colors.green.value,
+      colorsValue: greenColor.colorsValue,
     ),
     CategoryModel(
       transactionType: "Gifts",
       isIncome: true,
-      colorsValue: Colors.purple.value,
+      colorsValue: purpleColor.colorsValue,
     ),
   ];
 }

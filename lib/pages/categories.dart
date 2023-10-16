@@ -30,6 +30,7 @@ class _ExpenseCategoriesState extends State<ExpenseCategories> {
             builder: (context) {
               return CategoryAddOrEditDialog(
                 categoryController: categoryController,
+                editMode: false,
               );
             },
           );
@@ -45,21 +46,36 @@ class _ExpenseCategoriesState extends State<ExpenseCategories> {
                 height: 10,
               ),
               for (final listItem in blocCategories.listItems)
-                ListTile(
-                  leading: CircleAvatar(
-                    backgroundColor:
-                        listItem.isIncome == true ? Colors.blue : Colors.red,
-                    child: listItem.isIncome == true
-                        ? const Icon(
-                            Icons.addchart,
-                            color: Colors.white,
-                          )
-                        : const Icon(
-                            Icons.highlight_remove_sharp,
-                            color: Colors.white,
-                          ),
+                InkWell(
+                  onTap: () {
+                    listItem;
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return CategoryAddOrEditDialog(
+                          categoryController: categoryController,
+                          editMode: true,
+                          selectedListItem: listItem,
+                        );
+                      },
+                    );
+                  },
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor:
+                          listItem.isIncome == true ? Colors.blue : Colors.red,
+                      child: listItem.isIncome == true
+                          ? const Icon(
+                              Icons.addchart,
+                              color: Colors.white,
+                            )
+                          : const Icon(
+                              Icons.highlight_remove_sharp,
+                              color: Colors.white,
+                            ),
+                    ),
+                    title: Text(listItem.transactionType),
                   ),
-                  title: Text(listItem.transactionType),
                 ),
             ],
           );
