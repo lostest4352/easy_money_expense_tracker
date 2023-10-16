@@ -11,6 +11,12 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     on<AddCategoryEvent>((event, emit) {
       emit(AddCategoryState());
     });
+    on<EditCategoryEvent>((event, emit) {
+      emit(EditCategoryState());
+    });
+    on<DeleteCategoryEvent>((event, emit) {
+      emit(DeleteCategoryState());
+    });
   }
 
   void addCategory(String transactionType, bool isIncome, int colorsValue) {
@@ -24,8 +30,12 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     add(AddCategoryEvent());
   }
 
-  void removeCategory() {
-    // listItems.remove(value);
+  void editCategory() {
+    add(EditCategoryEvent());
+  }
+
+  void deleteCategory() {
+    add(DeleteCategoryEvent());
   }
 
   //

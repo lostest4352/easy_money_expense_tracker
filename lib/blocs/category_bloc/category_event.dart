@@ -4,3 +4,7 @@ part of 'category_bloc.dart';
 sealed class CategoryEvent {}
 
 class AddCategoryEvent extends CategoryEvent {}
+
+class EditCategoryEvent extends CategoryEvent {}
+
+class DeleteCategoryEvent extends CategoryEvent {}

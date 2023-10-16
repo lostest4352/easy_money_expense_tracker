@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class DropdownColors {
-  int colorsValue;
-  String colorsName;
+final class DropdownColors {
+  final int colorsValue;
+  final String colorsName;
   DropdownColors({
     required this.colorsValue,
     required this.colorsName,

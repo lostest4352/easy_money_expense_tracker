@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
 import 'package:flutter_expense_tracker/models/dropdown_colors.dart';
 import 'package:go_router/go_router.dart';
 
@@ -25,11 +26,12 @@ class CategoryAddOrEditDialog extends StatefulWidget {
 
 class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
   bool isIncome = true;
-  int? colorsValue;
+  int colorsValue = Colors.red.value;
 
   @override
   Widget build(BuildContext context) {
     if (widget.editMode == true) {
+      // TODO
       widget.categoryController.text =
           widget.selectedListItem?.transactionType ?? "";
     }
@@ -60,7 +62,10 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
                     const Text("Transaction Type"),
                     const Spacer(),
                     DropdownButton(
-                      value: isIncome,
+                      // TODO
+                      value: (widget.editMode == true)
+                          ? widget.selectedListItem?.isIncome
+                          : isIncome,
                       items: const [
                         DropdownMenuItem(
                           value: true,
@@ -102,7 +107,7 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
                       ],
                       onChanged: (value) {
                         newState(() {
-                          colorsValue = value;
+                          colorsValue = value ?? Colors.red.value;
                         });
                       },
                     ),
@@ -115,6 +120,7 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
               BlocBuilder<CategoryBloc, CategoryState>(
                 builder: (context, state) {
                   final blocCategories = context.read<CategoryBloc>();
+                  final blocTransactions = context.read<TransactionsBloc>();
                   return Padding(
                     padding: const EdgeInsets.only(left: 30, right: 30),
                     child: Row(
@@ -122,11 +128,7 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
                         () {
                           if (widget.editMode == true) {
                             return ElevatedButton(
-                              onPressed: () {
-                                // blocCategories.
-                                debugPrint(widget.selectedListItem?.colorsValue
-                                    .toString());
-                              },
+                              onPressed: () {},
                               child: const Text("Delete"),
                             );
                           } else {
@@ -140,17 +142,13 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
                           ),
                           onPressed: () {
                             if (widget.categoryController.text != "") {
-                              blocCategories.addCategory(
-                                widget.categoryController.text,
-                                isIncome,
-                                () {
-                                  if (widget.editMode == true) {
-                                    return widget.selectedListItem!.colorsValue;
-                                  } else {
-                                    return colorsValue ?? Colors.red.value;
-                                  }
-                                }(),
-                              );
+                              if (widget.editMode == false) {
+                                blocCategories.addCategory(
+                                  widget.categoryController.text,
+                                  isIncome ?? true,
+                                  colorsValue ?? Colors.red.value,
+                                );
+                              }
                               context.pop();
                             }
                           },
