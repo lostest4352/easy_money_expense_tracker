@@ -9,12 +9,10 @@ import 'package:flutter_expense_tracker/models/category_model.dart';
 import 'package:flutter_expense_tracker/widgets/popup_textfield_items.dart';
 
 class CategoryAddOrEditDialog extends StatefulWidget {
-  
   final bool editMode;
   final CategoryModel? selectedListItem;
   const CategoryAddOrEditDialog({
     Key? key,
-    
     required this.editMode,
     this.selectedListItem,
   }) : super(key: key);
@@ -86,6 +84,7 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
                       onChanged: (value) {
                         newState(() {
                           isIncome = value ?? true;
+                          widget.selectedListItem?.isIncome = value ?? true;
                         });
                       },
                     ),
@@ -115,6 +114,8 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
                       onChanged: (value) {
                         newState(() {
                           colorsValue = value ?? Colors.red.value;
+                          widget.selectedListItem?.colorsValue =
+                              value ?? Colors.red.value;
                         });
                       },
                     ),
@@ -157,6 +158,20 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
                                 );
                               }
                               context.pop();
+                            }
+                            if (widget.editMode == true) {
+                              for (final transaction
+                                  in blocTransactions.transactionList) {
+                                if (transaction.categoryModel.transactionType !=
+                                    widget.selectedListItem?.transactionType) {
+                                  blocCategories.editCategory(
+                                    categoryController.text,
+                                    isIncome,
+                                    colorsValue,
+                                    widget.selectedListItem!,
+                                  );
+                                }
+                              }
                             }
                           },
                           child: const Text("Save"),

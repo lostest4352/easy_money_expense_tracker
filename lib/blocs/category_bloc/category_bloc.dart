@@ -30,7 +30,11 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     add(AddCategoryEvent());
   }
 
-  void editCategory() {
+  void editCategory(String transactionType, bool isIncome, int colorsValue,
+      CategoryModel selectedListItem) {
+    selectedListItem.colorsValue = colorsValue;
+    selectedListItem.transactionType = transactionType;
+    selectedListItem.isIncome = isIncome;
     add(EditCategoryEvent());
   }
 

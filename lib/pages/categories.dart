@@ -52,7 +52,6 @@ class _ExpenseCategoriesState extends State<ExpenseCategories> {
                       context: context,
                       builder: (context) {
                         return CategoryAddOrEditDialog(
-                          // categoryController: categoryController,
                           editMode: true,
                           selectedListItem: listItem,
                         );
