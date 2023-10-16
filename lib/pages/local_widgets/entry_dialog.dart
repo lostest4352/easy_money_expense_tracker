@@ -253,10 +253,8 @@ class _EntryDialogState extends State<EntryDialog> {
                                                     showDialog(
                                                       context: context,
                                                       builder: (context) {
-                                                        return CategoryAddOrEditDialog(
-                                                          categoryController:
-                                                              categoryController,
-                                                              editMode: false,
+                                                        return const CategoryAddOrEditDialog(
+                                                          editMode: false,
                                                         );
                                                       },
                                                     );

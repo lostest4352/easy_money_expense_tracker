@@ -9,12 +9,12 @@ import 'package:flutter_expense_tracker/models/category_model.dart';
 import 'package:flutter_expense_tracker/widgets/popup_textfield_items.dart';
 
 class CategoryAddOrEditDialog extends StatefulWidget {
-  final TextEditingController categoryController;
+  
   final bool editMode;
   final CategoryModel? selectedListItem;
   const CategoryAddOrEditDialog({
     Key? key,
-    required this.categoryController,
+    
     required this.editMode,
     this.selectedListItem,
   }) : super(key: key);
@@ -27,15 +27,22 @@ class CategoryAddOrEditDialog extends StatefulWidget {
 class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
   bool isIncome = true;
   int colorsValue = Colors.red.value;
+  final TextEditingController categoryController = TextEditingController();
+
+  @override
+  void initState() {
+    categoryController.text = widget.selectedListItem?.transactionType ?? "";
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    categoryController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.editMode == true) {
-      // TODO
-      widget.categoryController.text =
-          widget.selectedListItem?.transactionType ?? "";
-    }
-
     return Dialog(
       child: SizedBox(
         child: StatefulBuilder(builder: (context, newState) {
@@ -48,7 +55,7 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: PopupTextFieldItems(
-                  textEditingController: widget.categoryController,
+                  textEditingController: categoryController,
                   hintText: "Enter Category Name",
                 ),
               ),
@@ -141,12 +148,12 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
                             backgroundColor: Colors.blue,
                           ),
                           onPressed: () {
-                            if (widget.categoryController.text != "") {
+                            if (categoryController.text != "") {
                               if (widget.editMode == false) {
                                 blocCategories.addCategory(
-                                  widget.categoryController.text,
-                                  isIncome ?? true,
-                                  colorsValue ?? Colors.red.value,
+                                  categoryController.text,
+                                  isIncome,
+                                  colorsValue,
                                 );
                               }
                               context.pop();

@@ -28,8 +28,7 @@ class _ExpenseCategoriesState extends State<ExpenseCategories> {
           showDialog(
             context: context,
             builder: (context) {
-              return CategoryAddOrEditDialog(
-                categoryController: categoryController,
+              return const CategoryAddOrEditDialog(
                 editMode: false,
               );
             },
@@ -53,7 +52,7 @@ class _ExpenseCategoriesState extends State<ExpenseCategories> {
                       context: context,
                       builder: (context) {
                         return CategoryAddOrEditDialog(
-                          categoryController: categoryController,
+                          // categoryController: categoryController,
                           editMode: true,
                           selectedListItem: listItem,
                         );
