@@ -39,42 +39,49 @@ class _ExpenseCategoriesState extends State<ExpenseCategories> {
       body: BlocBuilder<CategoryBloc, CategoryState>(
         builder: (context, state) {
           final blocCategories = context.read<CategoryBloc>();
-          return ListView(
+          return Column(
             children: [
               const SizedBox(
                 height: 10,
               ),
-              for (final listItem in blocCategories.listItems)
-                InkWell(
-                  onTap: () {
-                    listItem;
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return CategoryAddOrEditDialog(
-                          editMode: true,
-                          selectedListItem: listItem,
+              Expanded(
+                child: ListView.builder(
+                  itemCount: blocCategories.listItems.length,
+                  itemBuilder: (context, index) {
+                    final listItems = blocCategories.listItems;
+                    return InkWell(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return CategoryAddOrEditDialog(
+                              editMode: true,
+                              selectedListItem: listItems[index],
+                            );
+                          },
                         );
                       },
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: listItems[index].isIncome == true
+                              ? Colors.blue
+                              : Colors.red,
+                          child: listItems[index].isIncome == true
+                              ? const Icon(
+                                  Icons.addchart,
+                                  color: Colors.white,
+                                )
+                              : const Icon(
+                                  Icons.highlight_remove_sharp,
+                                  color: Colors.white,
+                                ),
+                        ),
+                        title: Text(listItems[index].transactionType),
+                      ),
                     );
                   },
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor:
-                          listItem.isIncome == true ? Colors.blue : Colors.red,
-                      child: listItem.isIncome == true
-                          ? const Icon(
-                              Icons.addchart,
-                              color: Colors.white,
-                            )
-                          : const Icon(
-                              Icons.highlight_remove_sharp,
-                              color: Colors.white,
-                            ),
-                    ),
-                    title: Text(listItem.transactionType),
-                  ),
                 ),
+              ),
             ],
           );
         },

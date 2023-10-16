@@ -162,8 +162,8 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
                             if (widget.editMode == true) {
                               for (final transaction
                                   in blocTransactions.transactionList) {
-                                if (transaction.categoryModel.transactionType !=
-                                    widget.selectedListItem?.transactionType) {
+                                if (transaction.categoryModel !=
+                                    widget.selectedListItem) {
                                   blocCategories.editCategory(
                                     categoryController.text,
                                     isIncome,
