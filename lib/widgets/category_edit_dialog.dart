@@ -151,8 +151,18 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
                                   colorsValue,
                                 );
                                 context.pop();
-                              } else {
-                                if (widget.editMode == true) {
+                              } else if (widget.editMode == true) {
+                                bool found = false;
+                                for (final transaction
+                                    in blocTransactions.transactionList) {
+                                  if (transaction
+                                          .categoryModel.transactionType ==
+                                      widget
+                                          .selectedListItem?.transactionType) {
+                                    found = true;
+                                  }
+                                }
+                                if (!found) {
                                   blocCategories.editCategory(
                                     categoryController.text,
                                     isIncome,
