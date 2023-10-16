@@ -4,3 +4,7 @@ part of 'category_bloc.dart';
 sealed class CategoryState {}
 
 final class CategoryInitial extends CategoryState {}
+
+class AddCategoryState extends CategoryState {
+
+}

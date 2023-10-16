@@ -7,9 +7,20 @@ part 'category_state.dart';
 
 class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   CategoryBloc() : super(CategoryInitial()) {
-    on<CategoryEvent>((event, emit) {
-      // TODO: implement event handler
+    on<AddCategoryEvent>((event, emit) {
+      emit(AddCategoryState());
     });
+  }
+
+  void addCategory(String transactionType, bool isIncome, int colorsValue) {
+    listItems.add(
+      CategoryModel(
+        transactionType: transactionType,
+        isIncome: isIncome,
+        colorsValue: colorsValue,
+      ),
+    );
+    add(AddCategoryEvent());
   }
 
   //

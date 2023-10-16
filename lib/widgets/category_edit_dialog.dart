@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_expense_tracker/blocs/category_bloc/category_bloc.dart';
+import 'package:flutter_expense_tracker/widgets/popup_textfield_items.dart';
+import 'package:go_router/go_router.dart';
 
 class CategoryAddOrEditDialog extends StatefulWidget {
   final TextEditingController categoryController;
@@ -13,25 +17,25 @@ class CategoryAddOrEditDialog extends StatefulWidget {
 }
 
 class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
-  bool isTrue = true;
+  bool isIncome = true;
   int? colorsValue;
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
       child: SizedBox(
-        height: 400,
         child: StatefulBuilder(builder: (context, newState) {
           return Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              const Spacer(),
+              const SizedBox(
+                height: 20,
+              ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: widget.categoryController,
-                  decoration: const InputDecoration(
-                    hintText: "Enter Category Name",
-                  ),
+                child: PopupTextFieldItems(
+                  textEditingController: widget.categoryController,
+                  hintText: "Enter Category Name",
                 ),
               ),
               const SizedBox(
@@ -44,7 +48,7 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
                     const Text("Transaction Type"),
                     const Spacer(),
                     DropdownButton(
-                      value: isTrue,
+                      value: isIncome,
                       items: const [
                         DropdownMenuItem(
                           value: true,
@@ -57,7 +61,7 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
                       ],
                       onChanged: (value) {
                         newState(() {
-                          isTrue = value ?? true;
+                          isIncome = value ?? true;
                         });
                       },
                     ),
@@ -112,11 +116,27 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
               const SizedBox(
                 height: 10,
               ),
-              TextButton(
-                onPressed: () {},
-                child: const Text("Save"),
+              BlocBuilder<CategoryBloc, CategoryState>(
+                builder: (context, state) {
+                  final blocCategories = context.read<CategoryBloc>();
+                  return ElevatedButton(
+                    onPressed: () {
+                      if (widget.categoryController.text != "") {
+                        blocCategories.addCategory(
+                          widget.categoryController.text,
+                          isIncome,
+                          colorsValue ?? Colors.red.value,
+                        );
+                        context.pop();
+                      }
+                    },
+                    child: const Text("Save"),
+                  );
+                },
               ),
-              const Spacer(),
+              const SizedBox(
+                height: 20,
+              ),
             ],
           );
         }),

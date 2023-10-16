@@ -5,12 +5,14 @@ import 'package:flutter_expense_tracker/blocs/category_bloc/category_bloc.dart';
 import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
 import 'package:flutter_expense_tracker/models/category_model.dart';
 import 'package:flutter_expense_tracker/widgets/category_edit_dialog.dart';
+import 'package:flutter_expense_tracker/widgets/popup_category_items.dart';
+import 'package:flutter_expense_tracker/widgets/popup_textfield_items.dart';
+import 'package:flutter_expense_tracker/widgets/popup_textfield_title.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import 'package:flutter_expense_tracker/models/transaction_model.dart';
-import 'package:flutter_expense_tracker/pages/local_widgets/home_page_popup_items.dart';
 
 class EntryDialog extends StatefulWidget {
   const EntryDialog({
