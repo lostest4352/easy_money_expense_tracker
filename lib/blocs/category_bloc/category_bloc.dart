@@ -17,6 +17,9 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     on<DeleteCategoryEvent>((event, emit) {
       emit(DeleteCategoryState());
     });
+    on<EditNotAllowedEvent>((event, emit) {
+      emit(EditNotAllowedState());
+    });
   }
 
   void addCategory(String transactionType, bool isIncome, int colorsValue) {

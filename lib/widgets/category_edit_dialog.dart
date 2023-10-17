@@ -119,7 +119,11 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
               const SizedBox(
                 height: 10,
               ),
-              BlocBuilder<TransactionsBloc, TransactionsState>(
+              BlocConsumer<TransactionsBloc, TransactionsState>(
+                listener: (context, state) {
+                  // TODO
+                  if (state is EditNotAllowedEvent) {}
+                },
                 builder: (context, state) {
                   final blocCategories = context.read<CategoryBloc>();
                   final blocTransactions = context.read<TransactionsBloc>();
@@ -160,6 +164,18 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
                                       widget
                                           .selectedListItem?.transactionType) {
                                     found = true;
+                                    const snackBar = SnackBar(
+                                      duration: Duration(milliseconds: 800),
+                                      backgroundColor: Colors.deepPurple,
+                                      content: Text(
+                                        'Edit only allowed for unused cateories',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    );
+
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(snackBar);
+                                    blocCategories.add(EditNotAllowedEvent());
                                   }
                                 }
                                 if (!found) {

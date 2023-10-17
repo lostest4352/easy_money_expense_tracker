@@ -10,3 +10,5 @@ class AddCategoryState extends CategoryState {}
 class EditCategoryState extends CategoryState {}
 
 class DeleteCategoryState extends CategoryState {}
+
+class EditNotAllowedState extends CategoryState {}
