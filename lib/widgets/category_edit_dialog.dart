@@ -147,7 +147,6 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
                           if (widget.editMode == true) {
                             return ElevatedButton(
                               onPressed: () {
-                                debugPrint(widget.selectedListItem.toString());
                                 showDialog(
                                   context: context,
                                   builder: (context) {
