@@ -3,7 +3,7 @@ part of 'category_bloc.dart';
 @immutable
 sealed class CategoryEvent {}
 
-class ModifyCategoryEvent extends CategoryEvent {
+final class AddOrEditCategoryEvent extends CategoryEvent {
   final BuildContext context;
   final bool editMode;
   final String transactionType;
@@ -12,7 +12,7 @@ class ModifyCategoryEvent extends CategoryEvent {
   final List<TransactionModel> transactionList;
   final CategoryModel? selectedListItem;
 
-  ModifyCategoryEvent({
+  AddOrEditCategoryEvent({
     required this.context,
     required this.editMode,
     required this.transactionType,
@@ -20,5 +20,17 @@ class ModifyCategoryEvent extends CategoryEvent {
     required this.colorsValue,
     required this.transactionList,
     this.selectedListItem,
+  });
+}
+
+final class DeleteCategoryEvent extends CategoryEvent {
+  final BuildContext context;
+  final CategoryModel selectedListItem;
+  final List<TransactionModel> transactionList;
+
+  DeleteCategoryEvent({
+    required this.context,
+    required this.selectedListItem,
+    required this.transactionList,
   });
 }

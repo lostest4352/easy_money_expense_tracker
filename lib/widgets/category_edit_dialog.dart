@@ -1,3 +1,6 @@
+// TODO remove later
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
@@ -6,6 +9,7 @@ import 'package:flutter_expense_tracker/models/dropdown_colors.dart';
 import 'package:flutter_expense_tracker/blocs/category_bloc/category_bloc.dart';
 import 'package:flutter_expense_tracker/models/category_model.dart';
 import 'package:flutter_expense_tracker/widgets/popup_textfield_items.dart';
+import 'package:go_router/go_router.dart';
 
 class CategoryAddOrEditDialog extends StatefulWidget {
   final bool editMode;
@@ -124,7 +128,7 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
                     duration: Duration(milliseconds: 800),
                     backgroundColor: Colors.deepPurple,
                     content: Text(
-                      'Edit only allowed for unused cateories',
+                      'Only unused cateories can be modified',
                       style: TextStyle(color: Colors.white),
                     ),
                   );
@@ -142,11 +146,71 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
                         () {
                           if (widget.editMode == true) {
                             return ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                debugPrint(widget.selectedListItem.toString());
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      actions: [
+                                        Wrap(
+                                          children: [
+                                            Text(
+                                                "Are you sure that you want to delete this category?"),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            TextButton(
+                                              onPressed: () {
+                                                blocCategories.add(
+                                                  DeleteCategoryEvent(
+                                                    context: context,
+                                                    selectedListItem: widget
+                                                        .selectedListItem!,
+                                                    transactionList:
+                                                        blocTransactions
+                                                            .transactionList,
+                                                  ),
+                                                );
+                                                context.pop();
+                                              },
+                                              child: Text(
+                                                "Ok",
+                                                style: TextStyle(
+                                                    color: Colors.blue),
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                context.pop();
+                                              },
+                                              child: Text(
+                                                "Cancel",
+                                                style: TextStyle(
+                                                  color: Colors.red,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
                               child: const Text("Delete"),
                             );
                           } else {
-                            return Container();
+                            return const SizedBox();
                           }
                         }(),
                         const Spacer(),
@@ -156,16 +220,18 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
                           ),
                           onPressed: () {
                             if (categoryController.text != "") {
-                              blocCategories.add(ModifyCategoryEvent(
-                                context: context,
-                                editMode: widget.editMode,
-                                transactionType: categoryController.text,
-                                isIncome: isIncome,
-                                colorsValue: colorsValue,
-                                transactionList:
-                                    blocTransactions.transactionList,
-                                selectedListItem: widget.selectedListItem,
-                              ));
+                              blocCategories.add(
+                                AddOrEditCategoryEvent(
+                                  context: context,
+                                  editMode: widget.editMode,
+                                  transactionType: categoryController.text,
+                                  isIncome: isIncome,
+                                  colorsValue: colorsValue,
+                                  transactionList:
+                                      blocTransactions.transactionList,
+                                  selectedListItem: widget.selectedListItem,
+                                ),
+                              );
                             }
                           },
                           child: const Text("Save"),

@@ -10,7 +10,7 @@ part 'category_state.dart';
 
 class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   CategoryBloc() : super(CategoryInitial()) {
-    on<ModifyCategoryEvent>((event, emit) {
+    on<AddOrEditCategoryEvent>((event, emit) {
       if (event.editMode == false) {
         listItems.add(CategoryModel(
             transactionType: event.transactionType,
@@ -34,6 +34,22 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
           emit(EditCategoryState());
           event.context.pop();
         }
+      }
+    });
+
+    on<DeleteCategoryEvent>((event, emit) {
+      bool found = false;
+      for (final transaction in event.transactionList) {
+        if (transaction.categoryModel.transactionType ==
+            event.selectedListItem.transactionType) {
+          found = true;
+          emit(DisallowModificationState());
+        }
+      }
+      if (!found) {
+        listItems.remove(event.selectedListItem);
+        emit(EditCategoryState());
+        event.context.pop();
       }
     });
   }
