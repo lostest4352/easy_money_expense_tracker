@@ -2,44 +2,40 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expense_tracker/models/category_model.dart';
 import 'package:flutter_expense_tracker/models/dropdown_colors.dart';
+import 'package:flutter_expense_tracker/models/transaction_model.dart';
+import 'package:go_router/go_router.dart';
 
 part 'category_event.dart';
 part 'category_state.dart';
 
 class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   CategoryBloc() : super(CategoryInitial()) {
-    on<AddCategoryEvent>((event, emit) {
-      emit(AddCategoryState());
+    on<ModifyCategoryEvent>((event, emit) {
+      if (event.editMode == false) {
+        listItems.add(CategoryModel(
+            transactionType: event.transactionType,
+            isIncome: event.isIncome,
+            colorsValue: event.colorsValue));
+        emit(AddCategoryState());
+        event.context.pop();
+      } else if (event.editMode == true) {
+        bool found = false;
+        for (final transaction in event.transactionList) {
+          if (transaction.categoryModel.transactionType ==
+              event.selectedListItem?.transactionType) {
+            found = true;
+            emit(DisallowModificationState());
+          }
+        }
+        if (!found) {
+          event.selectedListItem?.colorsValue = event.colorsValue;
+          event.selectedListItem?.transactionType = event.transactionType;
+          event.selectedListItem?.isIncome = event.isIncome;
+          emit(EditCategoryState());
+          event.context.pop();
+        }
+      }
     });
-    on<EditCategoryEvent>((event, emit) {
-      emit(EditCategoryState());
-    });
-    on<DeleteCategoryEvent>((event, emit) {
-      emit(DeleteCategoryState());
-    });
-  }
-
-  void addCategory(String transactionType, bool isIncome, int colorsValue) {
-    listItems.add(
-      CategoryModel(
-        transactionType: transactionType,
-        isIncome: isIncome,
-        colorsValue: colorsValue,
-      ),
-    );
-    add(AddCategoryEvent());
-  }
-
-  void editCategory(String transactionType, bool isIncome, int colorsValue,
-      CategoryModel selectedListItem) {
-    selectedListItem.colorsValue = colorsValue;
-    selectedListItem.transactionType = transactionType;
-    selectedListItem.isIncome = isIncome;
-    add(EditCategoryEvent());
-  }
-
-  void deleteCategory() {
-    add(DeleteCategoryEvent());
   }
 
   //

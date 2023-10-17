@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
 import 'package:flutter_expense_tracker/models/dropdown_colors.dart';
-import 'package:go_router/go_router.dart';
 
 import 'package:flutter_expense_tracker/blocs/category_bloc/category_bloc.dart';
 import 'package:flutter_expense_tracker/models/category_model.dart';
@@ -119,7 +118,20 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
               const SizedBox(
                 height: 10,
               ),
-              BlocBuilder<TransactionsBloc, TransactionsState>(
+              BlocConsumer<CategoryBloc, CategoryState>(
+                listener: (context, state) {
+                  const snackBar = SnackBar(
+                    duration: Duration(milliseconds: 800),
+                    backgroundColor: Colors.deepPurple,
+                    content: Text(
+                      'Edit only allowed for unused cateories',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  );
+                  if (state is DisallowModificationState) {
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  }
+                },
                 builder: (context, state) {
                   final blocCategories = context.read<CategoryBloc>();
                   final blocTransactions = context.read<TransactionsBloc>();
@@ -144,45 +156,16 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
                           ),
                           onPressed: () {
                             if (categoryController.text != "") {
-                              if (widget.editMode == false) {
-                                blocCategories.addCategory(
-                                  categoryController.text,
-                                  isIncome,
-                                  colorsValue,
-                                );
-                                context.pop();
-                              } else if (widget.editMode == true) {
-                                bool found = false;
-                                for (final transaction
-                                    in blocTransactions.transactionList) {
-                                  if (transaction
-                                          .categoryModel.transactionType ==
-                                      widget
-                                          .selectedListItem?.transactionType) {
-                                    found = true;
-                                    const snackBar = SnackBar(
-                                      duration: Duration(milliseconds: 800),
-                                      backgroundColor: Colors.deepPurple,
-                                      content: Text(
-                                        'Edit only allowed for unused cateories',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                    );
-
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(snackBar);
-                                  }
-                                }
-                                if (!found) {
-                                  blocCategories.editCategory(
-                                    categoryController.text,
-                                    isIncome,
-                                    colorsValue,
-                                    widget.selectedListItem!,
-                                  );
-                                  context.pop();
-                                }
-                              }
+                              blocCategories.add(ModifyCategoryEvent(
+                                context: context,
+                                editMode: widget.editMode,
+                                transactionType: categoryController.text,
+                                isIncome: isIncome,
+                                colorsValue: colorsValue,
+                                transactionList:
+                                    blocTransactions.transactionList,
+                                selectedListItem: widget.selectedListItem,
+                              ));
                             }
                           },
                           child: const Text("Save"),
