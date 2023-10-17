@@ -8,5 +8,3 @@ class AddCategoryEvent extends CategoryEvent {}
 class EditCategoryEvent extends CategoryEvent {}
 
 class DeleteCategoryEvent extends CategoryEvent {}
-
-class EditNotAllowedEvent extends CategoryEvent {}

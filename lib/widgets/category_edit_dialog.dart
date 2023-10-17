@@ -119,11 +119,7 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
               const SizedBox(
                 height: 10,
               ),
-              BlocConsumer<TransactionsBloc, TransactionsState>(
-                listener: (context, state) {
-                  // TODO
-                  if (state is EditNotAllowedEvent) {}
-                },
+              BlocBuilder<TransactionsBloc, TransactionsState>(
                 builder: (context, state) {
                   final blocCategories = context.read<CategoryBloc>();
                   final blocTransactions = context.read<TransactionsBloc>();
@@ -175,7 +171,6 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
 
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(snackBar);
-                                    blocCategories.add(EditNotAllowedEvent());
                                   }
                                 }
                                 if (!found) {
