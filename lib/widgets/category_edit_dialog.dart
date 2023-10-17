@@ -1,6 +1,3 @@
-// TODO remove later
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
@@ -152,7 +149,7 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
                                   builder: (context) {
                                     return AlertDialog(
                                       actions: [
-                                        Wrap(
+                                        const Wrap(
                                           children: [
                                             Text(
                                                 "Are you sure that you want to delete this category?"),
@@ -179,7 +176,7 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
                                                 );
                                                 context.pop();
                                               },
-                                              child: Text(
+                                              child: const Text(
                                                 "Ok",
                                                 style: TextStyle(
                                                     color: Colors.blue),
@@ -192,7 +189,7 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
                                               onPressed: () {
                                                 context.pop();
                                               },
-                                              child: Text(
+                                              child: const Text(
                                                 "Cancel",
                                                 style: TextStyle(
                                                   color: Colors.red,
