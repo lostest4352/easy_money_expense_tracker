@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expense_tracker/pages/local_widgets/homepage_appbar.dart';
+import 'package:flutter_expense_tracker/pages/local_widgets/notes_details_page.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
@@ -209,7 +210,17 @@ class TransactionView extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2),
           child: InkWell(
-            onTap: () {},
+            onTap: () {
+              debugPrint(transaction.toString());
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return NotesDetailsPage(
+                    transaction: transaction,
+                  );
+                },
+              );
+            },
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
@@ -246,16 +257,22 @@ class TransactionView extends StatelessWidget {
                             transaction.categoryModel.transactionType,
                             style: const TextStyle(fontWeight: FontWeight.w500),
                           ),
-                          (transaction.note != null)
-                              ? Column(
-                                  children: [
-                                    Text(
-                                      "${transaction.note}",
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ],
-                                )
-                              : const Column(),
+                          
+                          () {
+                            if (transaction.note != null) {
+                              return Container(
+                                constraints: const BoxConstraints(maxWidth: 100),
+                                child: Text(
+                                  "${transaction.note}",
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: false,
+                                  maxLines: 1,
+                                ),
+                              );
+                            } else {
+                              return const SizedBox();
+                            }
+                          }(),
                         ],
                       ),
                       const Spacer(),
@@ -265,14 +282,18 @@ class TransactionView extends StatelessWidget {
                         ),
                       ),
                       const Spacer(),
-                      Text(
-                        "${transaction.amount}",
-                        style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w500,
-                          color: (transaction.categoryModel.isIncome == true)
-                              ? Colors.green
-                              : Colors.red,
+                      Container(
+                        constraints: const BoxConstraints(maxWidth: 100),
+                        child: Text(
+                          "${transaction.amount}",
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w500,
+                            color: (transaction.categoryModel.isIncome == true)
+                                ? Colors.green
+                                : Colors.red,
+                          ),
                         ),
                       ),
                     ],

@@ -22,6 +22,8 @@ class PopupTextFieldItems extends StatelessWidget {
         controller: textEditingController,
         keyboardType: keyboardType,
         inputFormatters: inputFormatters,
+        minLines: 1,
+        maxLines: 5,
         onTapOutside: (event) {
           FocusManager.instance.primaryFocus?.unfocus();
         },
