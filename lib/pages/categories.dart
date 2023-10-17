@@ -39,6 +39,11 @@ class _ExpenseCategoriesState extends State<ExpenseCategories> {
       body: BlocBuilder<CategoryBloc, CategoryState>(
         builder: (context, state) {
           final blocCategories = context.read<CategoryBloc>();
+          // TODO add below code for moving transactions to these two types if cateory deleted
+          // blocCategories.listItems.where((itemsInList) {
+          //   return itemsInList.transactionType == "otherIncome" ||
+          //       itemsInList.transactionType == "otherExpense";
+          // });
           return Column(
             children: [
               const SizedBox(
