@@ -264,21 +264,26 @@ class _EntryDialogState extends State<EntryDialog> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.end,
                                           children: [
-                                            TextButton(
-                                              onPressed: () {
-                                                showDialog(
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return const CategoryAddOrEditDialog(
-                                                      editMode: false,
-                                                    );
-                                                  },
-                                                );
-                                              },
-                                              child: const Text(
-                                                "+ Add Cateory",
-                                                style: TextStyle(
-                                                  color: Colors.blue,
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor:
+                                                      Colors.blueAccent,
+                                                ),
+                                                onPressed: () {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return const CategoryAddOrEditDialog(
+                                                        editMode: false,
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                                child: const Text(
+                                                  "+ Add Cateory",
                                                 ),
                                               ),
                                             ),
