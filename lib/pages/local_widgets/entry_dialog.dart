@@ -192,7 +192,6 @@ class _EntryDialogState extends State<EntryDialog> {
                                     ?.colorsValue as int,
                               ),
                             );
-
                             blocTransaction.changeData(transactionVal,
                                 categoryValueFromListItem?.isIncome as bool);
                           }
@@ -221,80 +220,75 @@ class _EntryDialogState extends State<EntryDialog> {
                         return Dialog(
                           child: SizedBox(
                             height: 400,
-                            child: BlocBuilder<CategoryBloc, CategoryState>(
-                              builder: (context, state) {
-                                return Column(
-                                  children: [
-                                    Expanded(
-                                      child: SingleChildScrollView(
-                                        child: Column(
+                            child: Column(
+                              children: [
+                                Expanded(
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      children: [
+                                        for (final listItem
+                                            in blocCategories.listItems)
+                                          ListTile(
+                                            onTap: () {
+                                              setState(() {
+                                                categoryItem = listItem
+                                                    .transactionType
+                                                    .toString();
+                                                categoryValueFromListItem =
+                                                    listItem;
+                                              });
+                                              context.pop();
+                                            },
+                                            leading: CircleAvatar(
+                                              backgroundColor:
+                                                  listItem.isIncome == true
+                                                      ? Colors.blue
+                                                      : Colors.red,
+                                              child: listItem.isIncome == true
+                                                  ? const Icon(
+                                                      Icons.addchart,
+                                                      color: Colors.white,
+                                                    )
+                                                  : const Icon(
+                                                      Icons
+                                                          .highlight_remove_sharp,
+                                                      color: Colors.white,
+                                                    ),
+                                            ),
+                                            //
+                                            title: Text(
+                                              listItem.transactionType,
+                                            ),
+                                          ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
                                           children: [
-                                            for (final listItem
-                                                in blocCategories.listItems)
-                                              ListTile(
-                                                onTap: () {
-                                                  setState(() {
-                                                    categoryItem = listItem
-                                                        .transactionType
-                                                        .toString();
-                                                    categoryValueFromListItem =
-                                                        listItem;
-                                                  });
-                                                  context.pop();
-                                                },
-                                                leading: CircleAvatar(
-                                                  backgroundColor:
-                                                      listItem.isIncome == true
-                                                          ? Colors.blue
-                                                          : Colors.red,
-                                                  child: listItem.isIncome ==
-                                                          true
-                                                      ? const Icon(
-                                                          Icons.addchart,
-                                                          color: Colors.white,
-                                                        )
-                                                      : const Icon(
-                                                          Icons
-                                                              .highlight_remove_sharp,
-                                                          color: Colors.white,
-                                                        ),
-                                                ),
-                                                //
-                                                title: Text(
-                                                  listItem.transactionType,
-                                                ),
-                                              ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: [
-                                                TextButton(
-                                                  onPressed: () {
-                                                    showDialog(
-                                                      context: context,
-                                                      builder: (context) {
-                                                        return const CategoryAddOrEditDialog(
-                                                          editMode: false,
-                                                        );
-                                                      },
+                                            TextButton(
+                                              onPressed: () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return const CategoryAddOrEditDialog(
+                                                      editMode: false,
                                                     );
                                                   },
-                                                  child: const Text(
-                                                    "+ Add Cateory",
-                                                    style: TextStyle(
-                                                      color: Colors.blue,
-                                                    ),
-                                                  ),
+                                                );
+                                              },
+                                              child: const Text(
+                                                "+ Add Cateory",
+                                                style: TextStyle(
+                                                  color: Colors.blue,
                                                 ),
-                                              ],
+                                              ),
                                             ),
                                           ],
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                  ],
-                                );
-                              },
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         );
