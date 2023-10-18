@@ -55,6 +55,7 @@ class _EntryDialogState extends State<EntryDialog> {
       categoryItem = widget.transaction?.categoryModel.transactionType;
     } else {
       formattedDate = formatter.format(selectedDate);
+      categoryItem = null;
     }
   }
 
