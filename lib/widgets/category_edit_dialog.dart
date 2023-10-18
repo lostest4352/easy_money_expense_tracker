@@ -122,11 +122,11 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
               BlocConsumer<CategoryBloc, CategoryState>(
                 listener: (context, state) {
                   const snackBar = SnackBar(
-                    duration: Duration(milliseconds: 800),
-                    backgroundColor: Colors.deepPurple,
+                    duration: Duration(milliseconds: 1200),
+                    backgroundColor:  Colors.white,
                     content: Text(
                       'Only unused cateories can be modified',
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.black),
                     ),
                   );
                   if (state is DisallowModificationState) {
