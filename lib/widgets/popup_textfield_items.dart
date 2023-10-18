@@ -35,7 +35,7 @@ class PopupTextFieldItems extends StatelessWidget {
           fillColor: Colors.grey.shade800,
           border: OutlineInputBorder(
             borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(55),
+            borderRadius: BorderRadius.circular(15),
           ),
         ),
       ),

@@ -1,22 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_expense_tracker/blocs/category_bloc/category_bloc.dart';
-import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
-import 'package:flutter_expense_tracker/models/category_model.dart';
-import 'package:flutter_expense_tracker/widgets/category_edit_dialog.dart';
-import 'package:flutter_expense_tracker/widgets/popup_category_items.dart';
-import 'package:flutter_expense_tracker/widgets/popup_textfield_items.dart';
-import 'package:flutter_expense_tracker/widgets/popup_textfield_title.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import 'package:flutter_expense_tracker/blocs/category_bloc/category_bloc.dart';
+import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
+import 'package:flutter_expense_tracker/models/category_model.dart';
 import 'package:flutter_expense_tracker/models/transaction_model.dart';
+import 'package:flutter_expense_tracker/widgets/category_edit_dialog.dart';
+import 'package:flutter_expense_tracker/widgets/popup_category_items.dart';
+import 'package:flutter_expense_tracker/widgets/popup_textfield_items.dart';
+import 'package:flutter_expense_tracker/widgets/popup_textfield_title.dart';
 
 class EntryDialog extends StatefulWidget {
+  final bool editMode;
+  final TransactionModel? transaction;
   const EntryDialog({
     Key? key,
+    required this.editMode,
+    this.transaction,
   }) : super(key: key);
 
   @override
@@ -32,12 +36,27 @@ class _EntryDialogState extends State<EntryDialog> {
   // Date Related
   DateTime selectedDate = DateTime.now();
   final formatter = DateFormat('yyyy-MM-dd');
-  String get formattedDate => formatter.format(selectedDate);
+  // String get formattedDate => formatter.format(selectedDate);
+  late String formattedDate;
   // Current date unchanged unlike above
   final currentDateFormatted = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
-  String? categoryItem;
+  late String? categoryItem;
   CategoryModel? categoryValueFromListItem;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.editMode == true) {
+      amountController.text = widget.transaction?.amount.toString() ?? "";
+      noteController.text = widget.transaction?.note ?? "";
+      formattedDate =
+          formatter.format(DateTime.parse(widget.transaction!.dateTime));
+      categoryItem = widget.transaction?.categoryModel.transactionType;
+    } else {
+      formattedDate = formatter.format(selectedDate);
+    }
+  }
 
   @override
   void dispose() {
@@ -129,7 +148,6 @@ class _EntryDialogState extends State<EntryDialog> {
                 const SizedBox(
                   height: 5,
                 ),
-                // const SaveAndCancelRow(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -171,11 +189,9 @@ class _EntryDialogState extends State<EntryDialog> {
                                     ?.colorsValue as int,
                               ),
                             );
-                            // widget.changeData(transactionVal,
-                            //     categoryValueFromListItem?.isIncome as bool);
+
                             blocTransaction.changeData(transactionVal,
                                 categoryValueFromListItem?.isIncome as bool);
-                            // debugPrint(blocTransaction.transactionList.length.toString());
                           }
                           context.pop();
                         },
@@ -242,7 +258,8 @@ class _EntryDialogState extends State<EntryDialog> {
                                                 ),
                                                 //
                                                 title: Text(
-                                                    listItem.transactionType),
+                                                  listItem.transactionType,
+                                                ),
                                               ),
                                             Row(
                                               mainAxisAlignment:
@@ -262,7 +279,8 @@ class _EntryDialogState extends State<EntryDialog> {
                                                   child: const Text(
                                                     "+ Add Cateory",
                                                     style: TextStyle(
-                                                        color: Colors.blue),
+                                                      color: Colors.blue,
+                                                    ),
                                                   ),
                                                 ),
                                               ],
@@ -281,9 +299,13 @@ class _EntryDialogState extends State<EntryDialog> {
                     );
                   },
                   child: PopupCategoryItems(
-                    title: (categoryItem == null)
-                        ? "Select Category"
-                        : categoryItem as String,
+                    title: () {
+                      if (categoryItem == null) {
+                        return "Select Category";
+                      } else {
+                        return categoryItem ?? "Select Category";
+                      }
+                    }(),
                   ),
                 ),
                 const SizedBox(

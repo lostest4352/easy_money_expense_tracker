@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expense_tracker/pages/local_widgets/homepage_appbar.dart';
-import 'package:flutter_expense_tracker/pages/local_widgets/notes_details_page.dart';
 import 'package:intl/intl.dart';
-
 import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
 import 'package:flutter_expense_tracker/models/transaction_model.dart';
 import 'package:flutter_expense_tracker/pages/local_widgets/entry_dialog.dart';
@@ -58,7 +56,7 @@ class HomePage extends StatelessWidget {
           showDialog(
             context: context,
             builder: (context) {
-              return const EntryDialog();
+              return const EntryDialog(editMode: false);
             },
           );
         },
@@ -215,7 +213,8 @@ class TransactionView extends StatelessWidget {
               showDialog(
                 context: context,
                 builder: (context) {
-                  return NotesDetailsPage(
+                  return EntryDialog(
+                    editMode: true,
                     transaction: transaction,
                   );
                 },
@@ -292,7 +291,6 @@ class TransactionView extends StatelessWidget {
                               "Note: ${transaction.note}",
                               overflow: TextOverflow.ellipsis,
                               softWrap: false,
-                              
                               maxLines: 1,
                             ),
                           ],
