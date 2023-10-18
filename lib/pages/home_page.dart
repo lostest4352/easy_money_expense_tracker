@@ -257,22 +257,6 @@ class TransactionView extends StatelessWidget {
                             transaction.categoryModel.transactionType,
                             style: const TextStyle(fontWeight: FontWeight.w500),
                           ),
-                          
-                          () {
-                            if (transaction.note != null) {
-                              return Container(
-                                constraints: const BoxConstraints(maxWidth: 100),
-                                child: Text(
-                                  "${transaction.note}",
-                                  overflow: TextOverflow.ellipsis,
-                                  softWrap: false,
-                                  maxLines: 1,
-                                ),
-                              );
-                            } else {
-                              return const SizedBox();
-                            }
-                          }(),
                         ],
                       ),
                       const Spacer(),
@@ -283,7 +267,7 @@ class TransactionView extends StatelessWidget {
                       ),
                       const Spacer(),
                       Container(
-                        constraints: const BoxConstraints(maxWidth: 100),
+                        constraints: const BoxConstraints(maxWidth: 120),
                         child: Text(
                           "${transaction.amount}",
                           overflow: TextOverflow.ellipsis,
@@ -298,6 +282,26 @@ class TransactionView extends StatelessWidget {
                       ),
                     ],
                   ),
+                  () {
+                    if (transaction.note != null) {
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 8, right: 8),
+                        child: Column(
+                          children: [
+                            Text(
+                              "Note: ${transaction.note}",
+                              overflow: TextOverflow.ellipsis,
+                              softWrap: false,
+                              
+                              maxLines: 1,
+                            ),
+                          ],
+                        ),
+                      );
+                    } else {
+                      return const SizedBox();
+                    }
+                  }(),
                 ],
               ),
             ),
