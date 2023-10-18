@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_expense_tracker/pages/local_widgets/homepage_appbar.dart';
+import 'package:flutter_expense_tracker/pages/widgets/homepage_appbar.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
 import 'package:flutter_expense_tracker/models/transaction_model.dart';
-import 'package:flutter_expense_tracker/pages/local_widgets/entry_dialog.dart';
-import 'package:flutter_expense_tracker/widgets/app_drawer.dart';
+import 'package:flutter_expense_tracker/pages/widgets/entry_dialog.dart';
+import 'package:flutter_expense_tracker/pages/widgets/app_drawer.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

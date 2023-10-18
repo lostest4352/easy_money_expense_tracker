@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_expense_tracker/blocs/category_bloc/category_bloc.dart';
-import 'package:flutter_expense_tracker/widgets/app_drawer.dart';
+import 'package:flutter_expense_tracker/pages/widgets/app_drawer.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_expense_tracker/widgets/category_edit_dialog.dart';
+import 'package:flutter_expense_tracker/pages/widgets/category_edit_dialog.dart';
 
 class ExpenseCategories extends StatefulWidget {
   const ExpenseCategories({super.key});

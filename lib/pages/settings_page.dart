@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_expense_tracker/widgets/app_drawer.dart';
+import 'package:flutter_expense_tracker/pages/widgets/app_drawer.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});

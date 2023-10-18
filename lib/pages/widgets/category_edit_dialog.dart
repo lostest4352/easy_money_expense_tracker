@@ -5,7 +5,7 @@ import 'package:flutter_expense_tracker/models/dropdown_colors.dart';
 
 import 'package:flutter_expense_tracker/blocs/category_bloc/category_bloc.dart';
 import 'package:flutter_expense_tracker/models/category_model.dart';
-import 'package:flutter_expense_tracker/widgets/popup_textfield_items.dart';
+import 'package:flutter_expense_tracker/pages/widgets/popup_textfield_items.dart';
 import 'package:go_router/go_router.dart';
 
 class CategoryAddOrEditDialog extends StatefulWidget {

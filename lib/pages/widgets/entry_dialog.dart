@@ -9,10 +9,10 @@ import 'package:flutter_expense_tracker/blocs/category_bloc/category_bloc.dart';
 import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
 import 'package:flutter_expense_tracker/models/category_model.dart';
 import 'package:flutter_expense_tracker/models/transaction_model.dart';
-import 'package:flutter_expense_tracker/widgets/category_edit_dialog.dart';
-import 'package:flutter_expense_tracker/widgets/popup_category_items.dart';
-import 'package:flutter_expense_tracker/widgets/popup_textfield_items.dart';
-import 'package:flutter_expense_tracker/widgets/popup_textfield_title.dart';
+import 'package:flutter_expense_tracker/pages/widgets/category_edit_dialog.dart';
+import 'package:flutter_expense_tracker/pages/widgets/popup_category_items.dart';
+import 'package:flutter_expense_tracker/pages/widgets/popup_textfield_items.dart';
+import 'package:flutter_expense_tracker/pages/widgets/popup_textfield_title.dart';
 
 class EntryDialog extends StatefulWidget {
   final bool editMode;
