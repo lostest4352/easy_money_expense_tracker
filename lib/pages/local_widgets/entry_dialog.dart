@@ -92,36 +92,38 @@ class _EntryDialogState extends State<EntryDialog> {
                 ),
                 InkWell(
                   onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return Dialog(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              TableCalendar(
-                                firstDay: DateTime.utc(2010, 10, 16),
-                                lastDay: DateTime.now(),
-                                availableCalendarFormats: const {
-                                  CalendarFormat.month: 'Month',
-                                },
-                                focusedDay: selectedDate,
-                                onDaySelected: (selectedDay, focusedDay) {
-                                  debugPrint(formattedDate.toString());
-                                  setState(() {
-                                    selectedDate = selectedDay;
-                                  });
-                                  context.pop();
-                                },
-                                selectedDayPredicate: (day) {
-                                  return isSameDay(selectedDate, day);
-                                },
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    );
+                    if (widget.editMode == false) {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return Dialog(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                TableCalendar(
+                                  firstDay: DateTime.utc(2010, 10, 16),
+                                  lastDay: DateTime.now(),
+                                  availableCalendarFormats: const {
+                                    CalendarFormat.month: 'Month',
+                                  },
+                                  focusedDay: selectedDate,
+                                  onDaySelected: (selectedDay, focusedDay) {
+                                    debugPrint(formattedDate.toString());
+                                    setState(() {
+                                      selectedDate = selectedDay;
+                                    });
+                                    context.pop();
+                                  },
+                                  selectedDayPredicate: (day) {
+                                    return isSameDay(selectedDate, day);
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    }
                   },
                   child: PopupCategoryItems(
                     title: (formattedDate == currentDateFormatted)
