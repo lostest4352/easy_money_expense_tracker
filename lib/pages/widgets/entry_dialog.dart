@@ -36,8 +36,8 @@ class _EntryDialogState extends State<EntryDialog> {
   // Date Related
   DateTime selectedDate = DateTime.now();
   final formatter = DateFormat('yyyy-MM-dd');
-  // String get formattedDate => formatter.format(selectedDate);
-  late String formattedDate;
+  String get formattedDate => formatter.format(selectedDate);
+
   // Current date unchanged unlike above
   final currentDateFormatted = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
@@ -50,12 +50,10 @@ class _EntryDialogState extends State<EntryDialog> {
     if (widget.editMode == true) {
       amountController.text = widget.transaction?.amount.toString() ?? "";
       noteController.text = widget.transaction?.note ?? "";
-      formattedDate =
-          formatter.format(DateTime.parse(widget.transaction!.dateTime));
+      selectedDate = DateTime.parse(widget.transaction!.dateTime);
       categoryItem = widget.transaction?.categoryModel.transactionType;
       categoryValueFromListItem = widget.transaction?.categoryModel;
     } else {
-      formattedDate = formatter.format(selectedDate);
       categoryItem = null;
     }
   }
@@ -123,7 +121,7 @@ class _EntryDialogState extends State<EntryDialog> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 TableCalendar(
-                                  firstDay: DateTime.utc(2010, 10, 16),
+                                  firstDay: DateTime.utc(2010, 01, 01),
                                   lastDay: DateTime.now(),
                                   availableCalendarFormats: const {
                                     CalendarFormat.month: 'Month',
@@ -215,7 +213,6 @@ class _EntryDialogState extends State<EntryDialog> {
                                   : noteController.text.trim(),
                               categoryModel: selectedCateory,
                             );
-                            blocTransaction.calculateIncome();
                             if (widget.editMode == false) {
                               blocTransaction.addData(
                                 transactionModel: transactionVal,
