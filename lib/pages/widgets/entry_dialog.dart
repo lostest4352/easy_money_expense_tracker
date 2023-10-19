@@ -85,6 +85,27 @@ class _EntryDialogState extends State<EntryDialog> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                () {
+                  if (widget.editMode == true) {
+                    return Align(
+                      alignment: Alignment.topRight,
+                      child: InkWell(
+                        onTap: () {
+                          blocTransaction.deleteData(
+                              widgetTransaction: widget.transaction!);
+                          context.pop();
+                        },
+                        child: const Icon(
+                          Icons.delete_outline,
+                          size: 20,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    );
+                  } else {
+                    return const SizedBox();
+                  }
+                }(),
                 const SizedBox(
                   height: 15,
                 ),
@@ -154,6 +175,7 @@ class _EntryDialogState extends State<EntryDialog> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
+                    const Spacer(),
                     Padding(
                       padding: const EdgeInsets.only(left: 10, bottom: 10),
                       child: InkWell(

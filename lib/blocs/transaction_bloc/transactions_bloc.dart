@@ -48,4 +48,10 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
     calculateIncome();
     add(AddTransactionEvent());
   }
+
+  void deleteData({required TransactionModel widgetTransaction}) {
+    transactionList.remove(widgetTransaction);
+    calculateIncome();
+    add(AddTransactionEvent());
+  }
 }
