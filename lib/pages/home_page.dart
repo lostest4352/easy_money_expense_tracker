@@ -123,7 +123,7 @@ class HomePage extends StatelessWidget {
                             // int calculatedData = monthlyInc + monthlyExp;
                             int calculatedData = calculateMonthsData(
                                 date, blocTransaction.transactionList);
-                            debugPrint("This is date: ${date.toString()}");
+
                             return Column(
                               children: [
                                 Padding(
@@ -209,7 +209,6 @@ class TransactionView extends StatelessWidget {
           padding: const EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2),
           child: InkWell(
             onTap: () {
-              debugPrint(transaction.toString());
               showDialog(
                 context: context,
                 builder: (context) {

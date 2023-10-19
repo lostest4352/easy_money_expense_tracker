@@ -108,7 +108,6 @@ class _EntryDialogState extends State<EntryDialog> {
                                   },
                                   focusedDay: selectedDate,
                                   onDaySelected: (selectedDay, focusedDay) {
-                                    debugPrint(formattedDate.toString());
                                     setState(() {
                                       selectedDate = selectedDay;
                                     });
@@ -177,20 +176,21 @@ class _EntryDialogState extends State<EntryDialog> {
                       child: InkWell(
                         onTap: () {
                           if (categoryValueFromListItem != null) {
+                            final selectedCateory = CategoryModel(
+                              transactionType: categoryValueFromListItem
+                                  ?.transactionType as String,
+                              isIncome:
+                                  categoryValueFromListItem?.isIncome as bool,
+                              colorsValue:
+                                  categoryValueFromListItem?.colorsValue as int,
+                            );
                             final transactionVal = TransactionModel(
                               dateTime: selectedDate.toString(),
                               amount: int.parse(amountController.text),
                               note: (noteController.text.trim() == "")
                                   ? null
                                   : noteController.text.trim(),
-                              categoryModel: CategoryModel(
-                                transactionType: categoryValueFromListItem
-                                    ?.transactionType as String,
-                                isIncome:
-                                    categoryValueFromListItem?.isIncome as bool,
-                                colorsValue: categoryValueFromListItem
-                                    ?.colorsValue as int,
-                              ),
+                              categoryModel: selectedCateory,
                             );
                             blocTransaction.changeData(transactionVal,
                                 categoryValueFromListItem?.isIncome as bool);
@@ -301,13 +301,7 @@ class _EntryDialogState extends State<EntryDialog> {
                     );
                   },
                   child: PopupCategoryItems(
-                    title: () {
-                      if (categoryItem == null) {
-                        return "Select Category";
-                      } else {
-                        return categoryItem ?? "Select Category";
-                      }
-                    }(),
+                    title: categoryItem ?? "Select Category",
                   ),
                 ),
                 const SizedBox(
