@@ -19,9 +19,9 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
 
   List<TransactionModel> transactionList = [];
 
-  void changeData(TransactionModel transactionModel, bool isIncome) {
+  void changeData(TransactionModel transactionModel) {
     transactionList.add(transactionModel);
-    if (isIncome == true) {
+    if (transactionModel.categoryModel.isIncome == true) {
       totalIncome += transactionModel.amount;
     } else {
       totalExpenses += transactionModel.amount;

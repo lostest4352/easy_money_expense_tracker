@@ -192,8 +192,7 @@ class _EntryDialogState extends State<EntryDialog> {
                                   : noteController.text.trim(),
                               categoryModel: selectedCateory,
                             );
-                            blocTransaction.changeData(transactionVal,
-                                categoryValueFromListItem?.isIncome as bool);
+                            blocTransaction.changeData(transactionVal);
                           }
                           context.pop();
                         },
