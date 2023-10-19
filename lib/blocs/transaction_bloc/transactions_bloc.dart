@@ -44,6 +44,7 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
       required TransactionModel widgetTransaction}) {
     widgetTransaction.amount = transactionModel.amount;
     widgetTransaction.categoryModel = transactionModel.categoryModel;
+    widgetTransaction.note = transactionModel.note;
     calculateIncome();
     add(AddTransactionEvent());
   }
