@@ -215,7 +215,6 @@ class _EntryDialogState extends State<EntryDialog> {
                                   : noteController.text.trim(),
                               categoryModel: selectedCateory,
                             );
-
                             blocTransaction.calculateIncome();
                             if (widget.editMode == false) {
                               blocTransaction.addData(
@@ -254,75 +253,77 @@ class _EntryDialogState extends State<EntryDialog> {
                             child: Column(
                               children: [
                                 Expanded(
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      children: [
-                                        for (final listItem
-                                            in blocCategories.listItems)
-                                          ListTile(
-                                            onTap: () {
-                                              setState(() {
-                                                categoryItem = listItem
-                                                    .transactionType
-                                                    .toString();
-                                                categoryValueFromListItem =
-                                                    listItem;
-                                              });
-                                              context.pop();
-                                            },
-                                            leading: CircleAvatar(
-                                              backgroundColor:
-                                                  listItem.isIncome == true
-                                                      ? Colors.blue
-                                                      : Colors.red,
-                                              child: listItem.isIncome == true
-                                                  ? const Icon(
-                                                      Icons.addchart,
-                                                      color: Colors.white,
-                                                    )
-                                                  : const Icon(
-                                                      Icons
-                                                          .highlight_remove_sharp,
-                                                      color: Colors.white,
-                                                    ),
-                                            ),
-                                            //
-                                            title: Text(
-                                              listItem.transactionType,
-                                            ),
-                                          ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                  backgroundColor:
-                                                      Colors.blueAccent,
+                                  child: ListView.builder(
+                                    itemCount: blocCategories.listItems.length,
+                                    itemBuilder: (context, index) {
+                                      return ListTile(
+                                        onTap: () {
+                                          setState(() {
+                                            categoryItem = blocCategories
+                                                .listItems[index]
+                                                .transactionType
+                                                .toString();
+                                            categoryValueFromListItem =
+                                                blocCategories.listItems[index];
+                                          });
+                                          context.pop();
+                                        },
+                                        leading: CircleAvatar(
+                                          backgroundColor: (blocCategories
+                                                      .listItems[index]
+                                                      .isIncome) ==
+                                                  true
+                                              ? Colors.blue
+                                              : Colors.red,
+                                          child: (blocCategories
+                                                      .listItems[index]
+                                                      .isIncome ==
+                                                  true)
+                                              ? const Icon(
+                                                  Icons.addchart,
+                                                  color: Colors.white,
+                                                )
+                                              : const Icon(
+                                                  Icons.highlight_remove_sharp,
+                                                  color: Colors.white,
                                                 ),
-                                                onPressed: () {
-                                                  showDialog(
-                                                    context: context,
-                                                    builder: (context) {
-                                                      return const CategoryAddOrEditDialog(
-                                                        editMode: false,
-                                                      );
-                                                    },
-                                                  );
-                                                },
-                                                child: const Text(
-                                                  "+ Add Cateory",
-                                                ),
-                                              ),
-                                            ),
-                                          ],
                                         ),
-                                      ],
-                                    ),
+                                        //
+                                        title: Text(
+                                          blocCategories
+                                              .listItems[index].transactionType,
+                                        ),
+                                      );
+                                    },
                                   ),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 8, bottom: 8),
+                                      child: TextButton(
+                                        onPressed: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return const CategoryAddOrEditDialog(
+                                                editMode: false,
+                                              );
+                                            },
+                                          );
+                                        },
+                                        child: const Text(
+                                          "+Add item",
+                                          style: TextStyle(
+                                            color: Colors.blue,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
