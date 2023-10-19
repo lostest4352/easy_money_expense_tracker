@@ -218,11 +218,13 @@ class _EntryDialogState extends State<EntryDialog> {
                             blocTransaction.calculateIncome();
                             if (widget.editMode == false) {
                               blocTransaction.addData(
-                                  transactionModel: transactionVal);
+                                transactionModel: transactionVal,
+                              );
                             } else {
                               blocTransaction.editData(
-                                  transactionModel: transactionVal,
-                                  widgetTransaction: widget.transaction!);
+                                transactionModel: transactionVal,
+                                widgetTransaction: widget.transaction!,
+                              );
                             }
                           }
                           context.pop();
