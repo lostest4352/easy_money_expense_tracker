@@ -21,11 +21,30 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
 
   void changeData(TransactionModel transactionModel) {
     transactionList.add(transactionModel);
-    if (transactionModel.categoryModel.isIncome == true) {
-      totalIncome += transactionModel.amount;
-    } else {
-      totalExpenses += transactionModel.amount;
+    calculateIncome();
+    add(AddTransactionEvent());
+  }
+
+  void calculateIncome() {
+    int localIncome = 0;
+    int localExpense = 0;
+    for (final transaction in transactionList) {
+      if (transaction.categoryModel.isIncome == true) {
+        localIncome += transaction.amount;
+      } else {
+        localExpense += transaction.amount;
+      }
     }
+    totalIncome = localIncome;
+    totalExpenses = localExpense;
+  }
+
+  void editData(
+      {required TransactionModel transactionModel,
+      required TransactionModel widgetTransaction}) {
+    widgetTransaction.amount = transactionModel.amount;
+    widgetTransaction.categoryModel = transactionModel.categoryModel;
+    calculateIncome();
     add(AddTransactionEvent());
   }
 }

@@ -42,7 +42,7 @@ class _EntryDialogState extends State<EntryDialog> {
   final currentDateFormatted = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
   late String? categoryItem;
-  CategoryModel? categoryValueFromListItem;
+  late CategoryModel? categoryValueFromListItem;
 
   @override
   void initState() {
@@ -53,6 +53,7 @@ class _EntryDialogState extends State<EntryDialog> {
       formattedDate =
           formatter.format(DateTime.parse(widget.transaction!.dateTime));
       categoryItem = widget.transaction?.categoryModel.transactionType;
+      categoryValueFromListItem = widget.transaction?.categoryModel;
     } else {
       formattedDate = formatter.format(selectedDate);
       categoryItem = null;
@@ -192,7 +193,15 @@ class _EntryDialogState extends State<EntryDialog> {
                                   : noteController.text.trim(),
                               categoryModel: selectedCateory,
                             );
-                            blocTransaction.changeData(transactionVal);
+
+                            blocTransaction.calculateIncome();
+                            if (widget.editMode == false) {
+                              blocTransaction.changeData(transactionVal);
+                            } else {
+                              blocTransaction.editData(
+                                  transactionModel: transactionVal,
+                                  widgetTransaction: widget.transaction!);
+                            }
                           }
                           context.pop();
                         },
