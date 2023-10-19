@@ -19,12 +19,6 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
 
   List<TransactionModel> transactionList = [];
 
-  void changeData(TransactionModel transactionModel) {
-    transactionList.add(transactionModel);
-    calculateIncome();
-    add(AddTransactionEvent());
-  }
-
   void calculateIncome() {
     int localIncome = 0;
     int localExpense = 0;
@@ -37,6 +31,12 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
     }
     totalIncome = localIncome;
     totalExpenses = localExpense;
+  }
+
+  void addData({required TransactionModel transactionModel}) {
+    transactionList.add(transactionModel);
+    calculateIncome();
+    add(AddTransactionEvent());
   }
 
   void editData(

@@ -218,7 +218,8 @@ class _EntryDialogState extends State<EntryDialog> {
 
                             blocTransaction.calculateIncome();
                             if (widget.editMode == false) {
-                              blocTransaction.changeData(transactionVal);
+                              blocTransaction.addData(
+                                  transactionModel: transactionVal);
                             } else {
                               blocTransaction.editData(
                                   transactionModel: transactionVal,
