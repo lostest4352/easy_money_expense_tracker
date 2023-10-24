@@ -35,9 +35,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => CategoryBloc(),
         ),
-        RepositoryProvider(
-          create: (context) => IsarInstance(),
-        ),
+        // RepositoryProvider(
+        //   create: (context) => IsarInstance(),
+        // ),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

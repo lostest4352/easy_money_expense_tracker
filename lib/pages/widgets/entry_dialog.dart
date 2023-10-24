@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expense_tracker/database/isar_classes.dart';
-import 'package:flutter_expense_tracker/database/isar_service.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:isar/isar.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import 'package:flutter_expense_tracker/blocs/category_bloc/category_bloc.dart';
@@ -71,7 +68,7 @@ class _EntryDialogState extends State<EntryDialog> {
 
   TransactionsBloc get blocTransaction => context.read<TransactionsBloc>();
   CategoryBloc get blocCategories => context.read<CategoryBloc>();
-  IsarInstance get isarInstance => context.read<IsarInstance>();
+  // IsarInstance get isarInstance => context.read<IsarInstance>();
 
   @override
   Widget build(BuildContext context) {
@@ -222,21 +219,6 @@ class _EntryDialogState extends State<EntryDialog> {
                                 return noteController.text.trim();
                               }
                             }();
-
-                            final tmi = isarInstance.isarValue;
-                            List<TransactionModelIsar> listvalue = [];
-                            if (tmi != null) {
-                              final y = tmi.transactionModelIsars
-                                  .where()
-                                  .findAll()
-                                  .then((value) {
-                                return listvalue = value;
-                              });
-                            }
-                            for (final val in listvalue) {
-                              debugPrint(
-                                  val.categoryModelIsar.toString());
-                            }
 
                             final transactionVal = TransactionModel(
                               dateTime: selectedDate.toString(),
