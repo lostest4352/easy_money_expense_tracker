@@ -41,6 +41,9 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
     super.dispose();
   }
 
+  CategoryBloc get blocCategories => context.read<CategoryBloc>();
+  TransactionsBloc get blocTransactions => context.read<TransactionsBloc>();
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -123,7 +126,7 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
                 listener: (context, state) {
                   const snackBar = SnackBar(
                     duration: Duration(milliseconds: 1200),
-                    backgroundColor:  Colors.white,
+                    backgroundColor: Colors.white,
                     content: Text(
                       'Only unused cateories can be modified',
                       style: TextStyle(color: Colors.black),
@@ -134,8 +137,6 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
                   }
                 },
                 builder: (context, state) {
-                  final blocCategories = context.read<CategoryBloc>();
-                  final blocTransactions = context.read<TransactionsBloc>();
                   return Padding(
                     padding: const EdgeInsets.only(left: 30, right: 30),
                     child: Row(

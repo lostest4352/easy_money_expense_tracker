@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_expense_tracker/database/isar_service.dart';
+import 'package:flutter_expense_tracker/database/isar_classes.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:isar/isar.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import 'package:flutter_expense_tracker/blocs/category_bloc/category_bloc.dart';
@@ -205,6 +209,33 @@ class _EntryDialogState extends State<EntryDialog> {
                               colorsValue:
                                   categoryValueFromListItem?.colorsValue as int,
                             );
+
+                            final tl = TransactionModelIsar();
+                            tl.dateTime = selectedDate.toString();
+                            tl.amount = int.parse(amountController.text);
+                            tl.note = () {
+                              if (noteController.text.trim() == "") {
+                                return null;
+                              } else {
+                                return noteController.text.trim();
+                              }
+                            }();
+                            // TODO bloc
+                            getV() async {
+                              final dir =
+                                  await getApplicationDocumentsDirectory();
+                              final isar = await Isar.open(
+                                [TransactionModelIsarSchema],
+                                directory: dir.path,
+                              );
+
+                              final transactionModelIsars =
+                                  isar.transactionModelIsars;
+                              final th =
+                                  await transactionModelIsars.where().findAll();
+                              // transactionModelIsars.filter().
+                            }
+
                             final transactionVal = TransactionModel(
                               dateTime: selectedDate.toString(),
                               amount: int.parse(amountController.text),
