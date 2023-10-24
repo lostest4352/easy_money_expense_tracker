@@ -8,7 +8,7 @@ class IsarInstance {
   void getIsar() async {
     final dir = await getApplicationDocumentsDirectory();
     final isar = await Isar.open(
-      [TransactionModelIsarSchema],
+      [TransactionModelIsarSchema, CategoryModelIsarSchema],
       directory: dir.path,
     );
     isarValue = isar;

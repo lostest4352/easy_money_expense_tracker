@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expense_tracker/database/isar_classes.dart';
+import 'package:flutter_expense_tracker/database/isar_service.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
@@ -70,6 +71,7 @@ class _EntryDialogState extends State<EntryDialog> {
 
   TransactionsBloc get blocTransaction => context.read<TransactionsBloc>();
   CategoryBloc get blocCategories => context.read<CategoryBloc>();
+  IsarInstance get isarInstance => context.read<IsarInstance>();
 
   @override
   Widget build(BuildContext context) {
@@ -220,20 +222,20 @@ class _EntryDialogState extends State<EntryDialog> {
                                 return noteController.text.trim();
                               }
                             }();
-                            // TODO bloc
-                            getV() async {
-                              final dir =
-                                  await getApplicationDocumentsDirectory();
-                              final isar = await Isar.open(
-                                [TransactionModelIsarSchema],
-                                directory: dir.path,
-                              );
 
-                              final transactionModelIsars =
-                                  isar.transactionModelIsars;
-                              final th =
-                                  await transactionModelIsars.where().findAll();
-                              // transactionModelIsars.filter().
+                            final tmi = isarInstance.isarValue;
+                            List<TransactionModelIsar> listvalue = [];
+                            if (tmi != null) {
+                              final y = tmi.transactionModelIsars
+                                  .where()
+                                  .findAll()
+                                  .then((value) {
+                                return listvalue = value;
+                              });
+                            }
+                            for (final val in listvalue) {
+                              debugPrint(
+                                  val.categoryModelIsar.toString());
                             }
 
                             final transactionVal = TransactionModel(
