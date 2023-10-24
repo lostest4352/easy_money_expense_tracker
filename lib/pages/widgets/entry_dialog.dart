@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_expense_tracker/database/isar_service.dart';
 import 'package:flutter_expense_tracker/database/isar_classes.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -69,12 +68,13 @@ class _EntryDialogState extends State<EntryDialog> {
     super.dispose();
   }
 
+  TransactionsBloc get blocTransaction => context.read<TransactionsBloc>();
+  CategoryBloc get blocCategories => context.read<CategoryBloc>();
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TransactionsBloc, TransactionsState>(
       builder: (context, state) {
-        final blocTransaction = context.read<TransactionsBloc>();
-        final blocCategories = context.read<CategoryBloc>();
         return Dialog(
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
