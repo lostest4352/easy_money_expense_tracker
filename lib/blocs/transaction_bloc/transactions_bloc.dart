@@ -9,7 +9,24 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
   //
   TransactionsBloc() : super(TransactionsInitial()) {
     on<AddTransactionEvent>((event, emit) {
+      transactionList.add(event.transactionModel);
+      calculateIncome();
       emit(AddTransactionState());
+    });
+
+    on<EditTransactionEvent>((event, emit) {
+      event.widgetTransaction.amount = event.transactionModel.amount;
+      event.widgetTransaction.categoryModel =
+          event.transactionModel.categoryModel;
+      event.widgetTransaction.note = event.transactionModel.note;
+      calculateIncome();
+      emit(EditTransactionState());
+    });
+
+    on<DeleteTransactionEvent>((event, emit) {
+      transactionList.remove(event.widgetTransaction);
+      calculateIncome();
+      emit(DeleteTransactionState());
     });
   }
 
@@ -31,27 +48,5 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
     }
     totalIncome = localIncome;
     totalExpenses = localExpense;
-  }
-
-  void addData({required TransactionModel transactionModel}) {
-    transactionList.add(transactionModel);
-    calculateIncome();
-    add(AddTransactionEvent());
-  }
-
-  void editData(
-      {required TransactionModel transactionModel,
-      required TransactionModel widgetTransaction}) {
-    widgetTransaction.amount = transactionModel.amount;
-    widgetTransaction.categoryModel = transactionModel.categoryModel;
-    widgetTransaction.note = transactionModel.note;
-    calculateIncome();
-    add(AddTransactionEvent());
-  }
-
-  void deleteData({required TransactionModel widgetTransaction}) {
-    transactionList.remove(widgetTransaction);
-    calculateIncome();
-    add(AddTransactionEvent());
   }
 }

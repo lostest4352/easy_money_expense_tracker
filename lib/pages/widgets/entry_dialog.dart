@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_expense_tracker/database/isar_classes.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -68,7 +67,6 @@ class _EntryDialogState extends State<EntryDialog> {
 
   TransactionsBloc get blocTransaction => context.read<TransactionsBloc>();
   CategoryBloc get blocCategories => context.read<CategoryBloc>();
-  // IsarInstance get isarInstance => context.read<IsarInstance>();
 
   @override
   Widget build(BuildContext context) {
@@ -92,8 +90,11 @@ class _EntryDialogState extends State<EntryDialog> {
                       alignment: Alignment.topRight,
                       child: InkWell(
                         onTap: () {
-                          blocTransaction.deleteData(
-                              widgetTransaction: widget.transaction!);
+                          blocTransaction.add(
+                            DeleteTransactionEvent(
+                              widgetTransaction: widget.transaction,
+                            ),
+                          );
                           context.pop();
                         },
                         child: const Icon(
@@ -201,24 +202,12 @@ class _EntryDialogState extends State<EntryDialog> {
                         onTap: () {
                           if (categoryValueFromListItem != null) {
                             final selectedCateory = CategoryModel(
-                              transactionType: categoryValueFromListItem
-                                  ?.transactionType as String,
-                              isIncome:
-                                  categoryValueFromListItem?.isIncome as bool,
+                              transactionType:
+                                  categoryValueFromListItem!.transactionType,
+                              isIncome: categoryValueFromListItem!.isIncome,
                               colorsValue:
-                                  categoryValueFromListItem?.colorsValue as int,
+                                  categoryValueFromListItem!.colorsValue,
                             );
-
-                            final tl = TransactionModelIsar();
-                            tl.dateTime = selectedDate.toString();
-                            tl.amount = int.parse(amountController.text);
-                            tl.note = () {
-                              if (noteController.text.trim() == "") {
-                                return null;
-                              } else {
-                                return noteController.text.trim();
-                              }
-                            }();
 
                             final transactionVal = TransactionModel(
                               dateTime: selectedDate.toString(),
@@ -229,13 +218,17 @@ class _EntryDialogState extends State<EntryDialog> {
                               categoryModel: selectedCateory,
                             );
                             if (widget.editMode == false) {
-                              blocTransaction.addData(
-                                transactionModel: transactionVal,
+                              blocTransaction.add(
+                                AddTransactionEvent(
+                                  transactionModel: transactionVal,
+                                ),
                               );
                             } else {
-                              blocTransaction.editData(
-                                transactionModel: transactionVal,
-                                widgetTransaction: widget.transaction!,
+                              blocTransaction.add(
+                                EditTransactionEvent(
+                                  transactionModel: transactionVal,
+                                  widgetTransaction: widget.transaction!,
+                                ),
                               );
                             }
                           }

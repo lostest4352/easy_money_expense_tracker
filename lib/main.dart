@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_expense_tracker/blocs/category_bloc/category_bloc.dart';
 import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
-import 'package:flutter_expense_tracker/database/isar_service.dart';
 import 'package:flutter_expense_tracker/routers/app_routes.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,7 +17,6 @@ void main() {
       ),
     );
   }
-
   runApp(const MyApp());
 }
 
@@ -35,9 +33,6 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => CategoryBloc(),
         ),
-        // RepositoryProvider(
-        //   create: (context) => IsarInstance(),
-        // ),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

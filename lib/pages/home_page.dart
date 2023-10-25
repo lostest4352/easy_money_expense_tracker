@@ -74,17 +74,10 @@ class HomePage extends StatelessWidget {
             ),
             Builder(
               builder: (context) {
-                if (state is AddTransactionState) {
-                  return HomePageAppBar(
-                    income: blocTransaction.totalIncome,
-                    expenses: blocTransaction.totalExpenses,
-                  );
-                } else {
-                  return const HomePageAppBar(
-                    income: 0,
-                    expenses: 0,
-                  );
-                }
+                return HomePageAppBar(
+                  income: blocTransaction.totalIncome,
+                  expenses: blocTransaction.totalExpenses,
+                );
               },
             ),
             const SizedBox(
@@ -92,77 +85,72 @@ class HomePage extends StatelessWidget {
             ),
             Flexible(
               child: Builder(builder: (context) {
-                if (state is AddTransactionState) {
-                  // Code for sorting ascending/descending
-                  // blocTransactionList.sort((a, b) => a.dateTime.compareTo(b.dateTime));
-                  // blocTransaction.transactionList
-                  //     .sort((a, b) => b.dateTime.compareTo(a.dateTime));
-                  blocTransaction.transactionList
-                      .sort((a, b) => b.dateTime.compareTo(a.dateTime));
-                  return CustomScrollView(
-                    slivers: [
-                      SliverList.builder(
-                        itemCount: blocTransaction.transactionList.length,
-                        itemBuilder: (context, index) {
-                          bool isSameDate = true;
-                          String dateString =
-                              blocTransaction.transactionList[index].dateTime;
-                          DateTime date = DateTime.parse(dateString);
-                          if (index == 0) {
-                            isSameDate = false;
-                          } else {
-                            String prevDateString = blocTransaction
-                                .transactionList[index - 1].dateTime;
-                            DateTime prevDate = DateTime.parse(prevDateString);
-                            isSameDate = date.isSameDate(prevDate);
-                          }
-                          if (index == 0 || !isSameDate) {
-                            // if income and expenses seperated for each month later
-                            // int monthlyInc = calculateMonthsData(date).monthlyInc;
-                            // int monthlyExp = calculateMonthsData(date).monthlyExp;
-                            // int calculatedData = monthlyInc + monthlyExp;
-                            int calculatedData = calculateMonthsData(
-                                date, blocTransaction.transactionList);
+                // Code for sorting ascending/descending
+                // blocTransactionList.sort((a, b) => a.dateTime.compareTo(b.dateTime));
+                // blocTransaction.transactionList
+                //     .sort((a, b) => b.dateTime.compareTo(a.dateTime));
+                blocTransaction.transactionList
+                    .sort((a, b) => b.dateTime.compareTo(a.dateTime));
+                return CustomScrollView(
+                  slivers: [
+                    SliverList.builder(
+                      itemCount: blocTransaction.transactionList.length,
+                      itemBuilder: (context, index) {
+                        bool isSameDate = true;
+                        String dateString =
+                            blocTransaction.transactionList[index].dateTime;
+                        DateTime date = DateTime.parse(dateString);
+                        if (index == 0) {
+                          isSameDate = false;
+                        } else {
+                          String prevDateString = blocTransaction
+                              .transactionList[index - 1].dateTime;
+                          DateTime prevDate = DateTime.parse(prevDateString);
+                          isSameDate = date.isSameDate(prevDate);
+                        }
+                        if (index == 0 || !isSameDate) {
+                          // if income and expenses seperated for each month later
+                          // int monthlyInc = calculateMonthsData(date).monthlyInc;
+                          // int monthlyExp = calculateMonthsData(date).monthlyExp;
+                          // int calculatedData = monthlyInc + monthlyExp;
+                          int calculatedData = calculateMonthsData(
+                              date, blocTransaction.transactionList);
 
-                            return Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 15, right: 15, top: 4, bottom: 4),
-                                  child: Row(
-                                    children: [
-                                      Text(date.formatDate()),
-                                      const Spacer(),
-                                      Text(
-                                        "Total: $calculatedData",
-                                        style: TextStyle(
-                                          color: (calculatedData > 0)
-                                              ? Colors.green
-                                              : Colors.red,
-                                        ),
+                          return Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 15, right: 15, top: 4, bottom: 4),
+                                child: Row(
+                                  children: [
+                                    Text(date.formatDate()),
+                                    const Spacer(),
+                                    Text(
+                                      "Total: $calculatedData",
+                                      style: TextStyle(
+                                        color: (calculatedData > 0)
+                                            ? Colors.green
+                                            : Colors.red,
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                                TransactionView(
-                                  transaction:
-                                      blocTransaction.transactionList[index],
-                                ),
-                              ],
-                            );
-                          } else {
-                            return TransactionView(
-                              transaction:
-                                  blocTransaction.transactionList[index],
-                            );
-                          }
-                        },
-                      ),
-                    ],
-                  );
-                } else {
-                  return Container();
-                }
+                              ),
+                              TransactionView(
+                                transaction:
+                                    blocTransaction.transactionList[index],
+                              ),
+                            ],
+                          );
+                        } else {
+                          return TransactionView(
+                            transaction: blocTransaction.transactionList[index],
+                          );
+                        }
+                      },
+                    ),
+                  ],
+                );
               }),
             ),
           ],
