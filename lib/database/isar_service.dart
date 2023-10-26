@@ -9,8 +9,6 @@ class IsarService {
     isarDB = openIsarDB();
   }
 
-  // TransactionModelIsar transactionModelIsar = TransactionModelIsar();
-
   Future<Isar> openIsarDB() async {
     final dir = await getApplicationDocumentsDirectory();
     if (Isar.instanceNames.isEmpty) {
@@ -22,6 +20,9 @@ class IsarService {
     }
     return Future.value(Isar.getInstance());
   }
+
+  // TODO
+  TransactionModelIsar transactionModelIsar = TransactionModelIsar();
 
   // Transaction Related
   Future<List<TransactionModelIsar>> getTransactionData() async {
@@ -92,8 +93,12 @@ class IsarService {
     });
   }
 
-  Future<void> editCategoryData(int selectedCategoryModelId,
-      String transactionType, bool isIncome, int colorsValue) async {
+  Future<void> editCategoryData(
+      TransactionModelIsar widgetCategoryModelIsar,
+      int selectedCategoryModelId,
+      String transactionType,
+      bool isIncome,
+      int colorsValue) async {
     final isar = await isarDB;
     final selectedCategoryModel =
         await isar.categoryModelIsars.get(selectedCategoryModelId);
@@ -103,17 +108,38 @@ class IsarService {
     selectedCategoryModel?.isIncome = isIncome;
     selectedCategoryModel?.colorsValue = colorsValue;
     isar.writeTxn(() async {
-      if (selectedCategoryModel != null) {
-        isar.categoryModelIsars.put(selectedCategoryModel);
+      // if (selectedCategoryModel != null) {
+      //   isar.categoryModelIsars.put(selectedCategoryModel);
+      // }
+      // TODO
+      final filteredTransactionModelList = await isar.transactionModelIsars
+          .where()
+          .filter()
+          .categoryModelIsar((q) => q.transactionTypeEqualTo(
+              widgetCategoryModelIsar.categoryModelIsar.value!.transactionType))
+          .findAll();
+      if (filteredTransactionModelList.isEmpty) {
+        if (selectedCategoryModel != null) {
+          isar.categoryModelIsars.put(selectedCategoryModel);
+        }
       }
     });
   }
 
   Future<void> deleteCategoryData(
-      TransactionModelIsar widgetTransactionModelIsar) async {
+      TransactionModelIsar widgetCategoryModelIsar) async {
     final isar = await isarDB;
     isar.writeTxn(() async {
-      isar.transactionModelIsars.delete(widgetTransactionModelIsar.id);
+      // TODO
+      final filteredTransactionModelList = await isar.transactionModelIsars
+          .where()
+          .filter()
+          .categoryModelIsar((q) => q.transactionTypeEqualTo(
+              widgetCategoryModelIsar.categoryModelIsar.value!.transactionType))
+          .findAll();
+      if (filteredTransactionModelList.isEmpty) {
+        isar.transactionModelIsars.delete(widgetCategoryModelIsar.id);
+      }
     });
   }
 
