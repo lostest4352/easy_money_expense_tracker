@@ -7,6 +7,7 @@ import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc
 import 'package:flutter_expense_tracker/routers/app_routes.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   if (Platform.isAndroid) {
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
+    return MultiProvider(
       providers: [
         BlocProvider(
           create: (context) => TransactionsBloc(),
