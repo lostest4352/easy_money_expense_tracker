@@ -77,8 +77,10 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
         final filteredTransactionModelList = await isar.transactionModelIsars
             .where()
             .filter()
-            .categoryModelIsar((q) => q.transactionTypeEqualTo(
-                event.selectedCategoryModelIsar.transactionType))
+            .transactionTypeEqualTo(
+                event.selectedCategoryModelIsar.transactionType)
+            // .categoryModelIsar((q) => q.transactionTypeEqualTo(
+            //     event.selectedCategoryModelIsar.transactionType))
             .findAll();
         if (filteredTransactionModelList.isEmpty) {
           if (selectedCategoryModel != null) {
@@ -109,8 +111,10 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
         final filteredTransactionModelList = await isar.transactionModelIsars
             .where()
             .filter()
-            .categoryModelIsar((q) => q.transactionTypeEqualTo(
-                event.selectedCategoryModelIsar.transactionType))
+            .transactionTypeEqualTo(
+                event.selectedCategoryModelIsar.transactionType)
+            // .categoryModelIsar((q) => q.transactionTypeEqualTo(
+            //     event.selectedCategoryModelIsar.transactionType))
             .findAll();
         if (filteredTransactionModelList.isEmpty) {
           isar.transactionModelIsars.delete(event.selectedCategoryModelIsar.id);

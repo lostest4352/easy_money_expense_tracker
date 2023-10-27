@@ -4,26 +4,29 @@ part of 'transactions_bloc.dart';
 sealed class TransactionsEvent {}
 
 class AddTransactionEvent extends TransactionsEvent {
-  final TransactionModelIsar transactionModelIsar;
+ final TransactionModelIsar transactionModelIsar;
 
-  AddTransactionEvent({
-    required this.transactionModelIsar,
-  });
+  AddTransactionEvent({required this.transactionModelIsar});
 }
 
 class EditTransactionEvent extends TransactionsEvent {
   final int selectedTransactionModelId;
   final int amount;
-  final CategoryModelIsar categoryModelIsar;
   final String dateTime;
-  final String note;
+  final String? note;
+  //
+  final String transactionType;
+  final bool isIncome;
+  final int colorsValue;
 
   EditTransactionEvent({
     required this.selectedTransactionModelId,
     required this.amount,
-    required this.categoryModelIsar,
     required this.dateTime,
     required this.note,
+    required this.transactionType,
+    required this.isIncome,
+    required this.colorsValue,
   });
 }
 

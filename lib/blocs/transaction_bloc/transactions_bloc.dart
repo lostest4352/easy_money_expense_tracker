@@ -8,19 +8,18 @@ part 'transactions_event.dart';
 part 'transactions_state.dart';
 
 class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
-  //
-  // TransactionModelIsar transactionModelIsar = TransactionModelIsar();
   final IsarService isarService = IsarService();
   //
   TransactionsBloc() : super(TransactionsInitial()) {
     on<AddTransactionEvent>((event, emit) async {
-      // transactionList.add(event.transactionModel);
       final isar = await isarService.isarDB;
       final transactionModelIsarList =
           await isar.transactionModelIsars.where().findAll();
 
-      isar.writeTxnSync(() async {
-        isar.transactionModelIsars.putSync(event.transactionModelIsar);
+      isar.writeTxn(() async {
+        // final enteredCategoryModel = event.categoryModelIsar;
+        await isar.transactionModelIsars.put(event.transactionModelIsar);
+        // await isar.transactionModelIsars.put(enteredTransaction);
       });
       calculateIncome(transactionModelIsarList);
       emit(AddTransactionState());
@@ -31,15 +30,18 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
       final selectedUserModel = await isar.transactionModelIsars
           .get(event.selectedTransactionModelId);
       selectedUserModel?.amount = event.amount;
-      selectedUserModel?.categoryModelIsar.value = event.categoryModelIsar;
       selectedUserModel?.dateTime = event.dateTime;
       selectedUserModel?.note = event.note;
       //
+      selectedUserModel?.transactionType = event.transactionType;
+      selectedUserModel?.isIncome = event.isIncome;
+      selectedUserModel?.colorsValue = event.colorsValue;
+      //
       final transactionModelIsarList =
           await isar.transactionModelIsars.where().findAll();
-      isar.writeTxnSync(() async {
+      isar.writeTxn(() async {
         if (selectedUserModel != null) {
-          isar.transactionModelIsars.putSync(selectedUserModel);
+          await isar.transactionModelIsars.put(selectedUserModel);
         }
       });
       calculateIncome(transactionModelIsarList);
@@ -69,7 +71,7 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
     int localIncome = 0;
     int localExpense = 0;
     for (final transaction in transactionModelIsarList) {
-      if (transaction.categoryModelIsar.value?.isIncome == true) {
+      if (transaction.isIncome == true) {
         localIncome += transaction.amount;
       } else {
         localExpense += transaction.amount;

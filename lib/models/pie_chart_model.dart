@@ -1,26 +1,34 @@
 import 'dart:convert';
 
-import 'package:flutter_expense_tracker/models/category_model.dart';
-
 class PieChartModel {
-  CategoryModel categoryModel;
+  // CategoryModel categoryModel;
   int amount;
+  //
+  String transactionType;
+  bool isIncome;
+  int colorsValue;
   PieChartModel({
-    required this.categoryModel,
     required this.amount,
+    required this.transactionType,
+    required this.isIncome,
+    required this.colorsValue,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'categoryModel': categoryModel.toMap(),
       'amount': amount,
+      'transactionType': transactionType,
+      'isIncome': isIncome,
+      'colorsValue': colorsValue,
     };
   }
 
   factory PieChartModel.fromMap(Map<String, dynamic> map) {
     return PieChartModel(
-      categoryModel: CategoryModel.fromMap(map['categoryModel']),
       amount: map['amount']?.toInt() ?? 0,
+      transactionType: map['transactionType'] ?? '',
+      isIncome: map['isIncome'] ?? false,
+      colorsValue: map['colorsValue']?.toInt() ?? 0,
     );
   }
 
@@ -30,28 +38,40 @@ class PieChartModel {
       PieChartModel.fromMap(json.decode(source));
 
   PieChartModel copyWith({
-    CategoryModel? categoryModel,
     int? amount,
+    String? transactionType,
+    bool? isIncome,
+    int? colorsValue,
   }) {
     return PieChartModel(
-      categoryModel: categoryModel ?? this.categoryModel,
       amount: amount ?? this.amount,
+      transactionType: transactionType ?? this.transactionType,
+      isIncome: isIncome ?? this.isIncome,
+      colorsValue: colorsValue ?? this.colorsValue,
     );
   }
 
   @override
-  String toString() =>
-      'PieChartModel(categoryModel: $categoryModel, amount: $amount)';
+  String toString() {
+    return 'PieChartModel(amount: $amount, transactionType: $transactionType, isIncome: $isIncome, colorsValue: $colorsValue)';
+  }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
     return other is PieChartModel &&
-        other.categoryModel == categoryModel &&
-        other.amount == amount;
+        other.amount == amount &&
+        other.transactionType == transactionType &&
+        other.isIncome == isIncome &&
+        other.colorsValue == colorsValue;
   }
 
   @override
-  int get hashCode => categoryModel.hashCode ^ amount.hashCode;
+  int get hashCode {
+    return amount.hashCode ^
+        transactionType.hashCode ^
+        isIncome.hashCode ^
+        colorsValue.hashCode;
+  }
 }

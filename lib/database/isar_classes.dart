@@ -2,17 +2,20 @@ import 'package:isar/isar.dart';
 
 part 'isar_classes.g.dart';
 
-@collection
+@Collection()
 class TransactionModelIsar {
   Id id = Isar.autoIncrement;
   late String dateTime;
   late int amount;
   String? note;
 
-  IsarLink<CategoryModelIsar> categoryModelIsar = IsarLink<CategoryModelIsar>();
+  //
+  late String transactionType;
+  late bool isIncome;
+  late int colorsValue;
 }
 
-@collection
+@Collection()
 class CategoryModelIsar {
   Id id = Isar.autoIncrement;
   late String transactionType;

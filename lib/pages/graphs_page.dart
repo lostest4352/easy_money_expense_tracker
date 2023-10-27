@@ -98,33 +98,36 @@ class TransactionWidget extends StatelessWidget {
     List<PieChartModel> pieChartModelList = [];
 
     List<TransactionModelIsar> transactionModelList = [];
-          blocTransaction.isarService.isarDB.then((value) async {
-            return await value.transactionModelIsars
-                .where()
-                .findAll()
-                .then((value) {
-              transactionModelList = value;
-              return transactionModelList;
-            });
-          });
+    blocTransaction.isarService.isarDB.then((value) async {
+      return await value.transactionModelIsars.where().findAll().then((value) {
+        transactionModelList = value;
+        return transactionModelList;
+      });
+    });
 
     for (final transaction in transactionModelList) {
       bool found = false;
       for (final pieChartModel in pieChartModelList) {
-        if (pieChartModel.categoryModel == transaction.categoryModelIsar.value) {
+        // if (pieChartModel.categoryModel == transaction.categoryModelIsar.value)
+        if (pieChartModel.transactionType == transaction.transactionType &&
+            pieChartModel.isIncome == transaction.isIncome &&
+            pieChartModel.colorsValue == transaction.colorsValue) {
           found = true;
           pieChartModel.amount += transaction.amount;
         }
       }
 
-      // if (!found) {
-      //   pieChartModelList.add(
-      //     PieChartModel(
-      //       categoryModel: transaction.categoryModelIsar.value, 
-      //       amount: transaction.amount,
-      //     ),
-      //   );
-      // }
+      if (!found) {
+        pieChartModelList.add(
+          PieChartModel(
+            // categoryModel: transaction.categoryModelIsar.value,
+            transactionType: transaction.transactionType,
+            isIncome: transaction.isIncome,
+            colorsValue: transaction.colorsValue,
+            amount: transaction.amount,
+          ),
+        );
+      }
     }
 
     return ListView(
@@ -137,14 +140,13 @@ class TransactionWidget extends StatelessWidget {
               centerSpaceRadius: 50,
               sections: [
                 for (final pieChartTransaction in pieChartModelList)
-                  if (pieChartTransaction.categoryModel.isIncome == isIncome)
+                  if (pieChartTransaction.isIncome == isIncome)
                     PieChartSectionData(
                       title:
-                          "${pieChartTransaction.categoryModel.transactionType} ${((pieChartTransaction.amount / totalValue) * 100).toStringAsFixed(2)}%",
+                          "${pieChartTransaction.transactionType} ${((pieChartTransaction.amount / totalValue) * 100).toStringAsFixed(2)}%",
                       titlePositionPercentageOffset: 1.8,
                       value: pieChartTransaction.amount.toDouble(),
-                      color:
-                          Color(pieChartTransaction.categoryModel.colorsValue),
+                      color: Color(pieChartTransaction.colorsValue),
                     ),
               ],
             ),
@@ -153,7 +155,7 @@ class TransactionWidget extends StatelessWidget {
         Column(
           children: [
             for (final pieChartTransaction in pieChartModelList)
-              if (pieChartTransaction.categoryModel.isIncome == isIncome)
+              if (pieChartTransaction.isIncome == isIncome)
                 Align(
                   alignment: Alignment.topLeft,
                   child: Padding(
@@ -161,15 +163,14 @@ class TransactionWidget extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text(pieChartTransaction.categoryModel.transactionType),
+                        Text(pieChartTransaction.transactionType),
                         const SizedBox(
                           width: 5,
                         ),
                         Container(
                           width: 8,
                           height: 8,
-                          color: Color(
-                              pieChartTransaction.categoryModel.colorsValue),
+                          color: Color(pieChartTransaction.colorsValue),
                         ),
                       ],
                     ),
@@ -189,10 +190,9 @@ class TransactionWidget extends StatelessWidget {
             ),
             const Divider(),
             for (final pieChartTransaction in pieChartModelList)
-              if (pieChartTransaction.categoryModel.isIncome == isIncome)
+              if (pieChartTransaction.isIncome == isIncome)
                 ListTile(
-                  title:
-                      Text(pieChartTransaction.categoryModel.transactionType),
+                  title: Text(pieChartTransaction.transactionType),
                   trailing: Text(
                     pieChartTransaction.amount.toString(),
                   ),

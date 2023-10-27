@@ -41,8 +41,9 @@ class _EntryDialogState extends State<EntryDialog> {
   // Current date unchanged unlike above
   final currentDateFormatted = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
-  late String? categoryItem;
-  late CategoryModelIsar? categoryValueFromListItem;
+  String? transactionType;
+  bool? isIncome;
+  int? colorsValue;
 
   @override
   void initState() {
@@ -51,11 +52,13 @@ class _EntryDialogState extends State<EntryDialog> {
       amountController.text = widget.transaction?.amount.toString() ?? "";
       noteController.text = widget.transaction?.note ?? "";
       selectedDate = DateTime.parse(widget.transaction!.dateTime);
-      categoryItem =
-          widget.transaction?.categoryModelIsar.value?.transactionType;
-      categoryValueFromListItem = widget.transaction?.categoryModelIsar.value;
+      // categoryItem = widget.transaction?.transactionType;
+      // categoryValueFromListItem = widget.transaction?.categoryModelIsar.value;
+      transactionType = widget.transaction?.transactionType ?? "";
+      isIncome = widget.transaction?.isIncome ?? true;
+      colorsValue = widget.transaction?.colorsValue;
     } else {
-      categoryItem = null;
+      // categoryItem = null;
     }
   }
 
@@ -79,8 +82,6 @@ class _EntryDialogState extends State<EntryDialog> {
         return categoryModelList;
       });
     });
-
-    // final categoryModelList = blocCategories.setList();
 
     return BlocBuilder<TransactionsBloc, TransactionsState>(
       builder: (context, state) {
@@ -212,33 +213,9 @@ class _EntryDialogState extends State<EntryDialog> {
                       padding: const EdgeInsets.only(right: 10, bottom: 10),
                       child: InkWell(
                         onTap: () {
-                          if (categoryValueFromListItem != null) {
-                            // final selectedCateory = CategoryModel(
-                            //   transactionType:
-                            //       categoryValueFromListItem!.transactionType,
-                            //   isIncome: categoryValueFromListItem!.isIncome,
-                            //   colorsValue:
-                            //       categoryValueFromListItem!.colorsValue,
-                            // );
-
-                            // final transactionVal = TransactionModel(
-                            //   dateTime: selectedDate.toString(),
-                            //   amount: int.parse(amountController.text),
-                            //   note: (noteController.text.trim() == "")
-                            //       ? null
-                            //       : noteController.text.trim(),
-                            //   categoryModel: selectedCateory,
-                            // );
-
-                            CategoryModelIsar categoryModelIsar =
-                                CategoryModelIsar()
-                                  ..transactionType =
-                                      categoryValueFromListItem!.transactionType
-                                  ..isIncome =
-                                      categoryValueFromListItem!.isIncome
-                                  ..colorsValue =
-                                      categoryValueFromListItem!.colorsValue;
-
+                          if (transactionType != null &&
+                              isIncome != null &&
+                              colorsValue != null) {
                             TransactionModelIsar transactionModelIsar =
                                 TransactionModelIsar()
                                   ..amount = int.parse(amountController.text)
@@ -246,31 +223,37 @@ class _EntryDialogState extends State<EntryDialog> {
                                   ..note = (noteController.text.trim() == "")
                                       ? null
                                       : noteController.text.trim()
-                                  ..categoryModelIsar.value = categoryModelIsar;
+                                  // TODO here
+                                  ..transactionType =
+                                      transactionType ?? ""
+                                  ..isIncome =
+                                      isIncome ?? true
+                                  ..colorsValue =
+                                      colorsValue ??
+                                          Colors.red.value;
 
                             if (widget.editMode == false) {
                               blocTransaction.add(
                                 AddTransactionEvent(
-                                  transactionModelIsar: transactionModelIsar,
-                                ),
+                                    transactionModelIsar: transactionModelIsar),
                               );
                             } else {
-                              // blocTransaction.add(
-                              //   EditTransactionEvent(
-                              //     transactionModel: transactionVal,
-                              //     widgetTransaction: widget.transaction!,
-                              //   ),
-                              // );
                               blocTransaction.add(
                                 EditTransactionEvent(
                                   selectedTransactionModelId:
                                       widget.transaction!.id,
                                   amount: int.parse(amountController.text),
-                                  categoryModelIsar: categoryModelIsar,
+
                                   dateTime: selectedDate.toString(),
                                   note: (noteController.text.trim() == "")
-                                      ? ""
+                                      ? null
                                       : noteController.text.trim(),
+                                  //
+                                  transactionType:
+                                      widget.transaction?.transactionType ?? "",
+                                  isIncome:
+                                      widget.transaction?.isIncome ?? true,
+                                  colorsValue: widget.transaction!.colorsValue,
                                 ),
                               );
                             }
@@ -309,12 +292,19 @@ class _EntryDialogState extends State<EntryDialog> {
                                       return ListTile(
                                         onTap: () {
                                           setState(() {
-                                            categoryItem =
+                                            // categoryItem =
+                                            //     categoryModelList[index]
+                                            //         .transactionType;
+                                            // categoryValueFromListItem =
+                                            //     categoryModelList[index];
+                                            transactionType =
                                                 categoryModelList[index]
-                                                    .transactionType
-                                                    .toString();
-                                            categoryValueFromListItem =
-                                                categoryModelList[index];
+                                                    .transactionType;
+                                            isIncome = categoryModelList[index]
+                                                .isIncome;
+                                            colorsValue =
+                                                categoryModelList[index]
+                                                    .colorsValue;
                                           });
                                           context.pop();
                                         },
@@ -382,7 +372,7 @@ class _EntryDialogState extends State<EntryDialog> {
                     );
                   },
                   child: PopupCategoryItems(
-                    title: categoryItem ?? "Select Category",
+                    title: transactionType ?? "Select Category",
                   ),
                 ),
                 const SizedBox(

@@ -23,7 +23,7 @@ class HomePage extends StatelessWidget {
       final formattedPassedDate = DateFormat("MMMM, y").format(date);
       //
       if (formattedTransactionDate == formattedPassedDate) {
-        if (transaction.categoryModelIsar.value?.isIncome == true) {
+        if (transaction.isIncome == true) {
           monthlyAmt += transaction.amount;
         } else {
           monthlyAmt -= transaction.amount;
@@ -240,14 +240,11 @@ class TransactionView extends StatelessWidget {
                   Row(
                     children: [
                       CircleAvatar(
-                        backgroundColor:
-                            (transaction.categoryModelIsar.value?.isIncome ==
-                                    true)
-                                ? Colors.green
-                                : Colors.red,
+                        backgroundColor: (transaction.isIncome == true)
+                            ? Colors.green
+                            : Colors.red,
                         maxRadius: 12,
-                        child: (transaction.categoryModelIsar.value?.isIncome ==
-                                true)
+                        child: (transaction.isIncome == true)
                             ? const Icon(
                                 Icons.add,
                                 color: Colors.white,
@@ -264,9 +261,7 @@ class TransactionView extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            transaction
-                                    .categoryModelIsar.value?.transactionType ??
-                                "",
+                            transaction.transactionType,
                             style: const TextStyle(fontWeight: FontWeight.w500),
                           ),
                         ],
@@ -286,9 +281,7 @@ class TransactionView extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 17,
                             fontWeight: FontWeight.w500,
-                            color: (transaction
-                                        .categoryModelIsar.value?.isIncome ==
-                                    true)
+                            color: (transaction.isIncome == true)
                                 ? Colors.green
                                 : Colors.red,
                           ),
