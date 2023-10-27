@@ -80,98 +80,103 @@ class HomePage extends StatelessWidget {
         //     });
         //   });
         return StreamBuilder(
-          stream: blocTransaction.isarService.listenTransactionData(),
-          builder: (context, snapshot) {
-            
-            return Column(
-              children: [
-                const SizedBox(
-                  height: 2,
-                ),
-                Builder(
-                  builder: (context) {
-                    return HomePageAppBar(
-                      income: blocTransaction.totalIncome,
-                      expenses: blocTransaction.totalExpenses,
-                    );
-                  },
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Flexible(
-                  child: Builder(builder: (context) {
-                    // Code for sorting ascending/descending
-                    // blocTransactionList.sort((a, b) => a.dateTime.compareTo(b.dateTime));
-                    // blocTransaction.transactionList
-                    //     .sort((a, b) => b.dateTime.compareTo(a.dateTime));
-                    snapshot.data!
-                        .sort((a, b) => b.dateTime.compareTo(a.dateTime));
-                    return CustomScrollView(
-                      slivers: [
-                        SliverList.builder(
-                          itemCount: snapshot.data?.length,
-                          itemBuilder: (context, index) {
-                            bool isSameDate = true;
-                            String dateString =
-                                snapshot.data![index].dateTime;
-                            DateTime date = DateTime.parse(dateString);
-                            if (index == 0) {
-                              isSameDate = false;
-                            } else {
-                              String prevDateString = snapshot.data![index - 1].dateTime;
-                              DateTime prevDate = DateTime.parse(prevDateString);
-                              isSameDate = date.isSameDate(prevDate);
-                            }
-                            if (index == 0 || !isSameDate) {
-                              // if income and expenses seperated for each month later
-                              // int monthlyInc = calculateMonthsData(date).monthlyInc;
-                              // int monthlyExp = calculateMonthsData(date).monthlyExp;
-                              // int calculatedData = monthlyInc + monthlyExp;
-                              int calculatedData = calculateMonthsData(
-                                  date, snapshot.data!);
-        
-                              return Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 15, right: 15, top: 4, bottom: 4),
-                                    child: Row(
-                                      children: [
-                                        Text(date.formatDate()),
-                                        const Spacer(),
-                                        Text(
-                                          "Total: $calculatedData",
-                                          style: TextStyle(
-                                            color: (calculatedData > 0)
-                                                ? Colors.green
-                                                : Colors.red,
+            stream: blocTransaction.isarService.listenTransactionData(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return const Center();
+              }
+              return Column(
+                children: [
+                  const SizedBox(
+                    height: 2,
+                  ),
+                  Builder(
+                    builder: (context) {
+                      return HomePageAppBar(
+                        income: blocTransaction.totalIncome,
+                        expenses: blocTransaction.totalExpenses,
+                      );
+                    },
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Flexible(
+                    child: Builder(builder: (context) {
+                      // Code for sorting ascending/descending
+                      // blocTransactionList.sort((a, b) => a.dateTime.compareTo(b.dateTime));
+                      // blocTransaction.transactionList
+                      //     .sort((a, b) => b.dateTime.compareTo(a.dateTime));
+                      snapshot.data!
+                          .sort((a, b) => b.dateTime.compareTo(a.dateTime));
+                      return CustomScrollView(
+                        slivers: [
+                          SliverList.builder(
+                            itemCount: snapshot.data?.length,
+                            itemBuilder: (context, index) {
+                              bool isSameDate = true;
+                              String dateString =
+                                  snapshot.data![index].dateTime;
+                              DateTime date = DateTime.parse(dateString);
+                              if (index == 0) {
+                                isSameDate = false;
+                              } else {
+                                String prevDateString =
+                                    snapshot.data![index - 1].dateTime;
+                                DateTime prevDate =
+                                    DateTime.parse(prevDateString);
+                                isSameDate = date.isSameDate(prevDate);
+                              }
+                              if (index == 0 || !isSameDate) {
+                                // if income and expenses seperated for each month later
+                                // int monthlyInc = calculateMonthsData(date).monthlyInc;
+                                // int monthlyExp = calculateMonthsData(date).monthlyExp;
+                                // int calculatedData = monthlyInc + monthlyExp;
+                                int calculatedData =
+                                    calculateMonthsData(date, snapshot.data!);
+
+                                return Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 15,
+                                          right: 15,
+                                          top: 4,
+                                          bottom: 4),
+                                      child: Row(
+                                        children: [
+                                          Text(date.formatDate()),
+                                          const Spacer(),
+                                          Text(
+                                            "Total: $calculatedData",
+                                            style: TextStyle(
+                                              color: (calculatedData > 0)
+                                                  ? Colors.green
+                                                  : Colors.red,
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  TransactionView(
-                                    transaction:
-                                        snapshot.data![index],
-                                  ),
-                                ],
-                              );
-                            } else {
-                              return TransactionView(
-                                transaction: snapshot.data![index],
-                              );
-                            }
-                          },
-                        ),
-                      ],
-                    );
-                  }),
-                ),
-              ],
-            );
-          }
-        );
+                                    TransactionView(
+                                      transaction: snapshot.data![index],
+                                    ),
+                                  ],
+                                );
+                              } else {
+                                return TransactionView(
+                                  transaction: snapshot.data![index],
+                                );
+                              }
+                            },
+                          ),
+                        ],
+                      );
+                    }),
+                  ),
+                ],
+              );
+            });
       }),
     );
   }
@@ -236,11 +241,13 @@ class TransactionView extends StatelessWidget {
                     children: [
                       CircleAvatar(
                         backgroundColor:
-                            (transaction.categoryModelIsar.value?.isIncome == true)
+                            (transaction.categoryModelIsar.value?.isIncome ==
+                                    true)
                                 ? Colors.green
                                 : Colors.red,
                         maxRadius: 12,
-                        child: (transaction.categoryModelIsar.value?.isIncome == true)
+                        child: (transaction.categoryModelIsar.value?.isIncome ==
+                                true)
                             ? const Icon(
                                 Icons.add,
                                 color: Colors.white,
@@ -257,7 +264,9 @@ class TransactionView extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            transaction.categoryModelIsar.value?.transactionType ?? "",
+                            transaction
+                                    .categoryModelIsar.value?.transactionType ??
+                                "",
                             style: const TextStyle(fontWeight: FontWeight.w500),
                           ),
                         ],
@@ -277,7 +286,9 @@ class TransactionView extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 17,
                             fontWeight: FontWeight.w500,
-                            color: (transaction.categoryModelIsar.value?.isIncome == true)
+                            color: (transaction
+                                        .categoryModelIsar.value?.isIncome ==
+                                    true)
                                 ? Colors.green
                                 : Colors.red,
                           ),
