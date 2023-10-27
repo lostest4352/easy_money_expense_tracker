@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
+import 'package:flutter_expense_tracker/database/isar_classes.dart';
 import 'package:flutter_expense_tracker/models/dropdown_colors.dart';
 
 import 'package:flutter_expense_tracker/blocs/category_bloc/category_bloc.dart';
-import 'package:flutter_expense_tracker/models/category_model.dart';
 import 'package:flutter_expense_tracker/pages/widgets/popup_textfield_items.dart';
 import 'package:go_router/go_router.dart';
 
 class CategoryAddOrEditDialog extends StatefulWidget {
   final bool editMode;
-  final CategoryModel? selectedListItem;
+  final CategoryModelIsar? selectedListItem;
   const CategoryAddOrEditDialog({
     Key? key,
     required this.editMode,
@@ -165,14 +165,21 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
                                           children: [
                                             TextButton(
                                               onPressed: () {
+                                                // blocCategories.add(
+                                                //   DeleteCategoryEvent(
+                                                //     context: context,
+                                                //     selectedListItem: widget
+                                                //         .selectedListItem!,
+                                                //     transactionList:
+                                                //         blocTransactions
+                                                //             .transactionList,
+                                                //   ),
+                                                // );
                                                 blocCategories.add(
                                                   DeleteCategoryEvent(
-                                                    context: context,
-                                                    selectedListItem: widget
-                                                        .selectedListItem!,
-                                                    transactionList:
-                                                        blocTransactions
-                                                            .transactionList,
+                                                    selectedCategoryModelIsar:
+                                                        widget
+                                                            .selectedListItem!,
                                                   ),
                                                 );
                                                 context.pop();
@@ -217,18 +224,45 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
                           ),
                           onPressed: () {
                             if (categoryController.text != "") {
-                              blocCategories.add(
-                                AddOrEditCategoryEvent(
-                                  context: context,
-                                  editMode: widget.editMode,
-                                  transactionType: categoryController.text,
-                                  isIncome: isIncome,
-                                  colorsValue: colorsValue,
-                                  transactionList:
-                                      blocTransactions.transactionList,
-                                  selectedListItem: widget.selectedListItem,
-                                ),
-                              );
+                              // blocCategories.add(
+                              //   AddOrEditCategoryEvent(
+                              //     context: context,
+                              //     editMode: widget.editMode,
+                              //     transactionType: categoryController.text,
+                              //     isIncome: isIncome,
+                              //     colorsValue: colorsValue,
+                              //     transactionList:
+                              //         blocTransactions.transactionList,
+                              //     selectedListItem: widget.selectedListItem,
+                              //   ),
+                              // );
+                              CategoryModelIsar categoryModelIsar =
+                                  CategoryModelIsar()
+                                    ..transactionType = categoryController.text
+                                    ..colorsValue = colorsValue
+                                    ..isIncome = isIncome;
+                              if (widget.editMode == false) {
+                                blocCategories.add(
+                                  AddCategoryEvent(
+                                    categoryModelIsars: categoryModelIsar,
+                                  ),
+                                );
+                                // debugPrint(blocCategories.setList().toString());
+                                context.pop();
+                              } else if (widget.editMode == true) {
+                                blocCategories.add(
+                                  EditCategoryEvent(
+                                    selectedCategoryModelIsar:
+                                        widget.selectedListItem!,
+                                    selectedCategoryModelId:
+                                        widget.selectedListItem!.id,
+                                    transactionType: categoryController.text,
+                                    isIncome: isIncome,
+                                    colorsValue: colorsValue,
+                                  ),
+                                );
+                                context.pop();
+                              }
                             }
                           },
                           child: const Text("Save"),

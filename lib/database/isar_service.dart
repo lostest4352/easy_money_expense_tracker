@@ -23,13 +23,16 @@ class IsarService {
 
   // TODO
   TransactionModelIsar transactionModelIsar = TransactionModelIsar();
+  CategoryModelIsar categoryModelIsar = CategoryModelIsar();
+
+  
 
   // Transaction Related
-  Future<List<TransactionModelIsar>> getTransactionData() async {
-    final isar = await isarDB;
-    final getData = await isar.transactionModelIsars.where().findAll();
-    return getData;
-  }
+  // Future<List<TransactionModelIsar>> getTransactionData() async {
+  //   final isar = await isarDB;
+  //   final getData = await isar.transactionModelIsars.where().findAll();
+  //   return getData;
+  // }
 
   Stream<List<TransactionModelIsar>> listenTransactionData() async* {
     final isar = await isarDB;
@@ -38,46 +41,46 @@ class IsarService {
     yield* listenToData;
   }
 
-  Future<void> addTransactionData(
-      TransactionModelIsar transactionModelIsar) async {
-    final isar = await isarDB;
-    isar.writeTxn(() async {
-      isar.transactionModelIsars.put(transactionModelIsar);
-    });
-  }
+  // Future<void> addTransactionData(
+  //     TransactionModelIsar transactionModelIsar) async {
+  //   final isar = await isarDB;
+  //   isar.writeTxn(() async {
+  //     isar.transactionModelIsars.put(transactionModelIsar);
+  //   });
+  // }
 
-  Future<void> editTransactionData(int selectedTransactionModelId, int amount,
-      CategoryModelIsar categoryModelIsar, String dateTime, String note) async {
-    final isar = await isarDB;
-    final selectedUserModel =
-        await isar.transactionModelIsars.get(selectedTransactionModelId);
+  // Future<void> editTransactionData(int selectedTransactionModelId, int amount,
+  //     CategoryModelIsar categoryModelIsar, String dateTime, String note) async {
+  //   final isar = await isarDB;
+  //   final selectedUserModel =
+  //       await isar.transactionModelIsars.get(selectedTransactionModelId);
 
-    selectedUserModel?.amount = amount;
-    selectedUserModel?.categoryModelIsar.value = categoryModelIsar;
-    selectedUserModel?.dateTime = dateTime;
-    selectedUserModel?.note = note;
-    isar.writeTxn(() async {
-      if (selectedUserModel != null) {
-        isar.transactionModelIsars.put(selectedUserModel);
-      }
-    });
-  }
+  //   selectedUserModel?.amount = amount;
+  //   selectedUserModel?.categoryModelIsar.value = categoryModelIsar;
+  //   selectedUserModel?.dateTime = dateTime;
+  //   selectedUserModel?.note = note;
+  //   isar.writeTxn(() async {
+  //     if (selectedUserModel != null) {
+  //       isar.transactionModelIsars.put(selectedUserModel);
+  //     }
+  //   });
+  // }
 
-  Future<void> deleteTransactionData(
-      TransactionModelIsar widgetTransactionModelIsar) async {
-    final isar = await isarDB;
-    isar.writeTxn(() async {
-      isar.transactionModelIsars.delete(widgetTransactionModelIsar.id);
-    });
-  }
+  // Future<void> deleteTransactionData(
+  //     TransactionModelIsar widgetTransactionModelIsar) async {
+  //   final isar = await isarDB;
+  //   isar.writeTxn(() async {
+  //     isar.transactionModelIsars.delete(widgetTransactionModelIsar.id);
+  //   });
+  // }
 
   // Category related
 
-  Future<List<CategoryModelIsar>> getCategoryData() async {
-    final isar = await isarDB;
-    final getData = await isar.categoryModelIsars.where().findAll();
-    return getData;
-  }
+  // Future<List<CategoryModelIsar>> getCategoryData() async {
+  //   final isar = await isarDB;
+  //   final getData = await isar.categoryModelIsars.where().findAll();
+  //   return getData;
+  // }
 
   Stream<List<CategoryModelIsar>> listenCategoryData() async* {
     final isar = await isarDB;
@@ -86,62 +89,64 @@ class IsarService {
     yield* listenToData;
   }
 
-  Future<void> addCategoryData(CategoryModelIsar categoryModelIsars) async {
-    final isar = await isarDB;
-    isar.writeTxn(() async {
-      isar.categoryModelIsars.put(categoryModelIsars);
-    });
-  }
+  // Future<void> addCategoryData(CategoryModelIsar categoryModelIsars) async {
+  //   final isar = await isarDB;
 
-  Future<void> editCategoryData(
-      TransactionModelIsar widgetCategoryModelIsar,
-      int selectedCategoryModelId,
-      String transactionType,
-      bool isIncome,
-      int colorsValue) async {
-    final isar = await isarDB;
-    final selectedCategoryModel =
-        await isar.categoryModelIsars.get(selectedCategoryModelId);
+  //   isar.writeTxn(() async {
+  //     isar.categoryModelIsars.put(categoryModelIsars);
+  //   });
+  // }
 
-    selectedCategoryModel?.transactionType = transactionType;
+  // Future<void> editCategoryData(
+  //   CategoryModelIsar selectedCategoryModelIsar,
+  //   int selectedCategoryModelId,
+  //   String transactionType,
+  //   bool isIncome,
+  //   int colorsValue,
+  // ) async {
+  //   final isar = await isarDB;
+  //   final selectedCategoryModel =
+  //       await isar.categoryModelIsars.get(selectedCategoryModelId);
 
-    selectedCategoryModel?.isIncome = isIncome;
-    selectedCategoryModel?.colorsValue = colorsValue;
-    isar.writeTxn(() async {
-      // if (selectedCategoryModel != null) {
-      //   isar.categoryModelIsars.put(selectedCategoryModel);
-      // }
-      // TODO
-      final filteredTransactionModelList = await isar.transactionModelIsars
-          .where()
-          .filter()
-          .categoryModelIsar((q) => q.transactionTypeEqualTo(
-              widgetCategoryModelIsar.categoryModelIsar.value!.transactionType))
-          .findAll();
-      if (filteredTransactionModelList.isEmpty) {
-        if (selectedCategoryModel != null) {
-          isar.categoryModelIsars.put(selectedCategoryModel);
-        }
-      }
-    });
-  }
+  //   selectedCategoryModel?.transactionType = transactionType;
 
-  Future<void> deleteCategoryData(
-      TransactionModelIsar widgetCategoryModelIsar) async {
-    final isar = await isarDB;
-    isar.writeTxn(() async {
-      // TODO
-      final filteredTransactionModelList = await isar.transactionModelIsars
-          .where()
-          .filter()
-          .categoryModelIsar((q) => q.transactionTypeEqualTo(
-              widgetCategoryModelIsar.categoryModelIsar.value!.transactionType))
-          .findAll();
-      if (filteredTransactionModelList.isEmpty) {
-        isar.transactionModelIsars.delete(widgetCategoryModelIsar.id);
-      }
-    });
-  }
+  //   selectedCategoryModel?.isIncome = isIncome;
+  //   selectedCategoryModel?.colorsValue = colorsValue;
+  //   isar.writeTxn(() async {
+  //     // if (selectedCategoryModel != null) {
+  //     //   isar.categoryModelIsars.put(selectedCategoryModel);
+  //     // }
+  //     // TODO
+  //     final filteredTransactionModelList = await isar.transactionModelIsars
+  //         .where()
+  //         .filter()
+  //         .categoryModelIsar((q) => q.transactionTypeEqualTo(
+  //             selectedCategoryModelIsar.transactionType))
+  //         .findAll();
+  //     if (filteredTransactionModelList.isEmpty) {
+  //       if (selectedCategoryModel != null) {
+  //         isar.categoryModelIsars.put(selectedCategoryModel);
+  //       }
+  //     }
+  //   });
+  // }
+
+  // Future<void> deleteCategoryData(
+  //     CategoryModelIsar selectedCategoryModelIsar) async {
+  //   final isar = await isarDB;
+  //   isar.writeTxn(() async {
+  //     // TODO
+  //     final filteredTransactionModelList = await isar.transactionModelIsars
+  //         .where()
+  //         .filter()
+  //         .categoryModelIsar((q) => q.transactionTypeEqualTo(
+  //             selectedCategoryModelIsar.transactionType))
+  //         .findAll();
+  //     if (filteredTransactionModelList.isEmpty) {
+  //       isar.transactionModelIsars.delete(selectedCategoryModelIsar.id);
+  //     }
+  //   });
+  // }
 
   // Delete all db items
   Future<void> cleanDB() async {

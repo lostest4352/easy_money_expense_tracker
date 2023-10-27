@@ -2,7 +2,9 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
+import 'package:flutter_expense_tracker/database/isar_classes.dart';
 import 'package:flutter_expense_tracker/models/pie_chart_model.dart';
+import 'package:isar/isar.dart';
 
 class GraphsPage extends StatefulWidget {
   const GraphsPage({super.key});
@@ -95,23 +97,34 @@ class TransactionWidget extends StatelessWidget {
 
     List<PieChartModel> pieChartModelList = [];
 
-    for (final transaction in blocTransaction.transactionList) {
+    List<TransactionModelIsar> transactionModelList = [];
+          blocTransaction.isarService.isarDB.then((value) async {
+            return await value.transactionModelIsars
+                .where()
+                .findAll()
+                .then((value) {
+              transactionModelList = value;
+              return transactionModelList;
+            });
+          });
+
+    for (final transaction in transactionModelList) {
       bool found = false;
       for (final pieChartModel in pieChartModelList) {
-        if (pieChartModel.categoryModel == transaction.categoryModel) {
+        if (pieChartModel.categoryModel == transaction.categoryModelIsar.value) {
           found = true;
           pieChartModel.amount += transaction.amount;
         }
       }
 
-      if (!found) {
-        pieChartModelList.add(
-          PieChartModel(
-            categoryModel: transaction.categoryModel,
-            amount: transaction.amount,
-          ),
-        );
-      }
+      // if (!found) {
+      //   pieChartModelList.add(
+      //     PieChartModel(
+      //       categoryModel: transaction.categoryModelIsar.value, 
+      //       amount: transaction.amount,
+      //     ),
+      //   );
+      // }
     }
 
     return ListView(

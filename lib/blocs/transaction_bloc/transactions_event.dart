@@ -4,25 +4,33 @@ part of 'transactions_bloc.dart';
 sealed class TransactionsEvent {}
 
 class AddTransactionEvent extends TransactionsEvent {
-  final TransactionModel transactionModel;
+  final TransactionModelIsar transactionModelIsar;
 
   AddTransactionEvent({
-    required this.transactionModel,
+    required this.transactionModelIsar,
   });
 }
 
 class EditTransactionEvent extends TransactionsEvent {
-  final TransactionModel transactionModel;
-  final TransactionModel widgetTransaction;
+  final int selectedTransactionModelId;
+  final int amount;
+  final CategoryModelIsar categoryModelIsar;
+  final String dateTime;
+  final String note;
 
   EditTransactionEvent({
-    required this.transactionModel,
-    required this.widgetTransaction,
+    required this.selectedTransactionModelId,
+    required this.amount,
+    required this.categoryModelIsar,
+    required this.dateTime,
+    required this.note,
   });
 }
 
 class DeleteTransactionEvent extends TransactionsEvent {
-  final TransactionModel? widgetTransaction;
+  final TransactionModelIsar? widgetTransactionModelIsar;
 
-  DeleteTransactionEvent({required this.widgetTransaction});
+  DeleteTransactionEvent({
+    required this.widgetTransactionModelIsar,
+  });
 }
