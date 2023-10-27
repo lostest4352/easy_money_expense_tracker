@@ -19,8 +19,8 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
       final transactionModelIsarList =
           await isar.transactionModelIsars.where().findAll();
 
-      isar.writeTxn(() async {
-        isar.transactionModelIsars.put(event.transactionModelIsar);
+      isar.writeTxnSync(() async {
+        isar.transactionModelIsars.putSync(event.transactionModelIsar);
       });
       calculateIncome(transactionModelIsarList);
       emit(AddTransactionState());
