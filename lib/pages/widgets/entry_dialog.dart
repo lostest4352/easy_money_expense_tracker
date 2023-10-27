@@ -52,13 +52,10 @@ class _EntryDialogState extends State<EntryDialog> {
       amountController.text = widget.transaction?.amount.toString() ?? "";
       noteController.text = widget.transaction?.note ?? "";
       selectedDate = DateTime.parse(widget.transaction!.dateTime);
-      // categoryItem = widget.transaction?.transactionType;
-      // categoryValueFromListItem = widget.transaction?.categoryModelIsar.value;
+      //
       transactionType = widget.transaction?.transactionType ?? "";
       isIncome = widget.transaction?.isIncome ?? true;
       colorsValue = widget.transaction?.colorsValue;
-    } else {
-      // categoryItem = null;
     }
   }
 
@@ -223,7 +220,7 @@ class _EntryDialogState extends State<EntryDialog> {
                                   ..note = (noteController.text.trim() == "")
                                       ? null
                                       : noteController.text.trim()
-                                  // TODO here
+                                  //
                                   ..transactionType = transactionType ?? ""
                                   ..isIncome = isIncome ?? true
                                   ..colorsValue =

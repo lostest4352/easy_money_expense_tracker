@@ -43,12 +43,12 @@ class HomePage extends StatelessWidget {
       ),
       drawer: const AppDrawer(),
       body: BlocBuilder<TransactionsBloc, TransactionsState>(
-          builder: (context, state) {
-        TransactionsBloc blocTransaction = context.read<TransactionsBloc>();
-        Stream<List<TransactionModelIsar>> listenTransactionData =
-            blocTransaction.isarService.listenTransactionData();
-        //
-        return StreamBuilder(
+        builder: (context, state) {
+          TransactionsBloc blocTransaction = context.read<TransactionsBloc>();
+          Stream<List<TransactionModelIsar>> listenTransactionData =
+              blocTransaction.isarService.listenTransactionData();
+          //
+          return StreamBuilder(
             stream: listenTransactionData,
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
@@ -146,8 +146,10 @@ class HomePage extends StatelessWidget {
                   ),
                 ],
               );
-            });
-      }),
+            },
+          );
+        },
+      ),
     );
   }
 }

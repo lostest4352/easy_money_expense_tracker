@@ -21,12 +21,6 @@ class IsarService {
     return Future.value(Isar.getInstance());
   }
 
-  // TODO
-  TransactionModelIsar transactionModelIsar = TransactionModelIsar();
-  CategoryModelIsar categoryModelIsar = CategoryModelIsar();
-
-  
-
   // Transaction Related
   // Future<List<TransactionModelIsar>> getTransactionData() async {
   //   final isar = await isarDB;
@@ -116,7 +110,6 @@ class IsarService {
   //     // if (selectedCategoryModel != null) {
   //     //   isar.categoryModelIsars.put(selectedCategoryModel);
   //     // }
-  //     // TODO
   //     final filteredTransactionModelList = await isar.transactionModelIsars
   //         .where()
   //         .filter()
@@ -135,7 +128,6 @@ class IsarService {
   //     CategoryModelIsar selectedCategoryModelIsar) async {
   //   final isar = await isarDB;
   //   isar.writeTxn(() async {
-  //     // TODO
   //     final filteredTransactionModelList = await isar.transactionModelIsars
   //         .where()
   //         .filter()

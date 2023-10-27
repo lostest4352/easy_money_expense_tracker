@@ -165,16 +165,6 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
                                           children: [
                                             TextButton(
                                               onPressed: () {
-                                                // blocCategories.add(
-                                                //   DeleteCategoryEvent(
-                                                //     context: context,
-                                                //     selectedListItem: widget
-                                                //         .selectedListItem!,
-                                                //     transactionList:
-                                                //         blocTransactions
-                                                //             .transactionList,
-                                                //   ),
-                                                // );
                                                 blocCategories.add(
                                                   DeleteCategoryEvent(
                                                     selectedCategoryModelIsar:
@@ -224,18 +214,6 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
                           ),
                           onPressed: () {
                             if (categoryController.text != "") {
-                              // blocCategories.add(
-                              //   AddOrEditCategoryEvent(
-                              //     context: context,
-                              //     editMode: widget.editMode,
-                              //     transactionType: categoryController.text,
-                              //     isIncome: isIncome,
-                              //     colorsValue: colorsValue,
-                              //     transactionList:
-                              //         blocTransactions.transactionList,
-                              //     selectedListItem: widget.selectedListItem,
-                              //   ),
-                              // );
                               CategoryModelIsar categoryModelIsar =
                                   CategoryModelIsar()
                                     ..transactionType = categoryController.text
@@ -247,7 +225,6 @@ class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
                                     categoryModelIsars: categoryModelIsar,
                                   ),
                                 );
-                                // debugPrint(blocCategories.setList().toString());
                                 context.pop();
                               } else if (widget.editMode == true) {
                                 blocCategories.add(

@@ -17,12 +17,6 @@ class _ExpenseCategoriesState extends State<ExpenseCategories> {
 
   CategoryBloc get blocCategories => context.read<CategoryBloc>();
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   blocCategories.categoryModelList;
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +40,7 @@ class _ExpenseCategoriesState extends State<ExpenseCategories> {
       ),
       body: BlocBuilder<CategoryBloc, CategoryState>(
         builder: (context, state) {
-          // TODO add below code for moving transactions to these two types if cateory deleted
+          // TODO add below like code for moving transactions to these two types if cateory deleted
           // blocCategories.listItems.where((itemsInList) {
           //   return itemsInList.transactionType == "otherIncome" ||
           //       itemsInList.transactionType == "otherExpense";

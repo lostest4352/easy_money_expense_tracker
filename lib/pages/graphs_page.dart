@@ -39,7 +39,8 @@ class _GraphsPageState extends State<GraphsPage>
 
   TransactionsBloc get blocTransaction => context.read<TransactionsBloc>();
 
-  Stream<List<TransactionModelIsar>> get listenTransactionData => blocTransaction.isarService.listenTransactionData();
+  Stream<List<TransactionModelIsar>> get listenTransactionData =>
+      blocTransaction.isarService.listenTransactionData();
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +131,6 @@ class TransactionWidget extends StatelessWidget {
         if (!found) {
           pieChartModelList.add(
             PieChartModel(
-              // categoryModel: transaction.categoryModelIsar.value,
               transactionType: transaction.transactionType,
               isIncome: transaction.isIncome,
               colorsValue: transaction.colorsValue,

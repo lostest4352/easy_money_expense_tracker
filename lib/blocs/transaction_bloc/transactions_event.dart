@@ -4,7 +4,7 @@ part of 'transactions_bloc.dart';
 sealed class TransactionsEvent {}
 
 class AddTransactionEvent extends TransactionsEvent {
- final TransactionModelIsar transactionModelIsar;
+  final TransactionModelIsar transactionModelIsar;
 
   AddTransactionEvent({required this.transactionModelIsar});
 }

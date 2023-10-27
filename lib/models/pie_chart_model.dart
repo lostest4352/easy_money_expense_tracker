@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 class PieChartModel {
-  // CategoryModel categoryModel;
   int amount;
   //
   String transactionType;
