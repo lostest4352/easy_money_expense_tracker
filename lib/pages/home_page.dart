@@ -11,31 +11,6 @@ import 'package:flutter_expense_tracker/pages/widgets/app_drawer.dart';
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  // In order to seperate listview by months
-  int calculateMonthsData(
-      DateTime date, List<TransactionModelIsar> transactionList) {
-    int monthlyAmt = 0;
-
-    for (final transaction in transactionList) {
-      final passedTransactionDate = DateTime.parse(transaction.dateTime);
-      final formattedTransactionDate =
-          DateFormat("MMMM, y").format(passedTransactionDate);
-      //
-      final formattedPassedDate = DateFormat("MMMM, y").format(date);
-      //
-      if (formattedTransactionDate == formattedPassedDate) {
-        if (transaction.isIncome == true) {
-          monthlyAmt += transaction.amount;
-        } else {
-          monthlyAmt -= transaction.amount;
-        }
-      }
-    }
-    return monthlyAmt;
-  }
-
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
