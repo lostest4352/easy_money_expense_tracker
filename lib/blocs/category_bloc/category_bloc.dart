@@ -54,6 +54,8 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
             .findAll();
         if (filteredTransactionModelList.isEmpty) {
           isar.transactionModelIsars.delete(event.selectedCategoryModelIsar.id);
+        } else {
+          emit(DisallowModificationState());
         }
       });
     });

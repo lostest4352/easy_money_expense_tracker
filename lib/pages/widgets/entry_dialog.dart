@@ -289,11 +289,6 @@ class _EntryDialogState extends State<EntryDialog> {
                                       return ListTile(
                                         onTap: () {
                                           setState(() {
-                                            // categoryItem =
-                                            //     categoryModelList[index]
-                                            //         .transactionType;
-                                            // categoryValueFromListItem =
-                                            //     categoryModelList[index];
                                             transactionType =
                                                 categoryModelList[index]
                                                     .transactionType;
