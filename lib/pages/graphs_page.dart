@@ -39,6 +39,8 @@ class _GraphsPageState extends State<GraphsPage>
 
   TransactionsBloc get blocTransaction => context.read<TransactionsBloc>();
 
+  Stream<List<TransactionModelIsar>> get listenTransactionData => blocTransaction.isarService.listenTransactionData();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +49,7 @@ class _GraphsPageState extends State<GraphsPage>
         toolbarHeight: 45,
       ),
       body: StreamBuilder(
-        stream: blocTransaction.isarService.listenTransactionData(),
+        stream: listenTransactionData,
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return const Center(

@@ -45,20 +45,11 @@ class HomePage extends StatelessWidget {
       body: BlocBuilder<TransactionsBloc, TransactionsState>(
           builder: (context, state) {
         TransactionsBloc blocTransaction = context.read<TransactionsBloc>();
+        Stream<List<TransactionModelIsar>> listenTransactionData =
+            blocTransaction.isarService.listenTransactionData();
         //
-
-        // List<TransactionModelIsar> transactionModelList = [];
-        //   blocTransaction.isarService.isarDB.then((value) async {
-        //     return await value.transactionModelIsars
-        //         .where()
-        //         .findAll()
-        //         .then((value) {
-        //       transactionModelList = value;
-        //       return transactionModelList;
-        //     });
-        //   });
         return StreamBuilder(
-            stream: blocTransaction.isarService.listenTransactionData(),
+            stream: listenTransactionData,
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return const Center();
