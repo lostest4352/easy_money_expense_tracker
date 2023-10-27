@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expense_tracker/database/isar_classes.dart';
+import 'package:flutter_expense_tracker/pages/functions/calculate_total.dart';
 import 'package:flutter_expense_tracker/pages/widgets/homepage_appbar.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
@@ -32,6 +33,8 @@ class HomePage extends StatelessWidget {
     }
     return monthlyAmt;
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -92,9 +95,10 @@ class HomePage extends StatelessWidget {
                   ),
                   Builder(
                     builder: (context) {
+                      final value = calculateTotalIncomeOrExpenses(snapshot);
                       return HomePageAppBar(
-                        income: blocTransaction.totalIncome,
-                        expenses: blocTransaction.totalExpenses,
+                        income: value.$1,
+                        expenses: value.$2,
                       );
                     },
                   ),

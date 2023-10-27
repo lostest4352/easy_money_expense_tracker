@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
 import 'package:flutter_expense_tracker/database/isar_classes.dart';
 import 'package:flutter_expense_tracker/models/pie_chart_model.dart';
-import 'package:isar/isar.dart';
+import 'package:flutter_expense_tracker/pages/functions/calculate_total.dart';
 
 class GraphsPage extends StatefulWidget {
   const GraphsPage({super.key});
@@ -46,28 +46,45 @@ class _GraphsPageState extends State<GraphsPage>
         title: const Text("Graphs Page"),
         toolbarHeight: 45,
       ),
-      body: Column(
-        children: [
-          TabBar(
-            controller: _tabController,
-            tabs: myTabs,
-          ),
-          Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: [
-                TransactionWidget(
-                  isIncome: true,
-                  totalValue: blocTransaction.totalIncome,
+      body: StreamBuilder(
+        stream: blocTransaction.isarService.listenTransactionData(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (snapshot.data == null) {
+            return const Center();
+          }
+          final value = calculateTotalIncomeOrExpenses(snapshot);
+
+          return Column(
+            children: [
+              TabBar(
+                controller: _tabController,
+                tabs: myTabs,
+              ),
+              Expanded(
+                child: TabBarView(
+                  controller: _tabController,
+                  children: [
+                    TransactionWidget(
+                      isIncome: true,
+                      totalValue: value.$1,
+                      transactionList: snapshot.data,
+                    ),
+                    TransactionWidget(
+                      isIncome: false,
+                      totalValue: value.$2,
+                      transactionList: snapshot.data,
+                    )
+                  ],
                 ),
-                TransactionWidget(
-                  isIncome: false,
-                  totalValue: blocTransaction.totalExpenses,
-                )
-              ],
-            ),
-          ),
-        ],
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -75,12 +92,13 @@ class _GraphsPageState extends State<GraphsPage>
 
 class TransactionWidget extends StatelessWidget {
   final bool isIncome;
-
   final int totalValue;
+  final List<TransactionModelIsar>? transactionList;
   const TransactionWidget({
     Key? key,
     required this.isIncome,
     required this.totalValue,
+    required this.transactionList,
   }) : super(key: key);
 
   @override
@@ -93,40 +111,31 @@ class TransactionWidget extends StatelessWidget {
     //   },
     // ).toList();
 
-    TransactionsBloc blocTransaction = context.read<TransactionsBloc>();
-
     List<PieChartModel> pieChartModelList = [];
 
-    List<TransactionModelIsar> transactionModelList = [];
-    blocTransaction.isarService.isarDB.then((value) async {
-      return await value.transactionModelIsars.where().findAll().then((value) {
-        transactionModelList = value;
-        return transactionModelList;
-      });
-    });
-
-    for (final transaction in transactionModelList) {
-      bool found = false;
-      for (final pieChartModel in pieChartModelList) {
-        // if (pieChartModel.categoryModel == transaction.categoryModelIsar.value)
-        if (pieChartModel.transactionType == transaction.transactionType &&
-            pieChartModel.isIncome == transaction.isIncome &&
-            pieChartModel.colorsValue == transaction.colorsValue) {
-          found = true;
-          pieChartModel.amount += transaction.amount;
+    if (transactionList != null) {
+      for (final transaction in transactionList!) {
+        bool found = false;
+        for (final pieChartModel in pieChartModelList) {
+          if (pieChartModel.transactionType == transaction.transactionType &&
+              pieChartModel.isIncome == transaction.isIncome &&
+              pieChartModel.colorsValue == transaction.colorsValue) {
+            found = true;
+            pieChartModel.amount += transaction.amount;
+          }
         }
-      }
 
-      if (!found) {
-        pieChartModelList.add(
-          PieChartModel(
-            // categoryModel: transaction.categoryModelIsar.value,
-            transactionType: transaction.transactionType,
-            isIncome: transaction.isIncome,
-            colorsValue: transaction.colorsValue,
-            amount: transaction.amount,
-          ),
-        );
+        if (!found) {
+          pieChartModelList.add(
+            PieChartModel(
+              // categoryModel: transaction.categoryModelIsar.value,
+              transactionType: transaction.transactionType,
+              isIncome: transaction.isIncome,
+              colorsValue: transaction.colorsValue,
+              amount: transaction.amount,
+            ),
+          );
+        }
       }
     }
 

@@ -224,13 +224,10 @@ class _EntryDialogState extends State<EntryDialog> {
                                       ? null
                                       : noteController.text.trim()
                                   // TODO here
-                                  ..transactionType =
-                                      transactionType ?? ""
-                                  ..isIncome =
-                                      isIncome ?? true
+                                  ..transactionType = transactionType ?? ""
+                                  ..isIncome = isIncome ?? true
                                   ..colorsValue =
-                                      colorsValue ??
-                                          Colors.red.value;
+                                      colorsValue ?? Colors.red.value;
 
                             if (widget.editMode == false) {
                               blocTransaction.add(
