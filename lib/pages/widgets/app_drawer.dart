@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_expense_tracker/routers/app_routes.dart';
+import 'package:flutter_expense_tracker/routes/app_routes.dart';
 import 'package:go_router/go_router.dart';
 
 class AppDrawer extends StatelessWidget {

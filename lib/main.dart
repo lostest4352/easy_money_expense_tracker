@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expense_tracker/blocs/category_bloc/category_bloc.dart';
 import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
-import 'package:flutter_expense_tracker/routers/app_routes.dart';
+import 'package:flutter_expense_tracker/routes/app_routes.dart';
 
 void main() async {
   if (Platform.isAndroid) {
@@ -35,20 +35,17 @@ class MyApp extends StatelessWidget {
           create: (context) => CategoryBloc(),
         ),
       ],
-      child: MaterialApp.router(
-        debugShowCheckedModeBanner: false,
-        theme: FlexThemeData.dark(
-          scheme: FlexScheme.mandyRed,
-          colorScheme: const ColorScheme.dark(primary: Colors.red),
-          appBarBackground: (Colors.grey[850]),
+      child: SafeArea(
+        child: MaterialApp.router(
+          debugShowCheckedModeBanner: false,
+          theme: FlexThemeData.dark(
+            scheme: FlexScheme.mandyRed,
+            colorScheme: const ColorScheme.dark(primary: Colors.red),
+            appBarBackground: (Colors.grey[850]),
+          ),
+          // home: const HomePage(),
+          routerConfig: goRouter,
         ),
-        // home: const HomePage(),
-        routerConfig: goRouter,
-        builder: (_, child) {
-          return SafeArea(
-            child: child!,
-          );
-        },
       ),
     );
   }
