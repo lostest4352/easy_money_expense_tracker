@@ -54,95 +54,85 @@ class HomePage extends StatelessWidget {
               if (!snapshot.hasData) {
                 return const Center();
               }
+              // Code for sorting ascending/descending
+              // blocTransactionList.sort((a, b) => a.dateTime.compareTo(b.dateTime));
+              // blocTransaction.transactionList
+              //     .sort((a, b) => b.dateTime.compareTo(a.dateTime));
+              // sort date
+              snapshot.data!.sort((a, b) => b.dateTime.compareTo(a.dateTime));
+              // get calculated value
+              final calculatedValue = calculateTotalIncomeOrExpenses(snapshot);
               return Column(
                 children: [
                   const SizedBox(
                     height: 2,
                   ),
-                  Builder(
-                    builder: (context) {
-                      final value = calculateTotalIncomeOrExpenses(snapshot);
-                      return HomePageAppBar(
-                        income: value.$1,
-                        expenses: value.$2,
-                      );
-                    },
+                  HomePageAppBar(
+                    income: calculatedValue.$1,
+                    expenses: calculatedValue.$2,
                   ),
                   const SizedBox(
                     height: 10,
                   ),
                   Flexible(
-                    child: Builder(builder: (context) {
-                      // Code for sorting ascending/descending
-                      // blocTransactionList.sort((a, b) => a.dateTime.compareTo(b.dateTime));
-                      // blocTransaction.transactionList
-                      //     .sort((a, b) => b.dateTime.compareTo(a.dateTime));
-                      snapshot.data!
-                          .sort((a, b) => b.dateTime.compareTo(a.dateTime));
-                      return CustomScrollView(
-                        slivers: [
-                          SliverList.builder(
-                            itemCount: snapshot.data?.length,
-                            itemBuilder: (context, index) {
-                              bool isSameDate = true;
-                              String dateString =
-                                  snapshot.data![index].dateTime;
-                              DateTime date = DateTime.parse(dateString);
-                              if (index == 0) {
-                                isSameDate = false;
-                              } else {
-                                String prevDateString =
-                                    snapshot.data![index - 1].dateTime;
-                                DateTime prevDate =
-                                    DateTime.parse(prevDateString);
-                                isSameDate = date.isSameDate(prevDate);
-                              }
-                              if (index == 0 || !isSameDate) {
-                                // if income and expenses seperated for each month later
-                                // int monthlyInc = calculateMonthsData(date).monthlyInc;
-                                // int monthlyExp = calculateMonthsData(date).monthlyExp;
-                                // int calculatedData = monthlyInc + monthlyExp;
-                                int calculatedData =
-                                    calculateMonthsData(date, snapshot.data!);
-
-                                return Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 15,
-                                          right: 15,
-                                          top: 4,
-                                          bottom: 4),
-                                      child: Row(
-                                        children: [
-                                          Text(date.formatDate()),
-                                          const Spacer(),
-                                          Text(
-                                            "Total: $calculatedData",
-                                            style: TextStyle(
-                                              color: (calculatedData > 0)
-                                                  ? Colors.green
-                                                  : Colors.red,
-                                            ),
+                    child: CustomScrollView(
+                      slivers: [
+                        SliverList.builder(
+                          itemCount: snapshot.data?.length,
+                          itemBuilder: (context, index) {
+                            bool isSameDate = true;
+                            String dateString = snapshot.data![index].dateTime;
+                            DateTime date = DateTime.parse(dateString);
+                            if (index == 0) {
+                              isSameDate = false;
+                            } else {
+                              String prevDateString =
+                                  snapshot.data![index - 1].dateTime;
+                              DateTime prevDate =
+                                  DateTime.parse(prevDateString);
+                              isSameDate = date.isSameDate(prevDate);
+                            }
+                            if (index == 0 || !isSameDate) {
+                              // if income and expenses seperated for each month later
+                              // int monthlyInc = calculateMonthsData(date).monthlyInc;
+                              // int monthlyExp = calculateMonthsData(date).monthlyExp;
+                              // int calculatedData = monthlyInc + monthlyExp;
+                              int calculatedData =
+                                  calculateMonthsData(date, snapshot.data!);
+                              return Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 15, right: 15, top: 4, bottom: 4),
+                                    child: Row(
+                                      children: [
+                                        Text(date.formatDate()),
+                                        const Spacer(),
+                                        Text(
+                                          "Total: $calculatedData",
+                                          style: TextStyle(
+                                            color: (calculatedData > 0)
+                                                ? Colors.green
+                                                : Colors.red,
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
-                                    TransactionView(
-                                      transaction: snapshot.data![index],
-                                    ),
-                                  ],
-                                );
-                              } else {
-                                return TransactionView(
-                                  transaction: snapshot.data![index],
-                                );
-                              }
-                            },
-                          ),
-                        ],
-                      );
-                    }),
+                                  ),
+                                  TransactionView(
+                                    transaction: snapshot.data![index],
+                                  ),
+                                ],
+                              );
+                            } else {
+                              return TransactionView(
+                                transaction: snapshot.data![index],
+                              );
+                            }
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               );
