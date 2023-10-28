@@ -9,7 +9,7 @@ import 'package:table_calendar/table_calendar.dart';
 
 import 'package:flutter_expense_tracker/blocs/category_bloc/category_bloc.dart';
 import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
-import 'package:flutter_expense_tracker/pages/widgets/category_edit_dialog.dart';
+import 'package:flutter_expense_tracker/pages/widgets/category_modify_dialog.dart';
 import 'package:flutter_expense_tracker/pages/widgets/popup_category_items.dart';
 import 'package:flutter_expense_tracker/pages/widgets/popup_textfield_items.dart';
 import 'package:flutter_expense_tracker/pages/widgets/popup_textfield_title.dart';
@@ -334,7 +334,7 @@ class _EntryDialogState extends State<EntryDialog> {
                                           showDialog(
                                             context: context,
                                             builder: (context) {
-                                              return const CategoryAddOrEditDialog(
+                                              return const CategoryModifyDialog(
                                                 editMode: false,
                                               );
                                             },

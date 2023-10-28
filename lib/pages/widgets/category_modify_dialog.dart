@@ -8,21 +8,21 @@ import 'package:flutter_expense_tracker/blocs/category_bloc/category_bloc.dart';
 import 'package:flutter_expense_tracker/pages/widgets/popup_textfield_items.dart';
 import 'package:go_router/go_router.dart';
 
-class CategoryAddOrEditDialog extends StatefulWidget {
+class CategoryModifyDialog extends StatefulWidget {
   final bool editMode;
   final CategoryModelIsar? selectedListItem;
-  const CategoryAddOrEditDialog({
+  const CategoryModifyDialog({
     Key? key,
     required this.editMode,
     this.selectedListItem,
   }) : super(key: key);
 
   @override
-  State<CategoryAddOrEditDialog> createState() =>
-      _CategoryAddOrEditDialogState();
+  State<CategoryModifyDialog> createState() =>
+      _CategoryModifyDialogState();
 }
 
-class _CategoryAddOrEditDialogState extends State<CategoryAddOrEditDialog> {
+class _CategoryModifyDialogState extends State<CategoryModifyDialog> {
   late bool isIncome;
   late int colorsValue;
   final TextEditingController categoryController = TextEditingController();
