@@ -243,11 +243,9 @@ class _EntryDialogState extends State<EntryDialog> {
                                       ? null
                                       : noteController.text.trim(),
                                   //
-                                  transactionType:
-                                      widget.transaction?.transactionType ?? "",
-                                  isIncome:
-                                      widget.transaction?.isIncome ?? true,
-                                  colorsValue: widget.transaction!.colorsValue,
+                                  transactionType: transactionType!,
+                                  isIncome: isIncome!,
+                                  colorsValue: colorsValue!,
                                 ),
                               );
                             }
