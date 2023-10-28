@@ -16,7 +16,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     on<AddCategoryEvent>((event, emit) async {
       final isar = await isarService.isarDB;
       isar.writeTxn(() async {
-        isar.categoryModelIsars.put(event.categoryModelIsars);
+        await isar.categoryModelIsars.put(event.categoryModelIsars);
       });
       emit(AddCategoryState());
     });
@@ -37,7 +37,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
             .findAll();
         if (filteredTransactionModelList.isEmpty) {
           if (selectedCategoryModel != null) {
-            isar.categoryModelIsars.put(selectedCategoryModel);
+            await isar.categoryModelIsars.put(selectedCategoryModel);
           }
         }
       });
@@ -53,10 +53,11 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
                 event.selectedCategoryModelIsar.transactionType)
             .findAll();
         if (filteredTransactionModelList.isEmpty) {
-          isar.transactionModelIsars.delete(event.selectedCategoryModelIsar.id);
+          await isar.transactionModelIsars
+              .delete(event.selectedCategoryModelIsar.id);
         } else {
           // TODO
-          emit(DisallowModificationState());
+          // emit(DisallowModificationState());
         }
       });
     });

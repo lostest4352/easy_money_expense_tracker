@@ -13,7 +13,7 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
     on<AddTransactionEvent>((event, emit) async {
       final isar = await isarService.isarDB;
       isar.writeTxn(() async {
-        await isar.transactionModelIsars.put(event.transactionModelIsar);       
+        await isar.transactionModelIsars.put(event.transactionModelIsar);
       });
       emit(AddTransactionState());
     });
@@ -41,7 +41,8 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
     on<DeleteTransactionEvent>((event, emit) async {
       final isar = await isarService.isarDB;
       isar.writeTxn(() async {
-        isar.transactionModelIsars.delete(event.widgetTransactionModelIsar!.id);
+        await isar.transactionModelIsars
+            .delete(event.widgetTransactionModelIsar!.id);
       });
       emit(DeleteTransactionState());
     });
