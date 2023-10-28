@@ -41,6 +41,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
           }
         }
       });
+      emit(EditCategoryState());
     });
 
     on<DeleteCategoryEvent>((event, emit) async {
@@ -55,9 +56,10 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
         if (filteredTransactionModelList.isEmpty) {
           await isar.transactionModelIsars
               .delete(event.selectedCategoryModelIsar.id);
+          emit(DeleteCategoryState());
+        // TODO
         } else {
-          // TODO
-          // emit(DisallowModificationState());
+          emit(DisallowModificationState());
         }
       });
     });
