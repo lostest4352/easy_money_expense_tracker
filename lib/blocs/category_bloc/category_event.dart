@@ -3,20 +3,20 @@ part of 'category_bloc.dart';
 @immutable
 sealed class CategoryEvent {}
 
-final class AddCategoryEvent extends CategoryEvent {
+final class CategoryAddEvent extends CategoryEvent {
   final CategoryModelIsar categoryModelIsars;
 
-  AddCategoryEvent({required this.categoryModelIsars});
+  CategoryAddEvent({required this.categoryModelIsars});
 }
 
-final class EditCategoryEvent extends CategoryEvent {
+final class CategoryEditEvent extends CategoryEvent {
   final CategoryModelIsar selectedCategoryModelIsar;
   final int selectedCategoryModelId;
   final String transactionType;
   final bool isIncome;
   final int colorsValue;
 
-  EditCategoryEvent(
+  CategoryEditEvent(
       {required this.selectedCategoryModelIsar,
       required this.selectedCategoryModelId,
       required this.transactionType,
@@ -24,10 +24,10 @@ final class EditCategoryEvent extends CategoryEvent {
       required this.colorsValue});
 }
 
-final class DeleteCategoryEvent extends CategoryEvent {
+final class CategoryDeleteEvent extends CategoryEvent {
   final CategoryModelIsar selectedCategoryModelIsar;
 
-  DeleteCategoryEvent({required this.selectedCategoryModelIsar});
+  CategoryDeleteEvent({required this.selectedCategoryModelIsar});
 }
 
-final class AddDefaultItemsEvent extends CategoryEvent {}
+final class CategoryAddDefaultItemsEvent extends CategoryEvent {}

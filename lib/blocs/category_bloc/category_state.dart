@@ -5,12 +5,12 @@ sealed class CategoryState {}
 
 final class CategoryInitial extends CategoryState {}
 
-final class AddCategoryState extends CategoryState {}
+final class CategoryAddState extends CategoryState {}
 
-final class EditCategoryState extends CategoryState {}
+final class CategoryEditState extends CategoryState {}
 
-final class DeleteCategoryState extends CategoryState {}
+final class CategoryDeleteState extends CategoryState {}
 
-final class DisallowModificationState extends CategoryState {}
+final class CategoryDisallowModificationState extends CategoryState {}
 
-final class AddDefaultItemsState extends CategoryState {}
+final class CategoryAddDefaultItemsState extends CategoryState {}

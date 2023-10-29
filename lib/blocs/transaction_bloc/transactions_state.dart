@@ -5,8 +5,8 @@ sealed class TransactionsState {}
 
 final class TransactionsInitial extends TransactionsState {}
 
-class AddTransactionState extends TransactionsState {}
+class TransactionsAddState extends TransactionsState {}
 
-class EditTransactionState extends TransactionsState {}
+class TransactionsEditState extends TransactionsState {}
 
-class DeleteTransactionState extends TransactionsState {}
+class TransactionsDeleteState extends TransactionsState {}

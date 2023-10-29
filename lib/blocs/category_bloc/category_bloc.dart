@@ -14,15 +14,15 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
 
   //
   CategoryBloc() : super(CategoryInitial()) {
-    on<AddCategoryEvent>((event, emit) async {
+    on<CategoryAddEvent>((event, emit) async {
       final isar = await isarService.isarDB;
       await isar.writeTxn(() async {
         await isar.categoryModelIsars.put(event.categoryModelIsars);
       });
-      emit(AddCategoryState());
+      emit(CategoryAddState());
     });
 
-    on<EditCategoryEvent>((event, emit) async {
+    on<CategoryEditEvent>((event, emit) async {
       final isar = await isarService.isarDB;
       final selectedCategoryModel =
           await isar.categoryModelIsars.get(event.selectedCategoryModelId);
@@ -39,15 +39,15 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
         if (filteredTransactionModelList.isEmpty) {
           if (selectedCategoryModel != null) {
             await isar.categoryModelIsars.put(selectedCategoryModel);
-            emit(EditCategoryState());
+            emit(CategoryEditState());
           }
         } else {
-          emit(DisallowModificationState());
+          emit(CategoryDisallowModificationState());
         }
       });
     });
 
-    on<DeleteCategoryEvent>((event, emit) async {
+    on<CategoryDeleteEvent>((event, emit) async {
       final isar = await isarService.isarDB;
       await isar.writeTxn(() async {
         final filteredTransactionModelList = await isar.transactionModelIsars
@@ -59,19 +59,19 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
         if (filteredTransactionModelList.isEmpty) {
           await isar.categoryModelIsars
               .delete(event.selectedCategoryModelIsar.id);
-          emit(DeleteCategoryState());
+          emit(CategoryDeleteState());
         } else {
-          emit(DisallowModificationState());
+          emit(CategoryDisallowModificationState());
         }
       });
     });
 
-    on<AddDefaultItemsEvent>((event, emit) async {
+    on<CategoryAddDefaultItemsEvent>((event, emit) async {
       final isar = await isarService.isarDB;
       await isar.writeTxn(() async {
         await isar.categoryModelIsars.putAll(defaultListItems);
       });
-      emit(AddDefaultItemsState());
+      emit(CategoryAddDefaultItemsState());
     });
   }
 

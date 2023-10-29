@@ -101,7 +101,7 @@ class _EntryDialogState extends State<EntryDialog> {
                       child: InkWell(
                         onTap: () {
                           blocTransaction.add(
-                            DeleteTransactionEvent(
+                            TransactionsDeleteEvent(
                               widgetTransactionModelIsar: widget.transaction,
                             ),
                           );
@@ -227,13 +227,13 @@ class _EntryDialogState extends State<EntryDialog> {
                                       colorsValue ?? Colors.red.value;
                             if (widget.editMode == false) {
                               blocTransaction.add(
-                                AddTransactionEvent(
+                                TransactionsAddEvent(
                                   transactionModelIsar: transactionModelIsar,
                                 ),
                               );
                             } else {
                               blocTransaction.add(
-                                EditTransactionEvent(
+                                TransactionsEditEvent(
                                   selectedTransactionModelId:
                                       widget.transaction!.id,
                                   amount: int.parse(amountController.text),

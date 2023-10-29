@@ -57,7 +57,7 @@ class _ExpenseCategoriesState extends State<ExpenseCategories> {
                 return const Center();
               }
               if (snapshot.data!.isEmpty) {
-                blocCategories.add(AddDefaultItemsEvent());
+                blocCategories.add(CategoryAddDefaultItemsEvent());
               }
               return Column(
                 children: [

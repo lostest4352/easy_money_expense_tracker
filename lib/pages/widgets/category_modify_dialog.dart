@@ -131,7 +131,7 @@ class _CategoryModifyDialogState extends State<CategoryModifyDialog> {
                       style: TextStyle(color: Colors.black),
                     ),
                   );
-                  if (state is DisallowModificationState) {
+                  if (state is CategoryDisallowModificationState) {
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   }
                 },
@@ -166,7 +166,7 @@ class _CategoryModifyDialogState extends State<CategoryModifyDialog> {
                                             TextButton(
                                               onPressed: () {
                                                 blocCategories.add(
-                                                  DeleteCategoryEvent(
+                                                  CategoryDeleteEvent(
                                                     selectedCategoryModelIsar:
                                                         widget
                                                             .selectedListItem!,
@@ -222,14 +222,14 @@ class _CategoryModifyDialogState extends State<CategoryModifyDialog> {
                                     ..isIncome = isIncome;
                               if (widget.editMode == false) {
                                 blocCategories.add(
-                                  AddCategoryEvent(
+                                  CategoryAddEvent(
                                     categoryModelIsars: categoryModelIsar,
                                   ),
                                 );
                                 context.pop();
                               } else if (widget.editMode == true) {
                                 blocCategories.add(
-                                  EditCategoryEvent(
+                                  CategoryEditEvent(
                                     selectedCategoryModelIsar:
                                         widget.selectedListItem!,
                                     selectedCategoryModelId:
