@@ -44,69 +44,70 @@ class _ExpenseCategoriesState extends State<ExpenseCategories> {
       ),
       body: BlocBuilder<CategoryBloc, CategoryState>(
         builder: (context, state) {
-          // TODO add below like code for moving transactions to these two types if cateory deleted
+          // If db doesnt support, add below like code for moving transactions to these two types if cateory deleted
           // blocCategories.listItems.where((itemsInList) {
           //   return itemsInList.transactionType == "otherIncome" ||
           //       itemsInList.transactionType == "otherExpense";
           // });
 
           return StreamBuilder(
-              stream: categoryStream,
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return const Center();
-                }
-                if (snapshot.data!.isEmpty) {
-                  blocCategories.add(AddDefaultItemsEvent());
-                }
-                return Column(
-                  children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: snapshot.data?.length,
-                        itemBuilder: (context, index) {
-                          return InkWell(
-                            onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return CategoryModifyDialog(
-                                    editMode: true,
-                                    selectedListItem: snapshot.data?[index],
-                                  );
-                                },
-                              );
-                            },
-                            child: ListTile(
-                              leading: CircleAvatar(
-                                backgroundColor:
-                                    snapshot.data?[index].isIncome == true
-                                        ? Colors.blue
-                                        : Colors.red,
-                                child: snapshot.data?[index].isIncome == true
-                                    ? const Icon(
-                                        Icons.addchart,
-                                        color: Colors.white,
-                                      )
-                                    : const Icon(
-                                        Icons.highlight_remove_sharp,
-                                        color: Colors.white,
-                                      ),
-                              ),
-                              title: Text(
-                                  snapshot.data?[index].transactionType ??
-                                      "none"),
+            stream: categoryStream,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return const Center();
+              }
+              if (snapshot.data!.isEmpty) {
+                blocCategories.add(AddDefaultItemsEvent());
+              }
+              return Column(
+                children: [
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: snapshot.data?.length,
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return CategoryModifyDialog(
+                                  editMode: true,
+                                  selectedListItem: snapshot.data?[index],
+                                );
+                              },
+                            );
+                          },
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              backgroundColor:
+                                  snapshot.data?[index].isIncome == true
+                                      ? Colors.blue
+                                      : Colors.red,
+                              child: snapshot.data?[index].isIncome == true
+                                  ? const Icon(
+                                      Icons.addchart,
+                                      color: Colors.white,
+                                    )
+                                  : const Icon(
+                                      Icons.highlight_remove_sharp,
+                                      color: Colors.white,
+                                    ),
                             ),
-                          );
-                        },
-                      ),
+                            title: Text(
+                              snapshot.data?[index].transactionType ?? "none",
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                  ],
-                );
-              });
+                  ),
+                ],
+              );
+            },
+          );
         },
       ),
     );

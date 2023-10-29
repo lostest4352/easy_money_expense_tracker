@@ -225,11 +225,11 @@ class _EntryDialogState extends State<EntryDialog> {
                                   ..isIncome = isIncome ?? true
                                   ..colorsValue =
                                       colorsValue ?? Colors.red.value;
-
                             if (widget.editMode == false) {
                               blocTransaction.add(
                                 AddTransactionEvent(
-                                    transactionModelIsar: transactionModelIsar),
+                                  transactionModelIsar: transactionModelIsar,
+                                ),
                               );
                             } else {
                               blocTransaction.add(
@@ -237,7 +237,6 @@ class _EntryDialogState extends State<EntryDialog> {
                                   selectedTransactionModelId:
                                       widget.transaction!.id,
                                   amount: int.parse(amountController.text),
-
                                   dateTime: selectedDate.toString(),
                                   note: (noteController.text.trim() == "")
                                       ? null
