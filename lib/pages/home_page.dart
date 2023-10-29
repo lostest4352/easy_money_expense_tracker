@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expense_tracker/database/isar_classes.dart';
+import 'package:flutter_expense_tracker/database/isar_service.dart';
 import 'package:flutter_expense_tracker/pages/functions/calculate_total.dart';
 import 'package:flutter_expense_tracker/pages/widgets/homepage_appbar.dart';
 import 'package:intl/intl.dart';
@@ -44,9 +45,8 @@ class HomePage extends StatelessWidget {
       drawer: const AppDrawer(),
       body: BlocBuilder<TransactionsBloc, TransactionsState>(
         builder: (context, state) {
-          TransactionsBloc blocTransaction = context.read<TransactionsBloc>();
           Stream<List<TransactionModelIsar>> listenTransactionData =
-              blocTransaction.isarService.listenTransactionData();
+              context.read<IsarService>().listenTransactionData();
           //
           return StreamBuilder(
             stream: listenTransactionData,
