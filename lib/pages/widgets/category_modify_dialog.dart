@@ -65,7 +65,7 @@ class _CategoryModifyDialogState extends State<CategoryModifyDialog> {
                 height: 10,
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
                 child: Row(
                   children: [
                     const Text("Transaction Type"),
@@ -95,7 +95,7 @@ class _CategoryModifyDialogState extends State<CategoryModifyDialog> {
                 height: 10,
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
                 child: Row(
                   children: [
                     const Text("Select Color"),
@@ -125,10 +125,10 @@ class _CategoryModifyDialogState extends State<CategoryModifyDialog> {
                 listener: (context, state) {
                   const snackBar = SnackBar(
                     duration: Duration(milliseconds: 1200),
-                    backgroundColor: Colors.white,
+                    backgroundColor: Color.fromARGB(255, 29, 89, 192),
                     content: Text(
                       'Only unused cateories can be modified',
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(color: Colors.white),
                     ),
                   );
                   if (state is CategoryDisallowModificationState) {
