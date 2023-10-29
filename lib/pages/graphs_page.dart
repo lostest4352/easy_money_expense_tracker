@@ -60,7 +60,7 @@ class _GraphsPageState extends State<GraphsPage>
           if (snapshot.data == null) {
             return const Center();
           }
-          final value = calculateTotalIncomeOrExpenses(snapshot);
+          final calculatedValue = calculateTotalIncomeOrExpenses(snapshot);
 
           return Column(
             children: [
@@ -74,12 +74,12 @@ class _GraphsPageState extends State<GraphsPage>
                   children: [
                     TransactionWidget(
                       isIncome: true,
-                      totalValue: value.$1,
+                      totalValue: calculatedValue.$1,
                       transactionList: snapshot.data,
                     ),
                     TransactionWidget(
                       isIncome: false,
-                      totalValue: value.$2,
+                      totalValue: calculatedValue.$2,
                       transactionList: snapshot.data,
                     )
                   ],
