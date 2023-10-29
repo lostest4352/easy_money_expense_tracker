@@ -12,3 +12,5 @@ final class EditCategoryState extends CategoryState {}
 final class DeleteCategoryState extends CategoryState {}
 
 final class DisallowModificationState extends CategoryState {}
+
+final class AddDefaultItemsState extends CategoryState {}

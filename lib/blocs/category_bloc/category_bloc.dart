@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expense_tracker/database/isar_classes.dart';
 import 'package:flutter_expense_tracker/database/isar_service.dart';
+import 'package:flutter_expense_tracker/models/dropdown_colors.dart';
 import 'package:isar/isar.dart';
 
 part 'category_event.dart';
@@ -38,10 +39,12 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
         if (filteredTransactionModelList.isEmpty) {
           if (selectedCategoryModel != null) {
             await isar.categoryModelIsars.put(selectedCategoryModel);
+            emit(EditCategoryState());
           }
+        } else {
+          emit(DisallowModificationState());
         }
       });
-      emit(EditCategoryState());
     });
 
     on<DeleteCategoryEvent>((event, emit) async {
@@ -61,56 +64,53 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
           emit(DisallowModificationState());
         }
       });
-      
+    });
+
+    on<AddDefaultItemsEvent>((event, emit) async {
+      final isar = await isarService.isarDB;
+      await isar.writeTxn(() async {
+        await isar.categoryModelIsars.putAll(defaultListItems);
+      });
+      emit(AddDefaultItemsState());
     });
   }
 
-  // TODO
-  // final listItems = [
-  //   CategoryModel(
-  //     transactionType: "Clothing",
-  //     isIncome: false,
-  //     colorsValue: purpleColor.colorsValue,
-  //   ),
-  //   CategoryModel(
-  //     transactionType: "Entertainment",
-  //     isIncome: false,
-  //     colorsValue: redColor.colorsValue,
-  //   ),
-  //   CategoryModel(
-  //     transactionType: "Health",
-  //     isIncome: false,
-  //     colorsValue: blueColor.colorsValue,
-  //   ),
-  //   CategoryModel(
-  //     transactionType: "Fuel",
-  //     isIncome: false,
-  //     colorsValue: yellowColor.colorsValue,
-  //   ),
-  //   CategoryModel(
-  //     transactionType: "Food",
-  //     isIncome: false,
-  //     colorsValue: greenColor.colorsValue,
-  //   ),
-  //   CategoryModel(
-  //     transactionType: "Salary",
-  //     isIncome: true,
-  //     colorsValue: blueColor.colorsValue,
-  //   ),
-  //   CategoryModel(
-  //     transactionType: "Bonus",
-  //     isIncome: true,
-  //     colorsValue: redColor.colorsValue,
-  //   ),
-  //   CategoryModel(
-  //     transactionType: "Wages",
-  //     isIncome: true,
-  //     colorsValue: greenColor.colorsValue,
-  //   ),
-  //   CategoryModel(
-  //     transactionType: "Gifts",
-  //     isIncome: true,
-  //     colorsValue: purpleColor.colorsValue,
-  //   ),
-  // ];
+  final defaultListItems = [
+    CategoryModelIsar()
+      ..transactionType = "Clothing"
+      ..isIncome = false
+      ..colorsValue = purpleColor.colorsValue,
+    CategoryModelIsar()
+      ..transactionType = "Entertainment"
+      ..isIncome = false
+      ..colorsValue = redColor.colorsValue,
+    CategoryModelIsar()
+      ..transactionType = "Health"
+      ..isIncome = false
+      ..colorsValue = blueColor.colorsValue,
+    CategoryModelIsar()
+      ..transactionType = "Fuel"
+      ..isIncome = false
+      ..colorsValue = yellowColor.colorsValue,
+    CategoryModelIsar()
+      ..transactionType = "Food"
+      ..isIncome = false
+      ..colorsValue = greenColor.colorsValue,
+    CategoryModelIsar()
+      ..transactionType = "Salary"
+      ..isIncome = true
+      ..colorsValue = blueColor.colorsValue,
+    CategoryModelIsar()
+      ..transactionType = "Bonus"
+      ..isIncome = true
+      ..colorsValue = redColor.colorsValue,
+    CategoryModelIsar()
+      ..transactionType = "Wages"
+      ..isIncome = true
+      ..colorsValue = greenColor.colorsValue,
+    CategoryModelIsar()
+      ..transactionType = "Gifts"
+      ..isIncome = true
+      ..colorsValue = purpleColor.colorsValue,
+  ];
 }

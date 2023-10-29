@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_expense_tracker/blocs/category_bloc/category_bloc.dart';
+import 'package:flutter_expense_tracker/database/isar_classes.dart';
 import 'package:flutter_expense_tracker/pages/widgets/app_drawer.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,6 +17,9 @@ class _ExpenseCategoriesState extends State<ExpenseCategories> {
   final categoryController = TextEditingController();
 
   CategoryBloc get blocCategories => context.read<CategoryBloc>();
+
+  Stream<List<CategoryModelIsar>> get categoryStream =>
+      blocCategories.isarService.listenCategoryData();
 
   @override
   Widget build(BuildContext context) {
@@ -47,8 +51,14 @@ class _ExpenseCategoriesState extends State<ExpenseCategories> {
           // });
 
           return StreamBuilder(
-              stream: blocCategories.isarService.listenCategoryData(),
+              stream: categoryStream,
               builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return const Center();
+                }
+                if (snapshot.data!.isEmpty) {
+                  blocCategories.add(AddDefaultItemsEvent());
+                }
                 return Column(
                   children: [
                     const SizedBox(

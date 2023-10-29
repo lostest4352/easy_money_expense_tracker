@@ -29,3 +29,5 @@ final class DeleteCategoryEvent extends CategoryEvent {
 
   DeleteCategoryEvent({required this.selectedCategoryModelIsar});
 }
+
+final class AddDefaultItemsEvent extends CategoryEvent {}
