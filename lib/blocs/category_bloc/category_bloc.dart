@@ -9,11 +9,9 @@ part 'category_event.dart';
 part 'category_state.dart';
 
 class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
-  //
-  final IsarService isarService = IsarService();
+  final IsarService isarService;
 
-  //
-  CategoryBloc() : super(CategoryInitial()) {
+  CategoryBloc({required this.isarService}) : super(CategoryInitial()) {
     on<CategoryAddEvent>((event, emit) async {
       final isar = await isarService.isarDB;
       await isar.writeTxn(() async {

@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expense_tracker/blocs/category_bloc/category_bloc.dart';
 import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
+import 'package:flutter_expense_tracker/database/isar_service.dart';
 import 'package:flutter_expense_tracker/routes/app_routes.dart';
 
 void main() async {
@@ -26,25 +27,36 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
+    return MultiRepositoryProvider(
       providers: [
-        BlocProvider(
-          create: (context) => TransactionsBloc(),
-        ),
-        BlocProvider(
-          create: (context) => CategoryBloc(),
+        RepositoryProvider(
+          create: (context) {
+            return IsarService();
+          },
         ),
       ],
-      child: SafeArea(
-        child: MaterialApp.router(
-          debugShowCheckedModeBanner: false,
-          theme: FlexThemeData.dark(
-            scheme: FlexScheme.mandyRed,
-            colorScheme: const ColorScheme.dark(primary: Colors.red),
-            appBarBackground: (Colors.grey[850]),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) =>
+                TransactionsBloc(isarService: context.read<IsarService>()),
           ),
-          // home: const HomePage(),
-          routerConfig: goRouter,
+          BlocProvider(
+            create: (context) =>
+                CategoryBloc(isarService: context.read<IsarService>()),
+          ),
+        ],
+        child: SafeArea(
+          child: MaterialApp.router(
+            debugShowCheckedModeBanner: false,
+            theme: FlexThemeData.dark(
+              scheme: FlexScheme.mandyRed,
+              colorScheme: const ColorScheme.dark(primary: Colors.red),
+              appBarBackground: (Colors.grey[850]),
+            ),
+            // home: const HomePage(),
+            routerConfig: goRouter,
+          ),
         ),
       ),
     );

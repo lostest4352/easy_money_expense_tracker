@@ -7,9 +7,9 @@ part 'transactions_event.dart';
 part 'transactions_state.dart';
 
 class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
-  final IsarService isarService = IsarService();
-  //
-  TransactionsBloc() : super(TransactionsInitial()) {
+  final IsarService isarService;
+
+  TransactionsBloc({required this.isarService}) : super(TransactionsInitial()) {
     on<TransactionsAddEvent>((event, emit) async {
       final isar = await isarService.isarDB;
       isar.writeTxn(() async {
