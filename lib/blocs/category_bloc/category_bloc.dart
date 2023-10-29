@@ -28,7 +28,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
       selectedCategoryModel?.transactionType = event.transactionType;
       selectedCategoryModel?.isIncome = event.isIncome;
       selectedCategoryModel?.colorsValue = event.colorsValue;
-      isar.writeTxn(() async {
+      await isar.writeTxn(() async {
         final filteredTransactionModelList = await isar.transactionModelIsars
             .where()
             .filter()
@@ -46,7 +46,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
 
     on<DeleteCategoryEvent>((event, emit) async {
       final isar = await isarService.isarDB;
-      isar.writeTxn(() async {
+      await isar.writeTxn(() async {
         final filteredTransactionModelList = await isar.transactionModelIsars
             .where()
             .filter()
@@ -54,14 +54,14 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
                 event.selectedCategoryModelIsar.transactionType)
             .findAll();
         if (filteredTransactionModelList.isEmpty) {
-          await isar.transactionModelIsars
+          await isar.categoryModelIsars
               .delete(event.selectedCategoryModelIsar.id);
           emit(DeleteCategoryState());
-        // TODO
         } else {
           emit(DisallowModificationState());
         }
       });
+      
     });
   }
 

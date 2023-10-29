@@ -18,8 +18,7 @@ class CategoryModifyDialog extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<CategoryModifyDialog> createState() =>
-      _CategoryModifyDialogState();
+  State<CategoryModifyDialog> createState() => _CategoryModifyDialogState();
 }
 
 class _CategoryModifyDialogState extends State<CategoryModifyDialog> {
@@ -153,7 +152,8 @@ class _CategoryModifyDialogState extends State<CategoryModifyDialog> {
                                         const Wrap(
                                           children: [
                                             Text(
-                                                "Are you sure that you want to delete this category?"),
+                                              "Are you sure that you want to delete this category?",
+                                            ),
                                           ],
                                         ),
                                         const SizedBox(
@@ -172,6 +172,7 @@ class _CategoryModifyDialogState extends State<CategoryModifyDialog> {
                                                             .selectedListItem!,
                                                   ),
                                                 );
+                                                context.pop();
                                                 context.pop();
                                               },
                                               child: const Text(
