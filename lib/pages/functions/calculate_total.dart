@@ -40,3 +40,25 @@ int calculateMonthsData(
   }
   return monthlyAmt;
 }
+
+int calculateDayData(
+    DateTime date, List<TransactionModelIsar> transactionList) {
+  int monthlyAmt = 0;
+
+  for (final transaction in transactionList) {
+    final passedTransactionDate = DateTime.parse(transaction.dateTime);
+    final formattedTransactionDate =
+        DateFormat("d MMMM, y").format(passedTransactionDate);
+    //
+    final formattedPassedDate = DateFormat("d MMMM, y").format(date);
+    //
+    if (formattedTransactionDate == formattedPassedDate) {
+      if (transaction.isIncome == true) {
+        monthlyAmt += transaction.amount;
+      } else {
+        monthlyAmt -= transaction.amount;
+      }
+    }
+  }
+  return monthlyAmt;
+}
