@@ -14,6 +14,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Stream<List<TransactionModelIsar>> listenTransactionData =
+        context.read<IsarService>().listenTransactionData();
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -45,8 +47,6 @@ class HomePage extends StatelessWidget {
       drawer: const AppDrawer(),
       body: BlocBuilder<TransactionsBloc, TransactionsState>(
         builder: (context, state) {
-          Stream<List<TransactionModelIsar>> listenTransactionData =
-              context.read<IsarService>().listenTransactionData();
           //
           return StreamBuilder(
             stream: listenTransactionData,
