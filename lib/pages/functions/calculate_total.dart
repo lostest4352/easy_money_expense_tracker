@@ -19,46 +19,60 @@ import '../../database/isar_classes.dart';
 }
 
 // In order to seperate listview by months
-int calculateMonthsData(
-    DateTime date, List<TransactionModelIsar> transactionList) {
-  int monthlyAmt = 0;
+// int calculateMonthsData(
+//     DateTime date, List<TransactionModelIsar> transactionList) {
+//   int monthlyAmt = 0;
+
+//   for (final transaction in transactionList) {
+//     final passedTransactionDate = DateTime.parse(transaction.dateTime);
+//     final formattedTransactionDate =
+//         DateFormat("MMMM, y").format(passedTransactionDate);
+//     //
+//     final formattedPassedDate = DateFormat("MMMM, y").format(date);
+//     //
+//     if (formattedTransactionDate == formattedPassedDate) {
+//       if (transaction.isIncome == true) {
+//         monthlyAmt += transaction.amount;
+//       } else {
+//         monthlyAmt -= transaction.amount;
+//       }
+//     }
+//   }
+//   return monthlyAmt;
+// }
+
+// int calculateDayData(
+//     DateTime date, List<TransactionModelIsar> transactionList) {
+//   int monthlyAmt = 0;
+
+//   for (final transaction in transactionList) {
+//     final passedTransactionDate = DateTime.parse(transaction.dateTime);
+//     final formattedTransactionDate =
+//         DateFormat("d MMMM, y").format(passedTransactionDate);
+//     //
+//     final formattedPassedDate = DateFormat("d MMMM, y").format(date);
+//     //
+//     if (formattedTransactionDate == formattedPassedDate) {
+//       if (transaction.isIncome == true) {
+//         monthlyAmt += transaction.amount;
+//       } else {
+//         monthlyAmt -= transaction.amount;
+//       }
+//     }
+//   }
+//   return monthlyAmt;
+// }
+
+(int, int) calculateSelectionData(List<TransactionModelIsar> transactionList) {
+  int selectionIncome = 0;
+  int selectionExpense = 0;
 
   for (final transaction in transactionList) {
-    final passedTransactionDate = DateTime.parse(transaction.dateTime);
-    final formattedTransactionDate =
-        DateFormat("MMMM, y").format(passedTransactionDate);
-    //
-    final formattedPassedDate = DateFormat("MMMM, y").format(date);
-    //
-    if (formattedTransactionDate == formattedPassedDate) {
-      if (transaction.isIncome == true) {
-        monthlyAmt += transaction.amount;
-      } else {
-        monthlyAmt -= transaction.amount;
-      }
+    if (transaction.isIncome == true) {
+      selectionIncome += transaction.amount;
+    } else {
+      selectionExpense -= transaction.amount;
     }
   }
-  return monthlyAmt;
-}
-
-int calculateDayData(
-    DateTime date, List<TransactionModelIsar> transactionList) {
-  int monthlyAmt = 0;
-
-  for (final transaction in transactionList) {
-    final passedTransactionDate = DateTime.parse(transaction.dateTime);
-    final formattedTransactionDate =
-        DateFormat("d MMMM, y").format(passedTransactionDate);
-    //
-    final formattedPassedDate = DateFormat("d MMMM, y").format(date);
-    //
-    if (formattedTransactionDate == formattedPassedDate) {
-      if (transaction.isIncome == true) {
-        monthlyAmt += transaction.amount;
-      } else {
-        monthlyAmt -= transaction.amount;
-      }
-    }
-  }
-  return monthlyAmt;
+  return (selectionIncome, selectionExpense);
 }

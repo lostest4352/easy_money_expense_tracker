@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expense_tracker/database/isar_classes.dart';
@@ -55,13 +56,17 @@ class HomePage extends StatelessWidget {
                 return const Center();
               }
               // Code for sorting ascending/descending
-              // blocTransactionList.sort((a, b) => a.dateTime.compareTo(b.dateTime));
-              // blocTransaction.transactionList
-              //     .sort((a, b) => b.dateTime.compareTo(a.dateTime));
+              // snapshot.data!.sort((a, b) => a.dateTime.compareTo(b.dateTime));
               // sort date
               snapshot.data!.sort((a, b) => b.dateTime.compareTo(a.dateTime));
               // get calculated value
               final calculatedValue = calculateTotalIncomeOrExpenses(snapshot);
+              //
+              final groupByMonth = groupBy(snapshot.data!, (obj) {
+                final objectDateTime =
+                    DateTime.parse(obj.dateTime).formatMonth();
+                return objectDateTime;
+              });
               return Column(
                 children: [
                   const SizedBox(
@@ -75,64 +80,114 @@ class HomePage extends StatelessWidget {
                     height: 10,
                   ),
                   Flexible(
-                    child: CustomScrollView(
-                      slivers: [
-                        SliverList.builder(
-                          itemCount: snapshot.data?.length,
-                          itemBuilder: (context, index) {
-                            bool isSameDate = true;
-                            String dateString = snapshot.data![index].dateTime;
-                            DateTime date = DateTime.parse(dateString);
-                            if (index == 0) {
-                              isSameDate = false;
-                            } else {
-                              String prevDateString =
-                                  snapshot.data![index - 1].dateTime;
-                              DateTime prevDate =
-                                  DateTime.parse(prevDateString);
-                              isSameDate = date.isSameDate(prevDate);
-                            }
-                            if (index == 0 || !isSameDate) {
-                              // if income and expenses seperated for each month later
-                              // int monthlyInc = calculateMonthsData(date).monthlyInc;
-                              // int monthlyExp = calculateMonthsData(date).monthlyExp;
-                              // int calculatedData = monthlyInc + monthlyExp;
-                              int calculatedData =
-                                  calculateMonthsData(date, snapshot.data!);
-                              return Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 15, right: 15, top: 4, bottom: 4),
-                                    child: Row(
-                                      children: [
-                                        Text(date.formatDate()),
-                                        const Spacer(),
-                                        Text(
-                                          "Total: $calculatedData",
-                                          style: TextStyle(
-                                            color: (calculatedData > 0)
-                                                ? Colors.green
-                                                : Colors.red,
-                                          ),
-                                        ),
-                                      ],
+                    child: ListView(
+                      children: groupByMonth.entries.map((entry) {
+                        final month = entry.key;
+                        final monthGroupedList = entry.value;
+                        final groupByDay = groupBy(monthGroupedList, (obj) {
+                          final objectDateTime =
+                              DateTime.parse(obj.dateTime).formatDay();
+                          return objectDateTime;
+                        });
+
+                        final calculatedMonthData =
+                            calculateSelectionData(monthGroupedList);
+
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                                '$month: Income: ${calculatedMonthData.$1}, Expenses: ${calculatedMonthData.$2}'),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: groupByDay.entries.map((entry) {
+                                final day = entry.key;
+                                final dayGroupedlist = entry.value;
+                                final calculatedDayData =
+                                    calculateSelectionData(monthGroupedList);
+                                return Column(
+                                  children: [
+                                    Text(
+                                        '$day: Income: ${calculatedDayData.$1}, Expenses: ${calculatedDayData.$2}'),
+                                    Column(
+                                      children: dayGroupedlist.map((listItem) {
+                                        // return Text(
+                                        //     '${listItem.transactionType}, ${listItem.amount}');
+
+                                        return TransactionView(
+                                            transaction: listItem);
+                                      }).toList(),
                                     ),
-                                  ),
-                                  TransactionView(
-                                    transaction: snapshot.data![index],
-                                  ),
-                                ],
-                              );
-                            } else {
-                              return TransactionView(
-                                transaction: snapshot.data![index],
-                              );
-                            }
-                          },
-                        ),
-                      ],
+                                    const Divider(
+                                      height: 1,
+                                    ),
+                                  ],
+                                );
+                              }).toList(),
+                            ),
+                          ],
+                        );
+                      }).toList(),
                     ),
+
+                    // child: CustomScrollView(
+                    //   slivers: [
+                    //     SliverList.builder(
+                    //       itemCount: snapshot.data?.length,
+                    //       itemBuilder: (context, index) {
+                    //         bool isSameDate = true;
+                    //         String dateString = snapshot.data![index].dateTime;
+                    //         DateTime date = DateTime.parse(dateString);
+                    //         if (index == 0) {
+                    //           isSameDate = false;
+                    //         } else {
+                    //           String prevDateString =
+                    //               snapshot.data![index - 1].dateTime;
+                    //           DateTime prevDate =
+                    //               DateTime.parse(prevDateString);
+                    //           isSameDate = date.isSameDate(prevDate);
+                    //         }
+                    //         if (index == 0 || !isSameDate) {
+                    //           // if income and expenses seperated for each month later
+                    //           // int monthlyInc = calculateMonthsData(date).monthlyInc;
+                    //           // int monthlyExp = calculateMonthsData(date).monthlyExp;
+                    //           // int calculatedData = monthlyInc + monthlyExp;
+                    //           int calculatedData =
+                    //               calculateMonthsData(date, snapshot.data!);
+                    //           return Column(
+                    //             children: [
+                    //               Padding(
+                    //                 padding: const EdgeInsets.only(
+                    //                     left: 15, right: 15, top: 4, bottom: 4),
+                    //                 child: Row(
+                    //                   children: [
+                    //                     Text(date.formatDate()),
+                    //                     const Spacer(),
+                    //                     Text(
+                    //                       "Total: $calculatedData",
+                    //                       style: TextStyle(
+                    //                         color: (calculatedData > 0)
+                    //                             ? Colors.green
+                    //                             : Colors.red,
+                    //                       ),
+                    //                     ),
+                    //                   ],
+                    //                 ),
+                    //               ),
+                    //               TransactionView(
+                    //                 transaction: snapshot.data![index],
+                    //               ),
+                    //             ],
+                    //           );
+                    //         } else {
+                    //           return TransactionView(
+                    //             transaction: snapshot.data![index],
+                    //           );
+                    //         }
+                    //       },
+                    //     ),
+                    //   ],
+                    // ),
                   ),
                 ],
               );
@@ -146,10 +201,16 @@ class HomePage extends StatelessWidget {
 
 // extension method from SO
 const String dateFormatter = "MMMM, y";
+const String dayFormatter = "d MMMM, y";
 
 extension DateHelper on DateTime {
-  String formatDate() {
+  String formatMonth() {
     final formatter = DateFormat(dateFormatter);
+    return formatter.format(this);
+  }
+
+  String formatDay() {
+    final formatter = DateFormat(dayFormatter);
     return formatter.format(this);
   }
 
@@ -158,6 +219,12 @@ extension DateHelper on DateTime {
         // &&  day == other.day
         ;
   }
+
+  // bool isSameDay(DateTime other) {
+  //   return year == other.year && month == other.month
+  //       &&  day == other.day
+  //       ;
+  // }
 
   int getDifferenceInDaysWithNow() {
     final now = DateTime.now();
