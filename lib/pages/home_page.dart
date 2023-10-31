@@ -92,23 +92,57 @@ class HomePage extends StatelessWidget {
 
                         final calculatedMonthData =
                             calculateSelectionData(monthGroupedList);
+                        final int monthlyIncome = calculatedMonthData.$1;
+                        final int monthlyExpense = calculatedMonthData.$2;
+                        final int monthlyTotal = monthlyIncome + monthlyExpense;
 
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                                '$month: Income: ${calculatedMonthData.$1}, Expenses: ${calculatedMonthData.$2}'),
+                            // Text(
+                            //   '$month: Income: ${calculatedMonthData.$1}, Expenses: ${calculatedMonthData.$2}',
+                            // ),
+                            Align(
+                              child: Text(month),
+                            ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: groupByDay.entries.map((entry) {
                                 final day = entry.key;
                                 final dayGroupedlist = entry.value;
+                                //
                                 final calculatedDayData =
-                                    calculateSelectionData(monthGroupedList);
+                                    calculateSelectionData(dayGroupedlist);
+                                final int dailyIncome = calculatedDayData.$1;
+                                final int dailyExpense = calculatedDayData.$2;
+                                final int dailyTotal =
+                                    dailyIncome + dailyExpense;
                                 return Column(
                                   children: [
-                                    Text(
-                                        '$day: Income: ${calculatedDayData.$1}, Expenses: ${calculatedDayData.$2}'),
+                                    // Text(
+                                    //   '$day: Income: ${calculatedDayData.$1}, Expenses: ${calculatedDayData.$2}',
+                                    // ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 15,
+                                          right: 15,
+                                          top: 4,
+                                          bottom: 4),
+                                      child: Row(
+                                        children: [
+                                          Text(day),
+                                          const Spacer(),
+                                          Text(
+                                            "Total: $dailyTotal",
+                                            style: TextStyle(
+                                              color: (dailyTotal > 0)
+                                                  ? Colors.green
+                                                  : Colors.red,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                     Column(
                                       children: dayGroupedlist.map((listItem) {
                                         // return Text(
