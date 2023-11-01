@@ -85,11 +85,44 @@ class HomePage extends StatelessWidget {
                         for (final monthEntry in groupByMonth.entries)
                           Column(
                             children: [
-                              Align(
-                                child: Text(monthEntry.key),
-                              ),
+                              () {
+                                final calculatedMonthData =
+                                    calculateSelectionData(monthEntry.value);
+                                final int monthlyIncome =
+                                    calculatedMonthData.$1;
+                                final int monthlyExpense =
+                                    calculatedMonthData.$2;
+                                final int monthlyTotal =
+                                    monthlyIncome + monthlyExpense;
+                                // return Text("${monthEntry.key}. Total: $totalExpense");
+                                return Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(12, 8, 12, 8),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        monthEntry.key,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          // color: Colors.lightBlue,
+                                        ),
+                                      ),
+                                      // const Spacer(),
+                                      Text(
+                                        "Balance: Rs. $monthlyTotal",
+                                        style: TextStyle(
+                                          color: (monthlyTotal > 0)
+                                              ? Colors.green
+                                              : Colors.red,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                );
+                              }(),
                               () {
                                 final groupByDay =
+                                    // Value is List<TransactionModelIsar> per month
                                     groupBy(monthEntry.value, (obj) {
                                   final objectDateTime =
                                       DateTime.parse(obj.dateTime).formatDay();
@@ -122,6 +155,7 @@ class HomePage extends StatelessWidget {
                                                           bottom: 4),
                                                   child: Row(
                                                     children: [
+                                                      // Key is day here
                                                       Text(dayEntry.key),
                                                       const Spacer(),
                                                       Text(
@@ -136,6 +170,7 @@ class HomePage extends StatelessWidget {
                                                     ],
                                                   ),
                                                 ),
+                                                // Value is TransactionModelIsar item
                                                 for (final listItem
                                                     in dayEntry.value)
                                                   Column(
@@ -153,6 +188,9 @@ class HomePage extends StatelessWidget {
                                   ],
                                 );
                               }(),
+                              const Divider(
+                                height: 5,
+                              )
                             ],
                           ),
                       ],
