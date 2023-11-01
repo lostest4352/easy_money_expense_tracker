@@ -81,82 +81,160 @@ class HomePage extends StatelessWidget {
                   ),
                   Flexible(
                     child: ListView(
-                      children: groupByMonth.entries.map((entry) {
-                        final month = entry.key;
-                        final monthGroupedList = entry.value;
-
-                        final calculatedMonthData =
-                            calculateSelectionData(monthGroupedList);
-                        final int monthlyIncome = calculatedMonthData.$1;
-                        final int monthlyExpense = calculatedMonthData.$2;
-                        final int monthlyTotal = monthlyIncome + monthlyExpense;
-
-                        // Group the list by day
-                        final groupByDay = groupBy(monthGroupedList, (obj) {
-                          final objectDateTime =
-                              DateTime.parse(obj.dateTime).formatDay();
-                          return objectDateTime;
-                        });
-
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // ),
-                            Align(
-                              child: Text(month),
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: groupByDay.entries.map((entry) {
-                                final day = entry.key;
-                                final dayGroupedlist = entry.value;
-                                //
-                                final calculatedDayData =
-                                    calculateSelectionData(dayGroupedlist);
-                                final int dailyIncome = calculatedDayData.$1;
-                                final int dailyExpense = calculatedDayData.$2;
-                                final int dailyTotal =
-                                    dailyIncome + dailyExpense;
+                      children: [
+                        for (final monthEntry in groupByMonth.entries)
+                          Column(
+                            children: [
+                              Align(
+                                child: Text(monthEntry.key),
+                              ),
+                              () {
+                                final groupByDay =
+                                    groupBy(monthEntry.value, (obj) {
+                                  final objectDateTime =
+                                      DateTime.parse(obj.dateTime).formatDay();
+                                  return objectDateTime;
+                                });
                                 return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 15,
-                                          right: 15,
-                                          top: 4,
-                                          bottom: 4),
-                                      child: Row(
+                                    for (final dayEntry in groupByDay.entries)
+                                      Column(
                                         children: [
-                                          Text(day),
-                                          const Spacer(),
-                                          Text(
-                                            "Total: $dailyTotal",
-                                            style: TextStyle(
-                                              color: (dailyTotal > 0)
-                                                  ? Colors.green
-                                                  : Colors.red,
-                                            ),
-                                          ),
+                                          () {
+                                            final calculatedDayData =
+                                                calculateSelectionData(
+                                                    dayEntry.value);
+                                            final int dailyIncome =
+                                                calculatedDayData.$1;
+                                            final int dailyExpense =
+                                                calculatedDayData.$2;
+                                            final int dailyTotal =
+                                                dailyIncome + dailyExpense;
+                                            return Column(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 15,
+                                                          right: 15,
+                                                          top: 4,
+                                                          bottom: 4),
+                                                  child: Row(
+                                                    children: [
+                                                      Text(dayEntry.key),
+                                                      const Spacer(),
+                                                      Text(
+                                                        "Total: $dailyTotal",
+                                                        style: TextStyle(
+                                                          color:
+                                                              (dailyTotal > 0)
+                                                                  ? Colors.green
+                                                                  : Colors.red,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                for (final listItem
+                                                    in dayEntry.value)
+                                                  Column(
+                                                    children: [
+                                                      TransactionView(
+                                                        transaction: listItem,
+                                                      ),
+                                                    ],
+                                                  ),
+                                              ],
+                                            );
+                                          }(),
                                         ],
                                       ),
-                                    ),
-                                    Column(
-                                      children: dayGroupedlist.map((listItem) {
-                                        return TransactionView(
-                                            transaction: listItem);
-                                      }).toList(),
-                                    ),
-                                    const Divider(
-                                      height: 4,
-                                    ),
                                   ],
                                 );
-                              }).toList(),
-                            ),
-                          ],
-                        );
-                      }).toList(),
+                              }(),
+                            ],
+                          ),
+                      ],
                     ),
+
+                    // child: ListView(
+                    //   children: groupByMonth.entries.map((entry) {
+                    //     final month = entry.key;
+                    //     final monthGroupedList = entry.value;
+
+                    //     final calculatedMonthData =
+                    //         calculateSelectionData(monthGroupedList);
+                    //     final int monthlyIncome = calculatedMonthData.$1;
+                    //     final int monthlyExpense = calculatedMonthData.$2;
+                    //     final int monthlyTotal = monthlyIncome + monthlyExpense;
+
+                    //     // Group the list by day
+                    //     final groupByDay = groupBy(monthGroupedList, (obj) {
+                    //       final objectDateTime =
+                    //           DateTime.parse(obj.dateTime).formatDay();
+                    //       return objectDateTime;
+                    //     });
+
+                    //     return Column(
+                    //       crossAxisAlignment: CrossAxisAlignment.start,
+                    //       children: [
+                    //         // ),
+                    //         Align(
+                    //           child: Text(month),
+                    //         ),
+                    //         Column(
+                    //           crossAxisAlignment: CrossAxisAlignment.center,
+                    //           children: groupByDay.entries.map((entry) {
+                    //             final day = entry.key;
+                    //             final dayGroupedlist = entry.value;
+                    //             //
+                    //             final calculatedDayData =
+                    //                 calculateSelectionData(dayGroupedlist);
+                    //             final int dailyIncome = calculatedDayData.$1;
+                    //             final int dailyExpense = calculatedDayData.$2;
+                    //             final int dailyTotal =
+                    //                 dailyIncome + dailyExpense;
+                    //             return Column(
+                    //               children: [
+                    //                 Padding(
+                    //                   padding: const EdgeInsets.only(
+                    //                       left: 15,
+                    //                       right: 15,
+                    //                       top: 4,
+                    //                       bottom: 4),
+                    //                   child: Row(
+                    //                     children: [
+                    //                       Text(day),
+                    //                       const Spacer(),
+                    //                       Text(
+                    //                         "Total: $dailyTotal",
+                    //                         style: TextStyle(
+                    //                           color: (dailyTotal > 0)
+                    //                               ? Colors.green
+                    //                               : Colors.red,
+                    //                         ),
+                    //                       ),
+                    //                     ],
+                    //                   ),
+                    //                 ),
+                    //                 Column(
+                    //                   children: dayGroupedlist.map((listItem) {
+                    //                     return TransactionView(
+                    //                         transaction: listItem);
+                    //                   }).toList(),
+                    //                 ),
+                    //                 const Divider(
+                    //                   height: 4,
+                    //                 ),
+                    //               ],
+                    //             );
+                    //           }).toList(),
+                    //         ),
+                    //       ],
+                    //     );
+                    //   }).toList(),
+                    // ),
                   ),
                 ],
               );
