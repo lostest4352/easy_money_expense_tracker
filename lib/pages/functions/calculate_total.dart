@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 
 import '../../database/isar_classes.dart';
 
-(int, int) calculateTotalIncomeOrExpenses(
+({int totalIncome, int totalExpense}) calculateTotalIncomeOrExpenses(
     AsyncSnapshot<List<TransactionModelIsar>> snapshot) {
   int totalIncome = 0;
-  int totalExpenses = 0;
+  int totalExpense = 0;
 
   for (final transactionItem in snapshot.data!) {
     if (transactionItem.isIncome == true) {
       totalIncome += transactionItem.amount;
     } else {
-      totalExpenses += transactionItem.amount;
+      totalExpense += transactionItem.amount;
     }
   }
-  return (totalIncome, totalExpenses);
+  return (totalIncome: totalIncome, totalExpense: totalExpense);
 }
 
 ({int totalIncome, int totalExpense, int totalValue}) calculateTotalValue(

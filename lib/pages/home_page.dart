@@ -73,8 +73,8 @@ class HomePage extends StatelessWidget {
                     height: 2,
                   ),
                   HomePageAppBar(
-                    income: calculatedValue.$1,
-                    expenses: calculatedValue.$2,
+                    income: calculatedValue.totalIncome,
+                    expenses: calculatedValue.totalExpense,
                   ),
                   const SizedBox(
                     height: 10,

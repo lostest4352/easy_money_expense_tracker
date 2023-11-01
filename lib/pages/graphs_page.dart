@@ -72,12 +72,12 @@ class _GraphsPageState extends State<GraphsPage>
                   children: [
                     TransactionWidget(
                       isIncome: true,
-                      totalValue: calculatedValue.$1,
+                      totalValue: calculatedValue.totalIncome,
                       transactionList: snapshot.data,
                     ),
                     TransactionWidget(
                       isIncome: false,
-                      totalValue: calculatedValue.$2,
+                      totalValue: calculatedValue.totalExpense,
                       transactionList: snapshot.data,
                     )
                   ],
