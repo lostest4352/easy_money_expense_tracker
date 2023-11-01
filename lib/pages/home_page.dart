@@ -284,7 +284,7 @@ class HomePage extends StatelessWidget {
 
 // extension method from SO
 const String dateFormatter = "MMMM, y";
-const String dayFormatter = "d MMMM, y";
+const String dayFormatter = "MMMM d, y: EEEE";
 
 extension DateHelper on DateTime {
   String formatMonth() {
@@ -362,12 +362,12 @@ class TransactionView extends StatelessWidget {
                         ],
                       ),
                       const Spacer(),
-                      Text(
-                        DateFormat("EEEE").format(
-                          DateTime.parse(transaction.dateTime),
-                        ),
-                      ),
-                      const Spacer(),
+                      // Text(
+                      //   DateFormat("EEEE").format(
+                      //     DateTime.parse(transaction.dateTime),
+                      //   ),
+                      // ),
+                      // const Spacer(),
                       Container(
                         constraints: const BoxConstraints(maxWidth: 120),
                         child: Text(
