@@ -388,7 +388,7 @@ class TransactionView extends StatelessWidget {
                             child: Column(
                               children: [
                                 Text(
-                                  "Note: ${transaction.note}",
+                                  "${transaction.note}",
                                   overflow: TextOverflow.ellipsis,
                                   softWrap: false,
                                   maxLines: 1,
