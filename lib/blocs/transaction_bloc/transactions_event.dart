@@ -3,13 +3,15 @@ part of 'transactions_bloc.dart';
 @immutable
 sealed class TransactionsEvent {}
 
-class TransactionsAddEvent extends TransactionsEvent {
+final class TransactionsInitialEvent extends TransactionsEvent {}
+
+final class TransactionsAddEvent extends TransactionsEvent {
   final TransactionModelIsar transactionModelIsar;
 
   TransactionsAddEvent({required this.transactionModelIsar});
 }
 
-class TransactionsEditEvent extends TransactionsEvent {
+final class TransactionsEditEvent extends TransactionsEvent {
   final int selectedTransactionModelId;
   final int amount;
   final String dateTime;
@@ -30,7 +32,7 @@ class TransactionsEditEvent extends TransactionsEvent {
   });
 }
 
-class TransactionsDeleteEvent extends TransactionsEvent {
+final class TransactionsDeleteEvent extends TransactionsEvent {
   final TransactionModelIsar? widgetTransactionModelIsar;
 
   TransactionsDeleteEvent({

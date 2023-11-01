@@ -1,13 +1,11 @@
-import 'package:flutter/material.dart';
-
 import '../../database/isar_classes.dart';
 
 ({int totalIncome, int totalExpense}) calculateTotalIncomeOrExpenses(
-    AsyncSnapshot<List<TransactionModelIsar>> snapshot) {
+    List<TransactionModelIsar> snapshot) {
   int totalIncome = 0;
   int totalExpense = 0;
 
-  for (final transactionItem in snapshot.data!) {
+  for (final transactionItem in snapshot) {
     if (transactionItem.isIncome == true) {
       totalIncome += transactionItem.amount;
     } else {

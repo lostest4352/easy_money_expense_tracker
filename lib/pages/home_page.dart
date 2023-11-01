@@ -2,7 +2,6 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expense_tracker/database/isar_classes.dart';
-import 'package:flutter_expense_tracker/database/isar_service.dart';
 import 'package:flutter_expense_tracker/pages/functions/calculate_total.dart';
 import 'package:flutter_expense_tracker/pages/widgets/homepage_appbar.dart';
 import 'package:intl/intl.dart';
@@ -15,8 +14,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Stream<List<TransactionModelIsar>> listenTransactionData =
-        context.read<IsarService>().listenTransactionData();
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -48,149 +45,148 @@ class HomePage extends StatelessWidget {
       drawer: const AppDrawer(),
       body: BlocBuilder<TransactionsBloc, TransactionsState>(
         builder: (context, state) {
-          //
-          return StreamBuilder(
-            stream: listenTransactionData,
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return const Center();
-              }
-              // Code for sorting ascending/descending
-              // snapshot.data!.sort((a, b) => a.dateTime.compareTo(b.dateTime));
-              // sort date
-              snapshot.data!.sort((a, b) => b.dateTime.compareTo(a.dateTime));
-              // get calculated value
-              final calculatedValue = calculateTotalIncomeOrExpenses(snapshot);
-              //
-              final groupByMonth = groupBy(snapshot.data!, (obj) {
-                final objectDateTime =
-                    DateTime.parse(obj.dateTime).formatMonth();
-                return objectDateTime;
-              });
-              return Column(
-                children: [
-                  const SizedBox(
-                    height: 2,
-                  ),
-                  HomePageAppBar(
-                    income: calculatedValue.totalIncome,
-                    expenses: calculatedValue.totalExpense,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Flexible(
-                    child: ListView(
-                      children: [
-                        for (final monthEntry in groupByMonth.entries)
-                          Column(
-                            children: [
-                              () {
-                                final calculatedMonthData = calculateTotalValue(
-                                  monthEntry.value,
-                                );
-                                return Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(12, 8, 12, 8),
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        // key is month name
-                                        monthEntry.key,
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Text(
-                                        "Balance: Rs. ${calculatedMonthData.totalValue}",
-                                        style: TextStyle(
-                                          color:
-                                              (calculatedMonthData.totalValue >
-                                                      0)
-                                                  ? Colors.green
-                                                  : Colors.red,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                );
-                              }(),
-                              () {
-                                final groupByDay =
-                                    // Value is List<TransactionModelIsar> per month
-                                    groupBy(monthEntry.value, (obj) {
-                                  final objectDateTime =
-                                      DateTime.parse(obj.dateTime).formatDay();
-                                  return objectDateTime;
-                                });
-                                return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+          if (state is TransactionsLoadedState) {
+            //
+            final transactionsList = state.listOfTransactionData;
+            transactionsList?.sort((a, b) => b.dateTime.compareTo(a.dateTime));
+
+            // Code for sorting ascending/descending
+            // snapshot.data!.sort((a, b) => a.dateTime.compareTo(b.dateTime));
+            // sort date
+            // snapshot.data!.sort((a, b) => b.dateTime.compareTo(a.dateTime));
+            // get calculated value
+            final calculatedValue =
+                calculateTotalIncomeOrExpenses(transactionsList!);
+            //
+            final groupByMonth = groupBy(transactionsList, (obj) {
+              final objectDateTime = DateTime.parse(obj.dateTime).formatMonth();
+              return objectDateTime;
+            });
+            return Column(
+              children: [
+                const SizedBox(
+                  height: 2,
+                ),
+                HomePageAppBar(
+                  income: calculatedValue.totalIncome,
+                  expenses: calculatedValue.totalExpense,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Flexible(
+                  child: ListView(
+                    children: [
+                      for (final monthEntry in groupByMonth.entries)
+                        Column(
+                          children: [
+                            () {
+                              final calculatedMonthData = calculateTotalValue(
+                                monthEntry.value,
+                              );
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(12, 8, 12, 8),
+                                child: Column(
                                   children: [
-                                    for (final dayEntry in groupByDay.entries)
-                                      Column(
-                                        children: [
-                                          () {
-                                            final calculatedDayData =
-                                                calculateTotalValue(
-                                              dayEntry.value,
-                                            );
-                                            return Column(
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 17,
-                                                          right: 17,
-                                                          top: 4,
-                                                          bottom: 4),
-                                                  child: Row(
-                                                    children: [
-                                                      // Key is day here
-                                                      Text(dayEntry.key),
-                                                      const Spacer(),
-                                                      Text(
-                                                        "Total: ${calculatedDayData.totalValue}",
-                                                        style: TextStyle(
-                                                          color: (calculatedDayData
-                                                                      .totalValue >
-                                                                  0)
-                                                              ? Colors.green
-                                                              : Colors.red,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                // Value is TransactionModelIsar list item
-                                                for (final listItem
-                                                    in dayEntry.value)
-                                                  Column(
-                                                    children: [
-                                                      TransactionView(
-                                                        transaction: listItem,
-                                                      ),
-                                                    ],
-                                                  ),
-                                              ],
-                                            );
-                                          }(),
-                                        ],
+                                    Text(
+                                      // key is month name
+                                      monthEntry.key,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
                                       ),
+                                    ),
+                                    Text(
+                                      "Balance: Rs. ${calculatedMonthData.totalValue}",
+                                      style: TextStyle(
+                                        color:
+                                            (calculatedMonthData.totalValue > 0)
+                                                ? Colors.green
+                                                : Colors.red,
+                                      ),
+                                    )
                                   ],
-                                );
-                              }(),
-                              const Divider(
-                                height: 5,
-                              )
-                            ],
-                          ),
-                      ],
-                    ),
+                                ),
+                              );
+                            }(),
+                            () {
+                              final groupByDay =
+                                  // Value is List<TransactionModelIsar> per month
+                                  groupBy(monthEntry.value, (obj) {
+                                final objectDateTime =
+                                    DateTime.parse(obj.dateTime).formatDay();
+                                return objectDateTime;
+                              });
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  for (final dayEntry in groupByDay.entries)
+                                    Column(
+                                      children: [
+                                        () {
+                                          final calculatedDayData =
+                                              calculateTotalValue(
+                                            dayEntry.value,
+                                          );
+                                          return Column(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 17,
+                                                    right: 17,
+                                                    top: 4,
+                                                    bottom: 4),
+                                                child: Row(
+                                                  children: [
+                                                    // Key is day here
+                                                    Text(dayEntry.key),
+                                                    const Spacer(),
+                                                    Text(
+                                                      "Total: ${calculatedDayData.totalValue}",
+                                                      style: TextStyle(
+                                                        color: (calculatedDayData
+                                                                    .totalValue >
+                                                                0)
+                                                            ? Colors.green
+                                                            : Colors.red,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              // Value is TransactionModelIsar list item
+                                              for (final listItem
+                                                  in dayEntry.value)
+                                                Column(
+                                                  children: [
+                                                    TransactionView(
+                                                      transaction: listItem,
+                                                    ),
+                                                  ],
+                                                ),
+                                            ],
+                                          );
+                                        }(),
+                                      ],
+                                    ),
+                                ],
+                              );
+                            }(),
+                            const Divider(
+                              height: 5,
+                            )
+                          ],
+                        ),
+                    ],
                   ),
-                ],
-              );
-            },
-          );
+                ),
+              ],
+            );
+          } else {
+            return const Center(
+              child: Text("No data"),
+            );
+          }
         },
       ),
     );

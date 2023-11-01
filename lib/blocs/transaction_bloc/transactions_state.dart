@@ -5,8 +5,8 @@ sealed class TransactionsState {}
 
 final class TransactionsInitial extends TransactionsState {}
 
-class TransactionsAddState extends TransactionsState {}
+final class TransactionsLoadedState extends TransactionsState {
+  final List<TransactionModelIsar>? listOfTransactionData;
 
-class TransactionsEditState extends TransactionsState {}
-
-class TransactionsDeleteState extends TransactionsState {}
+  TransactionsLoadedState({required this.listOfTransactionData});
+}

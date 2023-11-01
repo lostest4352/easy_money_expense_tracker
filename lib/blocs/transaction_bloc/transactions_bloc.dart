@@ -10,12 +10,28 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
   final IsarService isarService;
 
   TransactionsBloc({required this.isarService}) : super(TransactionsInitial()) {
+    on<TransactionsInitialEvent>((event, emit) async {
+      final transactionListFromStream = isarService.listenTransactionData();
+      await emit.forEach(
+        transactionListFromStream,
+        onData: (data) {
+          return TransactionsLoadedState(listOfTransactionData: data);
+        },
+      );
+    });
+
     on<TransactionsAddEvent>((event, emit) async {
       final isar = await isarService.isarDB;
       isar.writeTxn(() async {
         await isar.transactionModelIsars.put(event.transactionModelIsar);
       });
-      emit(TransactionsAddState());
+      final transactionListFromStream = isarService.listenTransactionData();
+      await emit.forEach(
+        transactionListFromStream,
+        onData: (data) {
+          return TransactionsLoadedState(listOfTransactionData: data);
+        },
+      );
     });
 
     on<TransactionsEditEvent>((event, emit) async {
@@ -35,7 +51,13 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
           await isar.transactionModelIsars.put(selectedUserModel);
         }
       });
-      emit(TransactionsEditState());
+      final transactionListFromStream = isarService.listenTransactionData();
+      await emit.forEach(
+        transactionListFromStream,
+        onData: (data) {
+          return TransactionsLoadedState(listOfTransactionData: data);
+        },
+      );
     });
 
     on<TransactionsDeleteEvent>((event, emit) async {
@@ -44,7 +66,13 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
         await isar.transactionModelIsars
             .delete(event.widgetTransactionModelIsar!.id);
       });
-      emit(TransactionsDeleteState());
+      final transactionListFromStream = isarService.listenTransactionData();
+      await emit.forEach(
+        transactionListFromStream,
+        onData: (data) {
+          return TransactionsLoadedState(listOfTransactionData: data);
+        },
+      );
     });
   }
 }

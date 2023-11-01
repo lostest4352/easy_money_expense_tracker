@@ -39,7 +39,8 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(
             create: (context) =>
-                TransactionsBloc(isarService: context.read<IsarService>()),
+                TransactionsBloc(isarService: context.read<IsarService>())
+                  ..add(TransactionsInitialEvent()),
           ),
           BlocProvider(
             create: (context) =>

@@ -58,7 +58,7 @@ class _GraphsPageState extends State<GraphsPage>
           if (snapshot.data == null) {
             return const Center();
           }
-          final calculatedValue = calculateTotalIncomeOrExpenses(snapshot);
+          final calculatedValue = calculateTotalIncomeOrExpenses(snapshot.data!);
 
           return Column(
             children: [
