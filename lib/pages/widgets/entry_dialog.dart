@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expense_tracker/database/isar_classes.dart';
+import 'package:flutter_expense_tracker/database/isar_service.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
 import 'package:table_calendar/table_calendar.dart';
-
-import 'package:flutter_expense_tracker/blocs/category_bloc/category_bloc.dart';
 import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
 import 'package:flutter_expense_tracker/pages/widgets/category_modify_dialog.dart';
 import 'package:flutter_expense_tracker/pages/widgets/popup_category_items.dart';
@@ -67,13 +66,13 @@ class _EntryDialogState extends State<EntryDialog> {
   }
 
   TransactionsBloc get blocTransaction => context.read<TransactionsBloc>();
-  CategoryBloc get blocCategories => context.read<CategoryBloc>();
+  IsarService get isarService => context.read<IsarService>();
 
   @override
   Widget build(BuildContext context) {
     //
     List<CategoryModelIsar> categoryModelList = [];
-    blocCategories.isarService.isarDB.then((value) async {
+    isarService.isarDB.then((value) async {
       return await value.categoryModelIsars.where().findAll().then((value) {
         categoryModelList = value;
         return categoryModelList;
