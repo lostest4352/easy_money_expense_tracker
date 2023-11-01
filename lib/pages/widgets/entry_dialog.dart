@@ -273,6 +273,7 @@ class _EntryDialogState extends State<EntryDialog> {
                         return Dialog(
                           child: SizedBox(
                             height: 400,
+                            // TODO add blocbuilder
                             child: Column(
                               children: [
                                 Expanded(

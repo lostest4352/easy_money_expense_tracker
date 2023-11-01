@@ -161,7 +161,7 @@ class HomePage extends StatelessWidget {
                                                     ],
                                                   ),
                                                 ),
-                                                // Value is TransactionModelIsar item
+                                                // Value is TransactionModelIsar list item
                                                 for (final listItem
                                                     in dayEntry.value)
                                                   Column(

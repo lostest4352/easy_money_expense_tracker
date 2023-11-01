@@ -34,6 +34,6 @@ import '../../database/isar_classes.dart';
   return (
     totalIncome: totalIncome,
     totalExpense: totalExpense,
-    totalValue: totalValue
+    totalValue: totalValue,
   );
 }
