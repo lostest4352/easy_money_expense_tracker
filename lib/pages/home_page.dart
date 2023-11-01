@@ -86,14 +86,9 @@ class HomePage extends StatelessWidget {
                           Column(
                             children: [
                               () {
-                                final calculatedMonthData =
-                                    calculateSelectionData(monthEntry.value);
-                                final int monthlyIncome =
-                                    calculatedMonthData.$1;
-                                final int monthlyExpense =
-                                    calculatedMonthData.$2;
-                                final int monthlyTotal =
-                                    monthlyIncome + monthlyExpense;
+                                final calculatedMonthData = calculateTotalValue(
+                                  monthEntry.value,
+                                );
                                 return Padding(
                                   padding:
                                       const EdgeInsets.fromLTRB(12, 8, 12, 8),
@@ -107,11 +102,13 @@ class HomePage extends StatelessWidget {
                                         ),
                                       ),
                                       Text(
-                                        "Balance: Rs. $monthlyTotal",
+                                        "Balance: Rs. ${calculatedMonthData.totalValue}",
                                         style: TextStyle(
-                                          color: (monthlyTotal > 0)
-                                              ? Colors.green
-                                              : Colors.red,
+                                          color:
+                                              (calculatedMonthData.totalValue >
+                                                      0)
+                                                  ? Colors.green
+                                                  : Colors.red,
                                         ),
                                       )
                                     ],
@@ -134,14 +131,9 @@ class HomePage extends StatelessWidget {
                                         children: [
                                           () {
                                             final calculatedDayData =
-                                                calculateSelectionData(
-                                                    dayEntry.value);
-                                            final int dailyIncome =
-                                                calculatedDayData.$1;
-                                            final int dailyExpense =
-                                                calculatedDayData.$2;
-                                            final int dailyTotal =
-                                                dailyIncome + dailyExpense;
+                                                calculateTotalValue(
+                                              dayEntry.value,
+                                            );
                                             return Column(
                                               children: [
                                                 Padding(
@@ -157,12 +149,13 @@ class HomePage extends StatelessWidget {
                                                       Text(dayEntry.key),
                                                       const Spacer(),
                                                       Text(
-                                                        "Total: $dailyTotal",
+                                                        "Total: ${calculatedDayData.totalValue}",
                                                         style: TextStyle(
-                                                          color:
-                                                              (dailyTotal > 0)
-                                                                  ? Colors.green
-                                                                  : Colors.red,
+                                                          color: (calculatedDayData
+                                                                      .totalValue >
+                                                                  0)
+                                                              ? Colors.green
+                                                              : Colors.red,
                                                         ),
                                                       ),
                                                     ],

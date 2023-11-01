@@ -17,16 +17,23 @@ import '../../database/isar_classes.dart';
   return (totalIncome, totalExpenses);
 }
 
-(int, int) calculateSelectionData(List<TransactionModelIsar> transactionList) {
-  int selectionIncome = 0;
-  int selectionExpense = 0;
+({int totalIncome, int totalExpense, int totalValue}) calculateTotalValue(
+    List<TransactionModelIsar> transactionList) {
+  int totalIncome = 0;
+  int totalExpense = 0;
+  int totalValue = 0;
 
   for (final transaction in transactionList) {
     if (transaction.isIncome == true) {
-      selectionIncome += transaction.amount;
+      totalIncome += transaction.amount;
     } else {
-      selectionExpense -= transaction.amount;
+      totalExpense -= transaction.amount;
     }
   }
-  return (selectionIncome, selectionExpense);
+  totalValue = totalIncome + totalExpense;
+  return (
+    totalIncome: totalIncome,
+    totalExpense: totalExpense,
+    totalValue: totalValue
+  );
 }
