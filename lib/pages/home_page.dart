@@ -94,20 +94,18 @@ class HomePage extends StatelessWidget {
                                     calculatedMonthData.$2;
                                 final int monthlyTotal =
                                     monthlyIncome + monthlyExpense;
-                                // return Text("${monthEntry.key}. Total: $totalExpense");
                                 return Padding(
                                   padding:
                                       const EdgeInsets.fromLTRB(12, 8, 12, 8),
                                   child: Column(
                                     children: [
                                       Text(
+                                        // key is month name
                                         monthEntry.key,
                                         style: const TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          // color: Colors.lightBlue,
                                         ),
                                       ),
-                                      // const Spacer(),
                                       Text(
                                         "Balance: Rs. $monthlyTotal",
                                         style: TextStyle(
