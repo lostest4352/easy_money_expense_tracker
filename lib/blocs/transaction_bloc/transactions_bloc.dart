@@ -25,13 +25,6 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
       isar.writeTxn(() async {
         await isar.transactionModelIsars.put(event.transactionModelIsar);
       });
-      final transactionListFromStream = isarService.listenTransactionData();
-      await emit.forEach(
-        transactionListFromStream,
-        onData: (data) {
-          return TransactionsLoadedState(listOfTransactionData: data);
-        },
-      );
     });
 
     on<TransactionsEditEvent>((event, emit) async {
@@ -51,13 +44,6 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
           await isar.transactionModelIsars.put(selectedUserModel);
         }
       });
-      final transactionListFromStream = isarService.listenTransactionData();
-      await emit.forEach(
-        transactionListFromStream,
-        onData: (data) {
-          return TransactionsLoadedState(listOfTransactionData: data);
-        },
-      );
     });
 
     on<TransactionsDeleteEvent>((event, emit) async {
@@ -66,13 +52,6 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
         await isar.transactionModelIsars
             .delete(event.widgetTransactionModelIsar!.id);
       });
-      final transactionListFromStream = isarService.listenTransactionData();
-      await emit.forEach(
-        transactionListFromStream,
-        onData: (data) {
-          return TransactionsLoadedState(listOfTransactionData: data);
-        },
-      );
     });
   }
 }
