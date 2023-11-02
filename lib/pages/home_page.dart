@@ -9,25 +9,62 @@ import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc
 import 'package:flutter_expense_tracker/pages/widgets/entry_dialog.dart';
 import 'package:flutter_expense_tracker/pages/widgets/app_drawer.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  bool bottomOpen = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "Expense App",
+        bottom: () {
+          if (bottomOpen == true) {
+            return PreferredSize(
+              preferredSize: const Size.fromHeight(100),
+              child: Column(
+                children: [
+                  Text('Some Text'),
+                ],
+              ),
+            );
+          }
+        }(),
+        title: InkWell(
+          onTap: () {
+            setState(() {
+              bottomOpen = !bottomOpen;
+            });
+          },
+          child: Row(
+            children: [
+              const Text(
+                "Expense App",
+              ),
+              () {
+                if (bottomOpen == false) {
+                  return const Icon(Icons.arrow_drop_down);
+                } else {
+                  return const Icon(Icons.arrow_drop_up);
+                }
+              }(),
+            ],
+          ),
         ),
         actions: [
           IconButton(
             onPressed: () {},
             icon: const Icon(Icons.search),
           ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.more_vert),
-          ),
+          // IconButton(
+          //   onPressed: () {},
+          //   icon: const Icon(Icons.more_vert),
+          // ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
