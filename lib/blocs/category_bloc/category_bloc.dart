@@ -37,7 +37,6 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
         if (filteredTransactionModelList.isEmpty) {
           if (selectedCategoryModel != null) {
             await isar.categoryModelIsars.put(selectedCategoryModel);
-            emit(CategoryEditState());
           }
         } else {
           emit(CategoryDisallowModificationState());
@@ -57,7 +56,6 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
         if (filteredTransactionModelList.isEmpty) {
           await isar.categoryModelIsars
               .delete(event.selectedCategoryModelIsar.id);
-          emit(CategoryDeleteState());
         } else {
           emit(CategoryDisallowModificationState());
         }
