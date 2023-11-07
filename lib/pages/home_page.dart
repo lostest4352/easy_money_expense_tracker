@@ -55,11 +55,17 @@ class _HomePageState extends State<HomePage> {
                           child: Row(
                             children: [
                               const Spacer(),
-                              TextButton(
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.blue,
+                                ),
                                 onPressed: () {
                                   final currentTime = DateTime.now();
                                   final earliestTime = DateTime(
-                                      currentTime.year, currentTime.month, 1);
+                                    currentTime.year,
+                                    currentTime.month,
+                                    1,
+                                  );
                                   transactionsBloc.add(
                                     TransactionsLoadedEvent(
                                       transactionListFromStream: context
@@ -77,7 +83,10 @@ class _HomePageState extends State<HomePage> {
                                 },
                                 child: const Text(
                                   'This Month',
-                                  style: TextStyle(color: Colors.white),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
                               ),
                               const SizedBox(
