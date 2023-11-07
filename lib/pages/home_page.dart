@@ -26,10 +26,87 @@ class _HomePageState extends State<HomePage> {
         bottom: () {
           if (bottomOpen == true) {
             return PreferredSize(
-              preferredSize: const Size.fromHeight(170),
+              preferredSize: const Size.fromHeight(130),
               child: Column(
                 children: [
-                  Text('Some Text'),
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Row(
+                      children: [
+                        const Spacer(),
+                        TextButton(
+                          onPressed: () {},
+                          child: const Text(
+                            'This Month',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 25,
+                        ),
+                        TextButton(
+                          onPressed: () {},
+                          child: const Text(
+                            'Last Month',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        const Spacer(),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Row(
+                      children: [
+                        const Spacer(),
+                        TextButton(
+                          onPressed: () {},
+                          child: const Text(
+                            'Last 3 Months',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 25,
+                        ),
+                        TextButton(
+                          onPressed: () {},
+                          child: const Text(
+                            'Last 6 Months',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        const Spacer(),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Row(
+                      children: [
+                        const Spacer(),
+                        TextButton(
+                          onPressed: () {},
+                          child: const Text(
+                            'All Time',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 25,
+                        ),
+                        TextButton(
+                          onPressed: () {},
+                          child: const Text(
+                            'Custom',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        const Spacer(),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             );
