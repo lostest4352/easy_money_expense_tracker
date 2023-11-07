@@ -10,8 +10,8 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
   final IsarService isarService;
 
   TransactionsBloc({required this.isarService}) : super(TransactionsInitial()) {
-    on<TransactionsInitialEvent>((event, emit) async {
-      final transactionListFromStream = isarService.listenTransactionData();
+    on<TransactionsLoadedEvent>((event, emit) async {
+      final transactionListFromStream = event.transactionListFromStream;
       await emit.forEach(
         transactionListFromStream,
         onData: (data) {

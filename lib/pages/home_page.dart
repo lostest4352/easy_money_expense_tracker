@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expense_tracker/database/isar_classes.dart';
+import 'package:flutter_expense_tracker/database/isar_service.dart';
 import 'package:flutter_expense_tracker/pages/functions/calculate_total.dart';
 import 'package:flutter_expense_tracker/pages/widgets/homepage_appbar.dart';
 import 'package:intl/intl.dart';
@@ -27,87 +28,118 @@ class _HomePageState extends State<HomePage> {
           if (bottomOpen == true) {
             return PreferredSize(
               preferredSize: const Size.fromHeight(130),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Row(
+              child: BlocBuilder<TransactionsBloc, TransactionsState>(
+                builder: (context, state) {
+                  final transactionsBloc = context.read<TransactionsBloc>();
+                  if (state is TransactionsLoadedState) {
+                    return Column(
                       children: [
-                        const Spacer(),
-                        TextButton(
-                          onPressed: () {},
-                          child: const Text(
-                            'This Month',
-                            style: TextStyle(color: Colors.white),
+                        Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Row(
+                            children: [
+                              const Spacer(),
+                              TextButton(
+                                onPressed: () {
+                                  final currentTime = DateTime.now();
+                                  final earliestTime = DateTime(
+                                      currentTime.year,
+                                      currentTime.month - 1,
+                                      currentTime.day);
+                                  transactionsBloc.add(
+                                    TransactionsLoadedEvent(
+                                      transactionListFromStream: context
+                                          .read<IsarService>()
+                                          .listenTransactionDateRange(
+                                            currentTime: currentTime.toString(),
+                                            earliestTime:
+                                                earliestTime.toString(),
+                                          ),
+                                    ),
+                                  );
+                                  setState(() {
+                                    bottomOpen = false;
+                                  });
+                                },
+                                child: const Text(
+                                  'This Month',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 25,
+                              ),
+                              TextButton(
+                                onPressed: () {},
+                                child: const Text(
+                                  'Last Month',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                              const Spacer(),
+                            ],
                           ),
                         ),
-                        const SizedBox(
-                          width: 25,
-                        ),
-                        TextButton(
-                          onPressed: () {},
-                          child: const Text(
-                            'Last Month',
-                            style: TextStyle(color: Colors.white),
+                        Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Row(
+                            children: [
+                              const Spacer(),
+                              TextButton(
+                                onPressed: () {},
+                                child: const Text(
+                                  'Last 3 Months',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 25,
+                              ),
+                              TextButton(
+                                onPressed: () {},
+                                child: const Text(
+                                  'Last 6 Months',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                              const Spacer(),
+                            ],
                           ),
                         ),
-                        const Spacer(),
+                        Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Row(
+                            children: [
+                              const Spacer(),
+                              TextButton(
+                                onPressed: () {},
+                                child: const Text(
+                                  'All Time',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 25,
+                              ),
+                              TextButton(
+                                onPressed: () {},
+                                child: const Text(
+                                  'Custom',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                              const Spacer(),
+                            ],
+                          ),
+                        ),
                       ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Row(
-                      children: [
-                        const Spacer(),
-                        TextButton(
-                          onPressed: () {},
-                          child: const Text(
-                            'Last 3 Months',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 25,
-                        ),
-                        TextButton(
-                          onPressed: () {},
-                          child: const Text(
-                            'Last 6 Months',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                        const Spacer(),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Row(
-                      children: [
-                        const Spacer(),
-                        TextButton(
-                          onPressed: () {},
-                          child: const Text(
-                            'All Time',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 25,
-                        ),
-                        TextButton(
-                          onPressed: () {},
-                          child: const Text(
-                            'Custom',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                        const Spacer(),
-                      ],
-                    ),
-                  ),
-                ],
+                    );
+                  } else {
+                    return const Center(
+                      child: Text("No Data"),
+                    );
+                  }
+                },
               ),
             );
           }

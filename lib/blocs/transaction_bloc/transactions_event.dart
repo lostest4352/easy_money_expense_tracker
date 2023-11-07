@@ -3,7 +3,11 @@ part of 'transactions_bloc.dart';
 @immutable
 sealed class TransactionsEvent {}
 
-final class TransactionsInitialEvent extends TransactionsEvent {}
+final class TransactionsLoadedEvent extends TransactionsEvent {
+  final Stream<List<TransactionModelIsar>> transactionListFromStream;
+
+  TransactionsLoadedEvent({required this.transactionListFromStream});
+}
 
 final class TransactionsAddEvent extends TransactionsEvent {
   final TransactionModelIsar transactionModelIsar;
