@@ -5,11 +5,11 @@ sealed class CategoryState {}
 
 final class CategoryInitial extends CategoryState {}
 
-final class CategoryAddState extends CategoryState {}
+final class CategoryLoadedState extends CategoryState {
+  final List<CategoryModelIsar>? listOfCategoryData;
 
-final class CategoryEditState extends CategoryState {}
-
-final class CategoryDeleteState extends CategoryState {}
+  CategoryLoadedState({required this.listOfCategoryData});
+}
 
 final class CategoryDisallowModificationState extends CategoryState {}
 

@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
         bottom: () {
           if (bottomOpen == true) {
             return PreferredSize(
-              preferredSize: const Size.fromHeight(100),
+              preferredSize: const Size.fromHeight(170),
               child: Column(
                 children: [
                   Text('Some Text'),

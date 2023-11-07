@@ -121,20 +121,7 @@ class _CategoryModifyDialogState extends State<CategoryModifyDialog> {
               const SizedBox(
                 height: 10,
               ),
-              BlocConsumer<CategoryBloc, CategoryState>(
-                listener: (context, state) {
-                  const snackBar = SnackBar(
-                    duration: Duration(milliseconds: 1200),
-                    backgroundColor: Color.fromARGB(255, 29, 89, 192),
-                    content: Text(
-                      'Only unused cateories can be modified',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  );
-                  if (state is CategoryDisallowModificationState) {
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  }
-                },
+              BlocBuilder<CategoryBloc, CategoryState>(
                 builder: (context, state) {
                   return Padding(
                     padding: const EdgeInsets.only(left: 30, right: 30),

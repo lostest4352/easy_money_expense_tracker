@@ -12,12 +12,21 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   final IsarService isarService;
 
   CategoryBloc({required this.isarService}) : super(CategoryInitial()) {
+    on<CategoryInitialEvent>((event, emit) async {
+      final categoryListFromStream = isarService.listenCategoryData();
+      await emit.forEach(
+        categoryListFromStream,
+        onData: (data) {
+          return CategoryLoadedState(listOfCategoryData: data);
+        },
+      );
+    });
+
     on<CategoryAddEvent>((event, emit) async {
       final isar = await isarService.isarDB;
       await isar.writeTxn(() async {
         await isar.categoryModelIsars.put(event.categoryModelIsars);
       });
-      emit(CategoryAddState());
     });
 
     on<CategoryEditEvent>((event, emit) async {
@@ -40,6 +49,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
           }
         } else {
           emit(CategoryDisallowModificationState());
+          add(CategoryInitialEvent());
         }
       });
     });
@@ -58,6 +68,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
               .delete(event.selectedCategoryModelIsar.id);
         } else {
           emit(CategoryDisallowModificationState());
+          add(CategoryInitialEvent());
         }
       });
     });

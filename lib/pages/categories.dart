@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_expense_tracker/blocs/category_bloc/category_bloc.dart';
-import 'package:flutter_expense_tracker/database/isar_classes.dart';
 import 'package:flutter_expense_tracker/pages/widgets/app_drawer.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,9 +16,6 @@ class _ExpenseCategoriesState extends State<ExpenseCategories> {
   final categoryController = TextEditingController();
 
   CategoryBloc get blocCategories => context.read<CategoryBloc>();
-
-  Stream<List<CategoryModelIsar>> get categoryStream =>
-      blocCategories.isarService.listenCategoryData();
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +38,20 @@ class _ExpenseCategoriesState extends State<ExpenseCategories> {
         },
         child: const Icon(Icons.add),
       ),
-      body: BlocBuilder<CategoryBloc, CategoryState>(
+      body: BlocConsumer<CategoryBloc, CategoryState>(
+        listener: (context, state) {
+          const snackBar = SnackBar(
+            duration: Duration(milliseconds: 1200),
+            backgroundColor: Color.fromARGB(255, 29, 89, 192),
+            content: Text(
+              'Only unused cateories can be modified',
+              style: TextStyle(color: Colors.white),
+            ),
+          );
+          if (state is CategoryDisallowModificationState) {
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          }
+        },
         builder: (context, state) {
           // If db doesnt support, add below like code for moving transactions to these two types if cateory deleted
           // blocCategories.listItems.where((itemsInList) {
@@ -50,64 +59,61 @@ class _ExpenseCategoriesState extends State<ExpenseCategories> {
           //       itemsInList.transactionType == "otherExpense";
           // });
 
-          return StreamBuilder(
-            stream: categoryStream,
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return const Center();
-              }
-              if (snapshot.data!.isEmpty) {
-                blocCategories.add(CategoryAddDefaultItemsEvent());
-              }
-              return Column(
-                children: [
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: snapshot.data?.length,
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return CategoryModifyDialog(
-                                  editMode: true,
-                                  selectedListItem: snapshot.data?[index],
-                                );
-                              },
-                            );
-                          },
-                          child: ListTile(
-                            leading: CircleAvatar(
-                              backgroundColor:
-                                  snapshot.data?[index].isIncome == true
-                                      ? Colors.blue
-                                      : Colors.red,
-                              child: snapshot.data?[index].isIncome == true
-                                  ? const Icon(
-                                      Icons.addchart,
-                                      color: Colors.white,
-                                    )
-                                  : const Icon(
-                                      Icons.highlight_remove_sharp,
-                                      color: Colors.white,
-                                    ),
-                            ),
-                            title: Text(
-                              snapshot.data?[index].transactionType ?? "none",
-                            ),
+          if (state is CategoryLoadedState) {
+            final categoryList = state.listOfCategoryData;
+
+            return Column(
+              children: [
+                const SizedBox(
+                  height: 10,
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: categoryList?.length,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return CategoryModifyDialog(
+                                editMode: true,
+                                selectedListItem: categoryList?[index],
+                              );
+                            },
+                          );
+                        },
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor:
+                                categoryList?[index].isIncome == true
+                                    ? Colors.blue
+                                    : Colors.red,
+                            child: categoryList?[index].isIncome == true
+                                ? const Icon(
+                                    Icons.addchart,
+                                    color: Colors.white,
+                                  )
+                                : const Icon(
+                                    Icons.highlight_remove_sharp,
+                                    color: Colors.white,
+                                  ),
                           ),
-                        );
-                      },
-                    ),
+                          title: Text(
+                            categoryList?[index].transactionType ?? "none",
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                ],
-              );
-            },
-          );
+                ),
+              ],
+            );
+          } else {
+            return const Center(
+              child: Text("No data"),
+            );
+          }
         },
       ),
     );

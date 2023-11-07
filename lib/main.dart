@@ -44,7 +44,8 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) =>
-                CategoryBloc(isarService: context.read<IsarService>()),
+                CategoryBloc(isarService: context.read<IsarService>())
+                  ..add(CategoryInitialEvent()),
           ),
         ],
         child: SafeArea(
