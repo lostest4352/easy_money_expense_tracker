@@ -1,14 +1,30 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_expense_tracker/database/isar_classes.dart';
 import 'package:flutter_expense_tracker/database/isar_service.dart';
 import 'package:flutter_expense_tracker/pages/functions/calculate_total.dart';
 import 'package:flutter_expense_tracker/pages/widgets/homepage_appbar.dart';
+import 'package:flutter_expense_tracker/pages/widgets/transaction_view.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
 import 'package:flutter_expense_tracker/pages/widgets/entry_dialog.dart';
 import 'package:flutter_expense_tracker/pages/widgets/app_drawer.dart';
+
+// extension method from SO
+const String dateFormatter = "MMMM, y";
+const String dayFormatter = "MMMM d, y: EEEE";
+
+extension DateHelper on DateTime {
+  String formatMonth() {
+    final formatter = DateFormat(dateFormatter);
+    return formatter.format(this);
+  }
+
+  String formatDay() {
+    final formatter = DateFormat(dayFormatter);
+    return formatter.format(this);
+  }
+}
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -43,9 +59,7 @@ class _HomePageState extends State<HomePage> {
                                 onPressed: () {
                                   final currentTime = DateTime.now();
                                   final earliestTime = DateTime(
-                                      currentTime.year,
-                                      currentTime.month - 1,
-                                      currentTime.day);
+                                      currentTime.year, currentTime.month, 1);
                                   transactionsBloc.add(
                                     TransactionsLoadedEvent(
                                       transactionListFromStream: context
@@ -335,137 +349,6 @@ class _HomePageState extends State<HomePage> {
           }
         },
       ),
-    );
-  }
-}
-
-// extension method from SO
-const String dateFormatter = "MMMM, y";
-const String dayFormatter = "MMMM d, y: EEEE";
-
-extension DateHelper on DateTime {
-  String formatMonth() {
-    final formatter = DateFormat(dateFormatter);
-    return formatter.format(this);
-  }
-
-  String formatDay() {
-    final formatter = DateFormat(dayFormatter);
-    return formatter.format(this);
-  }
-}
-
-//
-class TransactionView extends StatelessWidget {
-  final TransactionModelIsar transaction;
-  const TransactionView({
-    super.key,
-    required this.transaction,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2),
-          child: InkWell(
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return EntryDialog(
-                    editMode: true,
-                    transaction: transaction,
-                  );
-                },
-              );
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: const Color.fromARGB(120, 33, 149, 243),
-              ),
-              padding: const EdgeInsets.all(8),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      CircleAvatar(
-                        backgroundColor: (transaction.isIncome == true)
-                            ? Colors.green
-                            : Colors.red,
-                        maxRadius: 12,
-                        child: (transaction.isIncome == true)
-                            ? const Icon(
-                                Icons.add,
-                                color: Colors.white,
-                              )
-                            : const Icon(
-                                Icons.remove,
-                                color: Colors.white,
-                              ),
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            transaction.transactionType,
-                            style: const TextStyle(fontWeight: FontWeight.w500),
-                          ),
-                        ],
-                      ),
-                      const Spacer(),
-                      Container(
-                        constraints: const BoxConstraints(maxWidth: 120),
-                        child: Text(
-                          "${transaction.amount}",
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.w500,
-                            color: (transaction.isIncome == true)
-                                ? Colors.green
-                                : Colors.red,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 24),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: () {
-                        if (transaction.note != null) {
-                          return Padding(
-                            padding: const EdgeInsets.only(left: 8, right: 8),
-                            child: Column(
-                              children: [
-                                Text(
-                                  "${transaction.note}",
-                                  overflow: TextOverflow.ellipsis,
-                                  softWrap: false,
-                                  maxLines: 1,
-                                ),
-                              ],
-                            ),
-                          );
-                        } else {
-                          return const SizedBox();
-                        }
-                      }(),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }
