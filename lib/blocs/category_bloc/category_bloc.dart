@@ -79,6 +79,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
         await isar.categoryModelIsars.putAll(defaultListItems);
       });
       emit(CategoryAddDefaultItemsState());
+      add(CategoryInitialEvent());
     });
   }
 
