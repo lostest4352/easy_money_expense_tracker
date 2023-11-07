@@ -11,12 +11,12 @@ import 'package:flutter_expense_tracker/pages/widgets/entry_dialog.dart';
 import 'package:flutter_expense_tracker/pages/widgets/app_drawer.dart';
 
 // extension method from SO
-const String dateFormatter = "MMMM, y";
+const String monthFormatter = "MMMM, y";
 const String dayFormatter = "MMMM d, y: EEEE";
 
 extension DateHelper on DateTime {
   String formatMonth() {
-    final formatter = DateFormat(dateFormatter);
+    final formatter = DateFormat(monthFormatter);
     return formatter.format(this);
   }
 
@@ -34,329 +34,362 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool bottomOpen = false;
+  ValueNotifier<bool> bottomOpen = ValueNotifier(false);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        bottom: () {
-          if (bottomOpen == true) {
-            return PreferredSize(
-              preferredSize: const Size.fromHeight(130),
-              child: BlocBuilder<TransactionsBloc, TransactionsState>(
-                builder: (context, state) {
-                  final transactionsBloc = context.read<TransactionsBloc>();
-                  if (state is TransactionsLoadedState) {
-                    return Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Row(
+    return ListenableBuilder(
+        listenable: bottomOpen,
+        builder: (context, child) {
+          return Scaffold(
+            appBar: AppBar(
+              bottom: () {
+                if (bottomOpen.value == true) {
+                  return PreferredSize(
+                    preferredSize: const Size.fromHeight(130),
+                    child: BlocBuilder<TransactionsBloc, TransactionsState>(
+                      builder: (context, state) {
+                        final transactionsBloc =
+                            context.read<TransactionsBloc>();
+                        if (state is TransactionsLoadedState) {
+                          return Column(
                             children: [
-                              const Spacer(),
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.blue,
-                                ),
-                                onPressed: () {
-                                  final currentTime = DateTime.now();
-                                  final earliestTime = DateTime(
-                                    currentTime.year,
-                                    currentTime.month,
-                                    1,
-                                  );
-                                  transactionsBloc.add(
-                                    TransactionsLoadedEvent(
-                                      transactionListFromStream: context
-                                          .read<IsarService>()
-                                          .listenTransactionDateRange(
-                                            currentTime: currentTime.toString(),
-                                            earliestTime:
-                                                earliestTime.toString(),
-                                          ),
-                                    ),
-                                  );
-                                  setState(() {
-                                    bottomOpen = false;
-                                  });
-                                },
-                                child: const Text(
-                                  'This Month',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 25,
-                              ),
-                              TextButton(
-                                onPressed: () {},
-                                child: const Text(
-                                  'Last Month',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ),
-                              const Spacer(),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Row(
-                            children: [
-                              const Spacer(),
-                              TextButton(
-                                onPressed: () {},
-                                child: const Text(
-                                  'Last 3 Months',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 25,
-                              ),
-                              TextButton(
-                                onPressed: () {},
-                                child: const Text(
-                                  'Last 6 Months',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ),
-                              const Spacer(),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Row(
-                            children: [
-                              const Spacer(),
-                              TextButton(
-                                onPressed: () {},
-                                child: const Text(
-                                  'All Time',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 25,
-                              ),
-                              TextButton(
-                                onPressed: () {},
-                                child: const Text(
-                                  'Custom',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ),
-                              const Spacer(),
-                            ],
-                          ),
-                        ),
-                      ],
-                    );
-                  } else {
-                    return const Center(
-                      child: Text("No Data"),
-                    );
-                  }
-                },
-              ),
-            );
-          }
-        }(),
-        title: InkWell(
-          onTap: () {
-            setState(() {
-              bottomOpen = !bottomOpen;
-            });
-          },
-          child: Row(
-            children: [
-              const Text(
-                "Expense App",
-              ),
-              () {
-                if (bottomOpen == false) {
-                  return const Icon(Icons.arrow_drop_down);
-                } else {
-                  return const Icon(Icons.arrow_drop_up);
-                }
-              }(),
-            ],
-          ),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.search),
-          ),
-          // IconButton(
-          //   onPressed: () {},
-          //   icon: const Icon(Icons.more_vert),
-          // ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return const EntryDialog(editMode: false);
-            },
-          );
-        },
-        backgroundColor: Colors.deepPurple,
-        child: const Icon(Icons.add),
-      ),
-      drawer: const AppDrawer(),
-      body: BlocBuilder<TransactionsBloc, TransactionsState>(
-        builder: (context, state) {
-          if (state is TransactionsLoadedState) {
-            //
-            final transactionsList = state.listOfTransactionData;
-            transactionsList?.sort((a, b) => b.dateTime.compareTo(a.dateTime));
-
-            // Code for sorting ascending/descending
-            // snapshot.data!.sort((a, b) => a.dateTime.compareTo(b.dateTime));
-            // sort date
-            // snapshot.data!.sort((a, b) => b.dateTime.compareTo(a.dateTime));
-            // get calculated value
-            final calculatedValue =
-                calculateTotalIncomeOrExpenses(transactionsList!);
-            //
-            final groupByMonth = groupBy(transactionsList, (obj) {
-              final objectDateTime = DateTime.parse(obj.dateTime).formatMonth();
-              return objectDateTime;
-            });
-            return Column(
-              children: [
-                const SizedBox(
-                  height: 2,
-                ),
-                HomePageAppBar(
-                  income: calculatedValue.totalIncome,
-                  expenses: calculatedValue.totalExpense,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Flexible(
-                  child: ListView(
-                    children: [
-                      for (final monthEntry in groupByMonth.entries)
-                        Column(
-                          children: [
-                            () {
-                              final calculatedMonthData = calculateTotalValue(
-                                monthEntry.value,
-                              );
-                              return Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(12, 8, 12, 8),
-                                child: Column(
+                              Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Row(
                                   children: [
-                                    Text(
-                                      // key is month name
-                                      monthEntry.key,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
+                                    const Spacer(),
+                                    // TODO
+                                    DateSelectButton(
+                                      transactionsBloc: transactionsBloc,
+                                      bottomOpen: bottomOpen,
+                                    ),
+                                    const SizedBox(
+                                      width: 25,
+                                    ),
+                                    TextButton(
+                                      onPressed: () {},
+                                      child: const Text(
+                                        'Last Month',
+                                        style: TextStyle(color: Colors.white),
                                       ),
                                     ),
-                                    Text(
-                                      "Balance: Rs. ${calculatedMonthData.totalValue}",
-                                      style: TextStyle(
-                                        color:
-                                            (calculatedMonthData.totalValue > 0)
-                                                ? Colors.green
-                                                : Colors.red,
-                                      ),
-                                    )
+                                    const Spacer(),
                                   ],
                                 ),
-                              );
-                            }(),
-                            () {
-                              final groupByDay =
-                                  // Value is List<TransactionModelIsar> per month
-                                  groupBy(monthEntry.value, (obj) {
-                                final objectDateTime =
-                                    DateTime.parse(obj.dateTime).formatDay();
-                                return objectDateTime;
-                              });
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Row(
+                                  children: [
+                                    const Spacer(),
+                                    TextButton(
+                                      onPressed: () {},
+                                      child: const Text(
+                                        'Last 3 Months',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 25,
+                                    ),
+                                    TextButton(
+                                      onPressed: () {},
+                                      child: const Text(
+                                        'Last 6 Months',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Row(
+                                  children: [
+                                    const Spacer(),
+                                    TextButton(
+                                      onPressed: () {},
+                                      child: const Text(
+                                        'All Time',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 25,
+                                    ),
+                                    TextButton(
+                                      onPressed: () {},
+                                      child: const Text(
+                                        'Custom',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          );
+                        } else {
+                          return const Center(
+                            child: Text("No Data"),
+                          );
+                        }
+                      },
+                    ),
+                  );
+                }
+              }(),
+              title: InkWell(
+                onTap: () {
+                  // setState(() {
+                  bottomOpen.value = !bottomOpen.value;
+                  // });
+                },
+                child: Row(
+                  children: [
+                    const Text(
+                      "Expense App",
+                    ),
+                    () {
+                      if (bottomOpen.value == false) {
+                        return const Icon(Icons.arrow_drop_down);
+                      } else {
+                        return const Icon(Icons.arrow_drop_up);
+                      }
+                    }(),
+                  ],
+                ),
+              ),
+              actions: [
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.search),
+                ),
+                // IconButton(
+                //   onPressed: () {},
+                //   icon: const Icon(Icons.more_vert),
+                // ),
+              ],
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return const EntryDialog(editMode: false);
+                  },
+                );
+              },
+              backgroundColor: Colors.deepPurple,
+              child: const Icon(Icons.add),
+            ),
+            drawer: const AppDrawer(),
+            body: BlocBuilder<TransactionsBloc, TransactionsState>(
+              builder: (context, state) {
+                if (state is TransactionsLoadedState) {
+                  //
+                  final transactionsList = state.listOfTransactionData;
+                  transactionsList
+                      ?.sort((a, b) => b.dateTime.compareTo(a.dateTime));
+
+                  // Code for sorting ascending/descending
+                  // snapshot.data!.sort((a, b) => a.dateTime.compareTo(b.dateTime));
+                  // sort date
+                  // snapshot.data!.sort((a, b) => b.dateTime.compareTo(a.dateTime));
+                  // get calculated value
+                  final calculatedValue =
+                      calculateTotalIncomeOrExpenses(transactionsList!);
+                  //
+                  final groupByMonth = groupBy(transactionsList, (obj) {
+                    final objectDateTime =
+                        DateTime.parse(obj.dateTime).formatMonth();
+                    return objectDateTime;
+                  });
+                  return Column(
+                    children: [
+                      const SizedBox(
+                        height: 2,
+                      ),
+                      HomePageAppBar(
+                        income: calculatedValue.totalIncome,
+                        expenses: calculatedValue.totalExpense,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Flexible(
+                        child: ListView(
+                          children: [
+                            for (final monthEntry in groupByMonth.entries)
+                              Column(
                                 children: [
-                                  for (final dayEntry in groupByDay.entries)
-                                    Column(
+                                  () {
+                                    final calculatedMonthData =
+                                        calculateTotalValue(
+                                      monthEntry.value,
+                                    );
+                                    return Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          12, 8, 12, 8),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            // key is month name
+                                            monthEntry.key,
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                            "Balance: Rs. ${calculatedMonthData.totalValue}",
+                                            style: TextStyle(
+                                              color: (calculatedMonthData
+                                                          .totalValue >
+                                                      0)
+                                                  ? Colors.green
+                                                  : Colors.red,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  }(),
+                                  () {
+                                    final groupByDay =
+                                        // Value is List<TransactionModelIsar> per month
+                                        groupBy(monthEntry.value, (obj) {
+                                      final objectDateTime =
+                                          DateTime.parse(obj.dateTime)
+                                              .formatDay();
+                                      return objectDateTime;
+                                    });
+                                    return Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        () {
-                                          final calculatedDayData =
-                                              calculateTotalValue(
-                                            dayEntry.value,
-                                          );
-                                          return Column(
+                                        for (final dayEntry
+                                            in groupByDay.entries)
+                                          Column(
                                             children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 17,
-                                                    right: 17,
-                                                    top: 4,
-                                                    bottom: 4),
-                                                child: Row(
+                                              () {
+                                                final calculatedDayData =
+                                                    calculateTotalValue(
+                                                  dayEntry.value,
+                                                );
+                                                return Column(
                                                   children: [
-                                                    // Key is day here
-                                                    Text(dayEntry.key),
-                                                    const Spacer(),
-                                                    Text(
-                                                      "Total: ${calculatedDayData.totalValue}",
-                                                      style: TextStyle(
-                                                        color: (calculatedDayData
-                                                                    .totalValue >
-                                                                0)
-                                                            ? Colors.green
-                                                            : Colors.red,
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 17,
+                                                              right: 17,
+                                                              top: 4,
+                                                              bottom: 4),
+                                                      child: Row(
+                                                        children: [
+                                                          // Key is day here
+                                                          Text(dayEntry.key),
+                                                          const Spacer(),
+                                                          Text(
+                                                            "Total: ${calculatedDayData.totalValue}",
+                                                            style: TextStyle(
+                                                              color: (calculatedDayData
+                                                                          .totalValue >
+                                                                      0)
+                                                                  ? Colors.green
+                                                                  : Colors.red,
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
                                                     ),
+                                                    // Value is TransactionModelIsar list item
+                                                    for (final listItem
+                                                        in dayEntry.value)
+                                                      Column(
+                                                        children: [
+                                                          TransactionView(
+                                                            transaction:
+                                                                listItem,
+                                                          ),
+                                                        ],
+                                                      ),
                                                   ],
-                                                ),
-                                              ),
-                                              // Value is TransactionModelIsar list item
-                                              for (final listItem
-                                                  in dayEntry.value)
-                                                Column(
-                                                  children: [
-                                                    TransactionView(
-                                                      transaction: listItem,
-                                                    ),
-                                                  ],
-                                                ),
+                                                );
+                                              }(),
                                             ],
-                                          );
-                                        }(),
+                                          ),
                                       ],
-                                    ),
+                                    );
+                                  }(),
+                                  const Divider(
+                                    height: 5,
+                                  )
                                 ],
-                              );
-                            }(),
-                            const Divider(
-                              height: 5,
-                            )
+                              ),
                           ],
                         ),
+                      ),
                     ],
-                  ),
-                ),
-              ],
-            );
-          } else {
-            return const Center(
-              child: Text("No data"),
-            );
-          }
-        },
+                  );
+                } else {
+                  return const Center(
+                    child: Text("No data"),
+                  );
+                }
+              },
+            ),
+          );
+        });
+  }
+}
+
+// TODO
+class DateSelectButton extends StatelessWidget {
+  const DateSelectButton({
+    super.key,
+    required this.transactionsBloc,
+    required this.bottomOpen,
+  });
+
+  final TransactionsBloc transactionsBloc;
+  final ValueNotifier<bool> bottomOpen;
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.blue,
+      ),
+      onPressed: () {
+        final currentTime = DateTime.now();
+        final startTime = DateTime(
+          currentTime.year,
+          currentTime.month,
+          1,
+        );
+        transactionsBloc.add(
+          TransactionsLoadedEvent(
+            transactionListFromStream:
+                context.read<IsarService>().listenTransactionDateRange(
+                      startTime: startTime.toString(),
+                      endTime: currentTime.toString(),
+                    ),
+          ),
+        );
+        // setState(() {
+        bottomOpen.value = false;
+        // });
+      },
+      child: const Text(
+        'This Month',
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.w400,
+        ),
       ),
     );
   }

@@ -36,13 +36,13 @@ class IsarService {
   }
 
   Stream<List<TransactionModelIsar>> listenTransactionDateRange(
-      {required String currentTime, required String earliestTime}) async* {
+      {required String startTime, required String endTime}) async* {
     final isar = await isarDB;
 
     final listenToData = isar.transactionModelIsars
         .where()
         .filter()
-        .dateTimeBetween(earliestTime, currentTime)
+        .dateTimeBetween(startTime, endTime, caseSensitive: false)
         .watch(fireImmediately: true);
     yield* listenToData;
   }
