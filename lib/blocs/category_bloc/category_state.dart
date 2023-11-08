@@ -11,6 +11,4 @@ final class CategoryLoadedState extends CategoryState {
   CategoryLoadedState({required this.listOfCategoryData});
 }
 
-final class CategoryDisallowModificationState extends CategoryState {}
-
 final class CategoryAddDefaultItemsState extends CategoryState {}

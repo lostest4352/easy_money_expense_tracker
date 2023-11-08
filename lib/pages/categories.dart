@@ -48,9 +48,9 @@ class _ExpenseCategoriesState extends State<ExpenseCategories> {
               style: TextStyle(color: Colors.white),
             ),
           );
-          if (state is CategoryDisallowModificationState) {
+          blocCategories.on<CategoryDisallowModificationEvent>((event, emit) {
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          }
+          });
         },
         builder: (context, state) {
           // If db doesnt support, add below like code for moving transactions to these two types if cateory deleted

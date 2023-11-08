@@ -399,7 +399,7 @@ class DateSelectButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.transparent,
       ),
       onPressed: () {
         if (isAllTime != true || isAllTime == null) {
