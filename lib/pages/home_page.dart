@@ -37,6 +37,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   ValueNotifier<bool> bottomOpen = ValueNotifier(false);
   final currentTime = DateTime.now();
+  ValueNotifier<String> titleText = ValueNotifier("All Time");
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +72,7 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                     endTime: currentTime,
                                     buttonText: "This Month",
+                                    titleText: titleText,
                                   ),
                                   const SizedBox(
                                     width: 25,
@@ -90,6 +92,7 @@ class _HomePageState extends State<HomePage> {
                                       0,
                                     ),
                                     buttonText: "Last Month",
+                                    titleText: titleText,
                                   ),
                                   const Spacer(),
                                 ],
@@ -111,6 +114,7 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                     endTime: currentTime,
                                     buttonText: "Last 3 Months",
+                                    titleText: titleText,
                                   ),
                                   const SizedBox(
                                     width: 25,
@@ -126,6 +130,7 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                     endTime: currentTime,
                                     buttonText: "Last 6 Months",
+                                    titleText: titleText,
                                   ),
                                   const Spacer(),
                                 ],
@@ -144,6 +149,7 @@ class _HomePageState extends State<HomePage> {
                                     endTime: null,
                                     isAllTime: true,
                                     buttonText: "All Time",
+                                    titleText: titleText,
                                   ),
                                   const SizedBox(
                                     width: 25,
@@ -180,8 +186,8 @@ class _HomePageState extends State<HomePage> {
               },
               child: Row(
                 children: [
-                  const Text(
-                    "Expense App",
+                  Text(
+                    titleText.value,
                   ),
                   () {
                     if (bottomOpen.value == false) {
@@ -382,6 +388,7 @@ class DateSelectButton extends StatelessWidget {
     Key? key,
     required this.transactionsBloc,
     required this.bottomOpen,
+    required this.titleText,
     required this.startTime,
     required this.endTime,
     required this.buttonText,
@@ -390,6 +397,7 @@ class DateSelectButton extends StatelessWidget {
 
   final TransactionsBloc transactionsBloc;
   final ValueNotifier<bool> bottomOpen;
+  final ValueNotifier<String> titleText;
   final DateTime? startTime;
   final DateTime? endTime;
   final String buttonText;
@@ -397,10 +405,7 @@ class DateSelectButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.transparent,
-      ),
+    return TextButton(
       onPressed: () {
         if (isAllTime != true || isAllTime == null) {
           transactionsBloc.add(
@@ -420,9 +425,10 @@ class DateSelectButton extends StatelessWidget {
             ),
           );
         }
-        // setState(() {
+        //
         bottomOpen.value = false;
-        // });
+        titleText.value = buttonText;
+
       },
       child: Text(
         buttonText,
