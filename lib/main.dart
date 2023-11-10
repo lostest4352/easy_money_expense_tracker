@@ -27,6 +27,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentTime = DateTime.now();
+
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider(
@@ -40,7 +42,19 @@ class MyApp extends StatelessWidget {
           BlocProvider(
             create: (context) =>
                 TransactionsBloc(isarService: context.read<IsarService>())
-                  ..add(TransactionsLoadedEvent(transactionListFromStream: context.read<IsarService>().listenTransactionData())),
+                  ..add(
+                    TransactionsLoadedEvent(
+                      transactionListFromStream: context
+                          .read<IsarService>()
+                          .listenTransactionDateRange(
+                              startTime: DateTime(
+                                currentTime.year,
+                                currentTime.month,
+                                1,
+                              ).toString(),
+                              endTime: currentTime.toString()),
+                    ),
+                  ),
           ),
           BlocProvider(
             create: (context) =>

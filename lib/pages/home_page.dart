@@ -37,7 +37,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   ValueNotifier<bool> bottomOpen = ValueNotifier(false);
   final currentTime = DateTime.now();
-  ValueNotifier<String> titleText = ValueNotifier("All Time");
+  ValueNotifier<String> titleText = ValueNotifier("This Month");
 
   @override
   Widget build(BuildContext context) {
