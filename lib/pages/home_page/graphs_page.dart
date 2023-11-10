@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
 import 'package:flutter_expense_tracker/database/isar_classes.dart';
-import 'package:flutter_expense_tracker/database/isar_service.dart';
 import 'package:flutter_expense_tracker/models/pie_chart_model.dart';
 import 'package:flutter_expense_tracker/pages/page_functions/calculate_total.dart';
 
@@ -37,9 +36,6 @@ class _GraphsPageState extends State<GraphsPage>
     _tabController.dispose();
     super.dispose();
   }
-
-  Stream<List<TransactionModelIsar>> get listenTransactionData =>
-      context.read<IsarService>().listenTransactionData();
 
   @override
   Widget build(BuildContext context) {
