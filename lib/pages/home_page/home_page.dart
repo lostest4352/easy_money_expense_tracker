@@ -405,7 +405,16 @@ class DateSelectButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: (){
+          if (titleText.value == buttonText) {
+            return Colors.blue;
+          } else {
+            return Colors.transparent;
+          }
+        }()
+      ),
       onPressed: () {
         if (isAllTime != true || isAllTime == null) {
           transactionsBloc.add(
