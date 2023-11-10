@@ -61,18 +61,31 @@ class _HomePageState extends State<HomePage> {
                               child: Row(
                                 children: [
                                   const Spacer(),
+                                  // TODO
                                   // This month
-                                  DateSelectButton(
-                                    transactionsBloc: transactionsBloc,
-                                    bottomOpen: bottomOpen,
-                                    startTime: DateTime(
-                                      currentTime.year,
-                                      currentTime.month,
-                                      1,
+                                  TextButton(
+                                    onPressed: () {
+                                      bottomOpen.value = false;
+                                      titleText.value = "This Month";
+                                      transactionsBloc.add(
+                                        TransactionsLoadedEvent(
+                                          transactionListFromStream: context
+                                              .read<IsarService>()
+                                              .listenTransactionDateRange(
+                                                startTime: DateTime(
+                                                  currentTime.year,
+                                                  currentTime.month,
+                                                  1,
+                                                ).toString(),
+                                                endTime: currentTime.toString(),
+                                              ),
+                                        ),
+                                      );
+                                    },
+                                    child: const Text(
+                                      'This Month',
+                                      style: TextStyle(color: Colors.white),
                                     ),
-                                    endTime: currentTime,
-                                    buttonText: "This Month",
-                                    titleText: titleText,
                                   ),
                                   const SizedBox(
                                     width: 25,
@@ -428,7 +441,6 @@ class DateSelectButton extends StatelessWidget {
         //
         bottomOpen.value = false;
         titleText.value = buttonText;
-
       },
       child: Text(
         buttonText,

@@ -47,12 +47,13 @@ class MyApp extends StatelessWidget {
                       transactionListFromStream: context
                           .read<IsarService>()
                           .listenTransactionDateRange(
-                              startTime: DateTime(
-                                currentTime.year,
-                                currentTime.month,
-                                1,
-                              ).toString(),
-                              endTime: currentTime.toString()),
+                            startTime: DateTime(
+                              currentTime.year,
+                              currentTime.month,
+                              1,
+                            ).toString(),
+                            endTime: currentTime.toString(),
+                          ),
                     ),
                   ),
           ),
