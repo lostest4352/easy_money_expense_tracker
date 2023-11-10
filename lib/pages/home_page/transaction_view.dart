@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_expense_tracker/database/isar_classes.dart';
-import 'package:flutter_expense_tracker/pages/widgets/entry_dialog.dart';
+import 'package:flutter_expense_tracker/pages/home_page/entry_dialog.dart';
 
 class TransactionView extends StatelessWidget {
   final TransactionModelIsar transaction;

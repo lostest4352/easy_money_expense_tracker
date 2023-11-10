@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_expense_tracker/pages/graphs_page.dart';
-import 'package:flutter_expense_tracker/pages/home_page.dart';
+import 'package:flutter_expense_tracker/pages/home_page/graphs_page.dart';
+import 'package:flutter_expense_tracker/pages/home_page/home_page.dart';
 import 'package:flutter_expense_tracker/pages/widgets/keep_pages_alive.dart';
 
 class MainPage extends StatefulWidget {

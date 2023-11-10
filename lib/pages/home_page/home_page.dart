@@ -5,11 +5,11 @@ import 'package:intl/intl.dart';
 
 import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
 import 'package:flutter_expense_tracker/database/isar_service.dart';
-import 'package:flutter_expense_tracker/pages/functions/calculate_total.dart';
+import 'package:flutter_expense_tracker/pages/page_functions/calculate_total.dart';
 import 'package:flutter_expense_tracker/pages/widgets/app_drawer.dart';
-import 'package:flutter_expense_tracker/pages/widgets/entry_dialog.dart';
-import 'package:flutter_expense_tracker/pages/widgets/homepage_appbar.dart';
-import 'package:flutter_expense_tracker/pages/widgets/transaction_view.dart';
+import 'package:flutter_expense_tracker/pages/home_page/entry_dialog.dart';
+import 'package:flutter_expense_tracker/pages/home_page/homepage_appbar.dart';
+import 'package:flutter_expense_tracker/pages/home_page/transaction_view.dart';
 
 // extension method from SO
 const String monthFormatter = "MMMM, y";

@@ -1,6 +1,6 @@
-import 'package:flutter_expense_tracker/pages/categories.dart';
+import 'package:flutter_expense_tracker/pages/category_page/categories.dart';
 import 'package:flutter_expense_tracker/pages/main_page.dart';
-import 'package:flutter_expense_tracker/pages/settings_page.dart';
+import 'package:flutter_expense_tracker/pages/settings_page/settings_page.dart';
 import 'package:go_router/go_router.dart';
 
 enum AppRoutes {

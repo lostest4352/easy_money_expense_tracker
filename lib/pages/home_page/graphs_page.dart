@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expense_tracker/database/isar_classes.dart';
 import 'package:flutter_expense_tracker/database/isar_service.dart';
 import 'package:flutter_expense_tracker/models/pie_chart_model.dart';
-import 'package:flutter_expense_tracker/pages/functions/calculate_total.dart';
+import 'package:flutter_expense_tracker/pages/page_functions/calculate_total.dart';
 
 class GraphsPage extends StatefulWidget {
   const GraphsPage({super.key});
