@@ -8,7 +8,7 @@ import 'package:flutter_expense_tracker/database/isar_service.dart';
 import 'package:flutter_expense_tracker/pages/page_functions/calculate_total.dart';
 import 'package:flutter_expense_tracker/pages/widgets/app_drawer.dart';
 import 'package:flutter_expense_tracker/pages/home_page/entry_dialog.dart';
-import 'package:flutter_expense_tracker/pages/home_page/homepage_appbar.dart';
+import 'package:flutter_expense_tracker/pages/home_page/homepage_value_tile.dart';
 import 'package:flutter_expense_tracker/pages/home_page/transaction_view.dart';
 
 // extension method from SO
@@ -249,7 +249,7 @@ class _HomePageState extends State<HomePage> {
                     const SizedBox(
                       height: 2,
                     ),
-                    HomePageAppBar(
+                    HomePageValueTile(
                       income: calculatedValue.totalIncome,
                       expenses: calculatedValue.totalExpense,
                     ),
