@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
+import 'package:flutter_expense_tracker/blocs/time_range_cubit/time_range_cubit.dart';
 import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
 import 'package:flutter_expense_tracker/database/isar_service.dart';
-import 'package:flutter_expense_tracker/pages/page_functions/calculate_total.dart';
-import 'package:flutter_expense_tracker/pages/widgets/app_drawer.dart';
 import 'package:flutter_expense_tracker/pages/home_page/entry_dialog.dart';
 import 'package:flutter_expense_tracker/pages/home_page/homepage_value_tile.dart';
 import 'package:flutter_expense_tracker/pages/home_page/transaction_view.dart';
+import 'package:flutter_expense_tracker/pages/page_functions/calculate_total.dart';
+import 'package:flutter_expense_tracker/pages/widgets/app_drawer.dart';
 
 const String monthFormatter = "MMMM, y";
 const String dayFormatter = "MMMM d, y: EEEE";
@@ -64,14 +65,17 @@ class _HomePageState extends State<HomePage> {
                                   DateSelectButton(
                                     transactionsBloc: transactionsBloc,
                                     bottomOpen: bottomOpen,
-                                    startTime: DateTime(
-                                      currentTime.year,
-                                      currentTime.month,
-                                      1,
-                                    ),
-                                    endTime: currentTime,
                                     buttonText: "This Month",
                                     titleText: titleText,
+                                    timeRangeState: TimeRangeState(
+                                      buttonName: "This Month",
+                                      startTime: DateTime(
+                                        currentTime.year,
+                                        currentTime.month,
+                                        1,
+                                      ).toString(),
+                                      endTime: currentTime.toString(),
+                                    ),
                                   ),
                                   const SizedBox(
                                     width: 25,
@@ -80,18 +84,21 @@ class _HomePageState extends State<HomePage> {
                                   DateSelectButton(
                                     transactionsBloc: transactionsBloc,
                                     bottomOpen: bottomOpen,
-                                    startTime: DateTime(
-                                      currentTime.year,
-                                      currentTime.month - 1,
-                                      1,
-                                    ),
-                                    endTime: DateTime(
-                                      currentTime.year,
-                                      currentTime.month,
-                                      0,
-                                    ),
                                     buttonText: "Last Month",
                                     titleText: titleText,
+                                    timeRangeState: TimeRangeState(
+                                      buttonName: "Last Month",
+                                      startTime: DateTime(
+                                        currentTime.year,
+                                        currentTime.month - 1,
+                                        1,
+                                      ).toString(),
+                                      endTime: DateTime(
+                                        currentTime.year,
+                                        currentTime.month,
+                                        0,
+                                      ).toString(),
+                                    ),
                                   ),
                                   const Spacer(),
                                 ],
@@ -106,14 +113,17 @@ class _HomePageState extends State<HomePage> {
                                   DateSelectButton(
                                     transactionsBloc: transactionsBloc,
                                     bottomOpen: bottomOpen,
-                                    startTime: DateTime(
-                                      currentTime.year,
-                                      currentTime.month - 2,
-                                      1,
-                                    ),
-                                    endTime: currentTime,
                                     buttonText: "Last 3 Months",
                                     titleText: titleText,
+                                    timeRangeState: TimeRangeState(
+                                      buttonName: "Last 3 Months",
+                                      startTime: DateTime(
+                                        currentTime.year,
+                                        currentTime.month - 2,
+                                        1,
+                                      ).toString(),
+                                      endTime: currentTime.toString(),
+                                    ),
                                   ),
                                   const SizedBox(
                                     width: 25,
@@ -122,14 +132,17 @@ class _HomePageState extends State<HomePage> {
                                   DateSelectButton(
                                     transactionsBloc: transactionsBloc,
                                     bottomOpen: bottomOpen,
-                                    startTime: DateTime(
-                                      currentTime.year,
-                                      currentTime.month - 5,
-                                      1,
-                                    ),
-                                    endTime: currentTime,
                                     buttonText: "Last 6 Months",
                                     titleText: titleText,
+                                    timeRangeState: TimeRangeState(
+                                      buttonName: "Last 6 Months",
+                                      startTime: DateTime(
+                                        currentTime.year,
+                                        currentTime.month - 5,
+                                        1,
+                                      ).toString(),
+                                      endTime: currentTime.toString(),
+                                    ),
                                   ),
                                   const Spacer(),
                                 ],
@@ -144,11 +157,11 @@ class _HomePageState extends State<HomePage> {
                                   DateSelectButton(
                                     transactionsBloc: transactionsBloc,
                                     bottomOpen: bottomOpen,
-                                    startTime: null,
-                                    endTime: null,
                                     isAllTime: true,
                                     buttonText: "All Time",
                                     titleText: titleText,
+                                    timeRangeState:
+                                        TimeRangeState(buttonName: "All Time"),
                                   ),
                                   const SizedBox(
                                     width: 25,
@@ -179,9 +192,7 @@ class _HomePageState extends State<HomePage> {
             }(),
             title: InkWell(
               onTap: () {
-                // setState(() {
                 bottomOpen.value = !bottomOpen.value;
-                // });
               },
               child: Row(
                 children: [
@@ -387,19 +398,18 @@ class DateSelectButton extends StatelessWidget {
     required this.transactionsBloc,
     required this.bottomOpen,
     required this.titleText,
-    required this.startTime,
-    required this.endTime,
     required this.buttonText,
     this.isAllTime,
+    required this.timeRangeState,
   }) : super(key: key);
 
   final TransactionsBloc transactionsBloc;
   final ValueNotifier<bool> bottomOpen;
   final ValueNotifier<String> titleText;
-  final DateTime? startTime;
-  final DateTime? endTime;
+
   final String buttonText;
   final bool? isAllTime;
+  final TimeRangeState timeRangeState;
 
   @override
   Widget build(BuildContext context) {
@@ -412,27 +422,17 @@ class DateSelectButton extends StatelessWidget {
         }
       }()),
       onPressed: () {
-        if (isAllTime != true || isAllTime == null) {
-          transactionsBloc.add(
-            TransactionsLoadedEvent(
-              transactionListFromStream:
-                  context.read<IsarService>().listenTransactionDateRange(
-                        startTime: startTime.toString(),
-                        endTime: endTime.toString(),
-                      ),
-            ),
-          );
-        } else if (isAllTime == true) {
-          transactionsBloc.add(
-            TransactionsLoadedEvent(
-              transactionListFromStream:
-                  context.read<IsarService>().listenTransactionData(),
-            ),
-          );
-        }
+        // TODO
+        transactionsBloc.add(
+          TransactionsLoadedEvent(timeRangeState: timeRangeState),
+        );
+
         //
         bottomOpen.value = false;
         titleText.value = buttonText;
+        // save new state
+        context.read<TimeRangeCubit>().timeRangeState(timeRangeState.startTime,
+            timeRangeState.endTime, timeRangeState.buttonName);
       },
       child: Text(
         buttonText,

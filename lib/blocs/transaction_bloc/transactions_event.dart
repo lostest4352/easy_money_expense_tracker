@@ -4,9 +4,9 @@ part of 'transactions_bloc.dart';
 sealed class TransactionsEvent {}
 
 final class TransactionsLoadedEvent extends TransactionsEvent {
-  final Stream<List<TransactionModelIsar>> transactionListFromStream;
+  final TimeRangeState timeRangeState;
 
-  TransactionsLoadedEvent({required this.transactionListFromStream});
+  TransactionsLoadedEvent({required this.timeRangeState});
 }
 
 final class TransactionsAddEvent extends TransactionsEvent {

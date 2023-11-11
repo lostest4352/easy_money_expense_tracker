@@ -55,15 +55,7 @@ class MyApp extends StatelessWidget {
                 TransactionsBloc(isarService: context.read<IsarService>())
                   ..add(
                     TransactionsLoadedEvent(
-                      transactionListFromStream: context
-                          .read<IsarService>()
-                          .listenTransactionDateRange(
-                              startTime: DateTime(
-                                currentTime.year,
-                                currentTime.month,
-                                1,
-                              ).toString(),
-                              endTime: currentTime.toString()),
+                      timeRangeState: context.read<TimeRangeCubit>().state,
                     ),
                   ),
           ),
