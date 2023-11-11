@@ -8,6 +8,8 @@ import 'package:flutter_expense_tracker/blocs/time_range_cubit/time_range_cubit.
 import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
 import 'package:flutter_expense_tracker/database/isar_service.dart';
 import 'package:flutter_expense_tracker/routes/app_routes.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:path_provider/path_provider.dart';
 
 void main() async {
   if (Platform.isAndroid) {
@@ -18,6 +20,9 @@ void main() async {
       ),
     );
   }
+  WidgetsFlutterBinding.ensureInitialized();
+  HydratedBloc.storage = await HydratedStorage.build(
+      storageDirectory: await getApplicationDocumentsDirectory());
   runApp(const MyApp());
 }
 
