@@ -15,7 +15,7 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
     final currentTime = DateTime(
       currentTimeExact.year,
       currentTimeExact.month,
-      // For some reason current day doesnt get saved in endTime so added one day as a hack
+      // Current day doesnt get shown when saved in endTime so added one day
       (currentTimeExact.day + 1),
     );
 
