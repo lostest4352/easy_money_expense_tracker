@@ -11,7 +11,6 @@ import 'package:flutter_expense_tracker/pages/home_page/entry_dialog.dart';
 import 'package:flutter_expense_tracker/pages/home_page/homepage_value_tile.dart';
 import 'package:flutter_expense_tracker/pages/home_page/transaction_view.dart';
 
-// extension method from SO
 const String monthFormatter = "MMMM, y";
 const String dayFormatter = "MMMM d, y: EEEE";
 
@@ -382,7 +381,6 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-// TODO
 class DateSelectButton extends StatelessWidget {
   const DateSelectButton({
     Key? key,
@@ -406,15 +404,13 @@ class DateSelectButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: (){
-          if (titleText.value == buttonText) {
-            return Colors.blue;
-          } else {
-            return Colors.transparent;
-          }
-        }()
-      ),
+      style: ElevatedButton.styleFrom(backgroundColor: () {
+        if (titleText.value == buttonText) {
+          return Colors.blue;
+        } else {
+          return Colors.transparent;
+        }
+      }()),
       onPressed: () {
         if (isAllTime != true || isAllTime == null) {
           transactionsBloc.add(
@@ -437,7 +433,6 @@ class DateSelectButton extends StatelessWidget {
         //
         bottomOpen.value = false;
         titleText.value = buttonText;
-
       },
       child: Text(
         buttonText,
