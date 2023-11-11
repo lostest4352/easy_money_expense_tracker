@@ -12,3 +12,5 @@ final class CategoryLoadedState extends CategoryState {
 }
 
 final class CategoryAddDefaultItemsState extends CategoryState {}
+
+final class DisallowModificationState extends CategoryState {}

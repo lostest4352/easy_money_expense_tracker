@@ -48,7 +48,8 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
             await isar.categoryModelIsars.put(selectedCategoryModel);
           }
         } else {
-          add(CategoryDisallowModificationEvent());
+          emit(DisallowModificationState());
+          add(CategoryInitialEvent());
         }
       });
     });
@@ -66,7 +67,8 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
           await isar.categoryModelIsars
               .delete(event.selectedCategoryModelIsar.id);
         } else {
-          add(CategoryDisallowModificationEvent());
+          emit(DisallowModificationState());
+          add(CategoryInitialEvent());
         }
       });
     });
@@ -76,8 +78,6 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
       await isar.writeTxn(() async {
         await isar.categoryModelIsars.putAll(defaultListItems);
       });
-      emit(CategoryAddDefaultItemsState());
-      add(CategoryInitialEvent());
     });
   }
 

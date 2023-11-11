@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
             bottom: () {
               if (bottomOpen.value == true) {
                 return PreferredSize(
-                  preferredSize: const Size.fromHeight(130),
+                  preferredSize: const Size.fromHeight(140),
                   child: Column(
                     children: [
                       Padding(

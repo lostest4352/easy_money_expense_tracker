@@ -48,9 +48,10 @@ class _ExpenseCategoriesState extends State<ExpenseCategories> {
               style: TextStyle(color: Colors.white),
             ),
           );
-          blocCategories.on<CategoryDisallowModificationEvent>((event, emit) {
+
+          if (state is DisallowModificationState) {
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          });
+          }
         },
         builder: (context, state) {
           // If db doesnt support, add below like code for moving transactions to these two types if cateory deleted
@@ -62,6 +63,10 @@ class _ExpenseCategoriesState extends State<ExpenseCategories> {
           if (state is CategoryLoadedState) {
             final categoryList = state.listOfCategoryData;
 
+            if (categoryList!.isEmpty) {
+              blocCategories.add(CategoryAddDefaultItemsEvent());
+            }
+
             return Column(
               children: [
                 const SizedBox(
@@ -69,7 +74,7 @@ class _ExpenseCategoriesState extends State<ExpenseCategories> {
                 ),
                 Expanded(
                   child: ListView.builder(
-                    itemCount: categoryList?.length,
+                    itemCount: categoryList.length,
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: () {
@@ -78,7 +83,7 @@ class _ExpenseCategoriesState extends State<ExpenseCategories> {
                             builder: (context) {
                               return CategoryModifyDialog(
                                 editMode: true,
-                                selectedListItem: categoryList?[index],
+                                selectedListItem: categoryList[index],
                               );
                             },
                           );
@@ -86,10 +91,10 @@ class _ExpenseCategoriesState extends State<ExpenseCategories> {
                         child: ListTile(
                           leading: CircleAvatar(
                             backgroundColor:
-                                categoryList?[index].isIncome == true
+                                categoryList[index].isIncome == true
                                     ? Colors.blue
                                     : Colors.red,
-                            child: categoryList?[index].isIncome == true
+                            child: categoryList[index].isIncome == true
                                 ? const Icon(
                                     Icons.addchart,
                                     color: Colors.white,
@@ -100,7 +105,7 @@ class _ExpenseCategoriesState extends State<ExpenseCategories> {
                                   ),
                           ),
                           title: Text(
-                            categoryList?[index].transactionType ?? "none",
+                            categoryList[index].transactionType,
                           ),
                         ),
                       );

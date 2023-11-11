@@ -33,5 +33,3 @@ final class CategoryDeleteEvent extends CategoryEvent {
 }
 
 final class CategoryAddDefaultItemsEvent extends CategoryEvent {}
-
-final class CategoryDisallowModificationEvent extends CategoryEvent {}
