@@ -47,7 +47,6 @@ class _HomePageState extends State<HomePage> {
           appBar: AppBar(
             bottom: () {
               if (bottomOpen.value == true) {
-                final transactionsBloc = context.read<TransactionsBloc>();
                 return PreferredSize(
                   preferredSize: const Size.fromHeight(130),
                   child: Column(
@@ -59,7 +58,6 @@ class _HomePageState extends State<HomePage> {
                             const Spacer(),
                             // This month
                             DateSelectButton(
-                              transactionsBloc: transactionsBloc,
                               bottomOpen: bottomOpen,
                               buttonText: "This Month",
                               titleText: titleText,
@@ -78,7 +76,6 @@ class _HomePageState extends State<HomePage> {
                             ),
                             // Last month
                             DateSelectButton(
-                              transactionsBloc: transactionsBloc,
                               bottomOpen: bottomOpen,
                               buttonText: "Last Month",
                               titleText: titleText,
@@ -107,7 +104,6 @@ class _HomePageState extends State<HomePage> {
                             const Spacer(),
                             // Last 3 months
                             DateSelectButton(
-                              transactionsBloc: transactionsBloc,
                               bottomOpen: bottomOpen,
                               buttonText: "Last 3 Months",
                               titleText: titleText,
@@ -126,7 +122,6 @@ class _HomePageState extends State<HomePage> {
                             ),
                             // Last 6 months
                             DateSelectButton(
-                              transactionsBloc: transactionsBloc,
                               bottomOpen: bottomOpen,
                               buttonText: "Last 6 Months",
                               titleText: titleText,
@@ -151,13 +146,12 @@ class _HomePageState extends State<HomePage> {
                             const Spacer(),
                             // All Time
                             DateSelectButton(
-                              transactionsBloc: transactionsBloc,
                               bottomOpen: bottomOpen,
                               isAllTime: true,
                               buttonText: "All Time",
                               titleText: titleText,
                               timeRangeState:
-                                  TimeRangeState(buttonName: "All Time"),
+                                  const TimeRangeState(buttonName: "All Time"),
                             ),
                             const SizedBox(
                               width: 25,
@@ -380,7 +374,6 @@ class _HomePageState extends State<HomePage> {
 class DateSelectButton extends StatelessWidget {
   const DateSelectButton({
     Key? key,
-    required this.transactionsBloc,
     required this.bottomOpen,
     required this.titleText,
     required this.buttonText,
@@ -388,16 +381,15 @@ class DateSelectButton extends StatelessWidget {
     required this.timeRangeState,
   }) : super(key: key);
 
-  final TransactionsBloc transactionsBloc;
   final ValueNotifier<bool> bottomOpen;
   final String titleText;
-
   final String buttonText;
   final bool? isAllTime;
   final TimeRangeState timeRangeState;
 
   @override
   Widget build(BuildContext context) {
+    final transactionsBloc = context.read<TransactionsBloc>();
     return ElevatedButton(
       style: ElevatedButton.styleFrom(backgroundColor: () {
         if (titleText == buttonText) {
@@ -411,10 +403,8 @@ class DateSelectButton extends StatelessWidget {
         transactionsBloc.add(
           TransactionsLoadedEvent(timeRangeState: timeRangeState),
         );
-
         //
         bottomOpen.value = false;
-
         // save new state
         context.read<TimeRangeCubit>().timeRangeState(timeRangeState.startTime,
             timeRangeState.endTime, timeRangeState.buttonName);
