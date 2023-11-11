@@ -33,8 +33,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentTime = DateTime.now();
-
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider(

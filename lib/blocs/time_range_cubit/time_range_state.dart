@@ -6,8 +6,7 @@ final class TimeRangeState extends Equatable {
   final String? endTime;
   final String buttonName;
 
-  // ignore: prefer_const_constructors_in_immutables
-  TimeRangeState({
+  const TimeRangeState({
     this.startTime,
     this.endTime,
     this.buttonName = "This Month",

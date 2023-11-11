@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 
 import 'package:flutter_expense_tracker/blocs/time_range_cubit/time_range_cubit.dart';
 import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
-import 'package:flutter_expense_tracker/database/isar_service.dart';
 import 'package:flutter_expense_tracker/pages/home_page/entry_dialog.dart';
 import 'package:flutter_expense_tracker/pages/home_page/homepage_value_tile.dart';
 import 'package:flutter_expense_tracker/pages/home_page/transaction_view.dart';
@@ -37,7 +36,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   ValueNotifier<bool> bottomOpen = ValueNotifier(false);
   final currentTime = DateTime.now();
-  ValueNotifier<String> titleText = ValueNotifier("This Month");
+  String get titleText => context.read<TimeRangeCubit>().state.buttonName;
 
   @override
   Widget build(BuildContext context) {
@@ -197,7 +196,7 @@ class _HomePageState extends State<HomePage> {
               child: Row(
                 children: [
                   Text(
-                    titleText.value,
+                    titleText,
                   ),
                   () {
                     if (bottomOpen.value == false) {
@@ -214,10 +213,6 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () {},
                 icon: const Icon(Icons.search),
               ),
-              // IconButton(
-              //   onPressed: () {},
-              //   icon: const Icon(Icons.more_vert),
-              // ),
             ],
           ),
           floatingActionButton: FloatingActionButton(
@@ -405,7 +400,7 @@ class DateSelectButton extends StatelessWidget {
 
   final TransactionsBloc transactionsBloc;
   final ValueNotifier<bool> bottomOpen;
-  final ValueNotifier<String> titleText;
+  final String titleText;
 
   final String buttonText;
   final bool? isAllTime;
@@ -415,21 +410,21 @@ class DateSelectButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(backgroundColor: () {
-        if (titleText.value == buttonText) {
+        if (titleText == buttonText) {
           return Colors.blue;
         } else {
           return Colors.transparent;
         }
       }()),
       onPressed: () {
-        // TODO
+        //
         transactionsBloc.add(
           TransactionsLoadedEvent(timeRangeState: timeRangeState),
         );
 
         //
         bottomOpen.value = false;
-        titleText.value = buttonText;
+
         // save new state
         context.read<TimeRangeCubit>().timeRangeState(timeRangeState.startTime,
             timeRangeState.endTime, timeRangeState.buttonName);

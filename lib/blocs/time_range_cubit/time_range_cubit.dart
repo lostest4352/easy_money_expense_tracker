@@ -6,7 +6,7 @@ part 'time_range_state.dart';
 part 'time_range_cubit.g.dart';
 
 class TimeRangeCubit extends HydratedCubit<TimeRangeState> {
-  TimeRangeCubit() : super(TimeRangeState());
+  TimeRangeCubit() : super(const TimeRangeState());
 
   void timeRangeState(String? startTime, String? endTime, String buttonName) {
     emit(state.copyWith(
