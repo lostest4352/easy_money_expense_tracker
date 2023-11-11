@@ -387,13 +387,15 @@ class DateSelectButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final transactionsBloc = context.read<TransactionsBloc>();
     return ElevatedButton(
-      style: ElevatedButton.styleFrom(backgroundColor: () {
-        if (titleText == buttonText) {
-          return Colors.blue;
-        } else {
-          return Colors.transparent;
-        }
-      }()),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: () {
+          if (titleText == buttonText) {
+            return Colors.blue;
+          } else {
+            return Colors.transparent;
+          }
+        }(),
+      ),
       onPressed: () {
         //
         transactionsBloc.add(
@@ -402,8 +404,11 @@ class DateSelectButton extends StatelessWidget {
         //
         bottomOpen.value = false;
         // save new state
-        context.read<TimeRangeCubit>().timeRangeState(timeRangeState.startTime,
-            timeRangeState.endTime, timeRangeState.buttonName);
+        context.read<TimeRangeCubit>().timeRangeState(
+              timeRangeState.startTime,
+              timeRangeState.endTime,
+              timeRangeState.buttonName,
+            );
       },
       child: Text(
         buttonText,
