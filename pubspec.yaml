@@ -51,7 +51,7 @@ dependencies:
   meta: ^1.9.1
   provider: ^6.0.5
   equatable: ^2.0.5
-  freezed_annotation: ^2.4.1
+  
   json_annotation: ^4.8.1
   hydrated_bloc: ^9.1.2
 
@@ -69,7 +69,7 @@ dev_dependencies:
   # isar
   isar_generator: ^3.1.0+1
   json_serializable: ^6.7.1
-  freezed: ^2.4.5
+  
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
