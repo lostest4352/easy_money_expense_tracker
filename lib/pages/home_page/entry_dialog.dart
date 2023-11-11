@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_expense_tracker/blocs/category_bloc/category_bloc.dart';
 import 'package:flutter_expense_tracker/database/isar_classes.dart';
 import 'package:flutter_expense_tracker/database/isar_service.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:isar/isar.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
 import 'package:flutter_expense_tracker/pages/category_page/category_modify_dialog.dart';
@@ -70,15 +70,6 @@ class _EntryDialogState extends State<EntryDialog> {
 
   @override
   Widget build(BuildContext context) {
-    //
-    List<CategoryModelIsar> categoryModelList = [];
-    isarService.isarDB.then((value) async {
-      return await value.categoryModelIsars.where().findAll().then((value) {
-        categoryModelList = value;
-        return categoryModelList;
-      });
-    });
-
     return BlocBuilder<TransactionsBloc, TransactionsState>(
       builder: (context, state) {
         return Dialog(
@@ -273,84 +264,103 @@ class _EntryDialogState extends State<EntryDialog> {
                         return Dialog(
                           child: SizedBox(
                             height: 400,
-                            // TODO add blocbuilder
-                            child: Column(
-                              children: [
-                                Expanded(
-                                  child: ListView.builder(
-                                    itemCount: categoryModelList.length,
-                                    itemBuilder: (context, index) {
-                                      return ListTile(
-                                        onTap: () {
-                                          setState(() {
-                                            transactionType =
-                                                categoryModelList[index]
-                                                    .transactionType;
-                                            isIncome = categoryModelList[index]
-                                                .isIncome;
-                                            colorsValue =
-                                                categoryModelList[index]
-                                                    .colorsValue;
-                                          });
-                                          context.pop();
-                                        },
-                                        leading: CircleAvatar(
-                                          backgroundColor:
-                                              (categoryModelList[index]
-                                                          .isIncome) ==
-                                                      true
-                                                  ? Colors.blue
-                                                  : Colors.red,
-                                          child: (categoryModelList[index]
-                                                      .isIncome ==
-                                                  true)
-                                              ? const Icon(
-                                                  Icons.addchart,
-                                                  color: Colors.white,
-                                                )
-                                              : const Icon(
-                                                  Icons.highlight_remove_sharp,
-                                                  color: Colors.white,
-                                                ),
-                                        ),
-                                        //
-                                        title: Text(
-                                          categoryModelList[index]
-                                              .transactionType,
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 8, bottom: 8),
-                                      child: TextButton(
-                                        onPressed: () {
-                                          showDialog(
-                                            context: context,
-                                            builder: (context) {
-                                              return const CategoryModifyDialog(
-                                                editMode: false,
-                                              );
-                                            },
-                                          );
-                                        },
-                                        child: const Text(
-                                          "+Add item",
-                                          style: TextStyle(
-                                            color: Colors.blue,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                            child: BlocBuilder<CategoryBloc, CategoryState>(
+                              builder: (context, state) {
+                                if (state is CategoryLoadedState) {
+                                  CategoryBloc blocCategories =
+                                      context.read<CategoryBloc>();
+                                  final categoryList = state.listOfCategoryData;
+
+                                  if (categoryList!.isEmpty) {
+                                    blocCategories
+                                        .add(CategoryAddDefaultItemsEvent());
+                                  }
+                                  return Column(
+                                    children: [
+                                      Expanded(
+                                        child: ListView.builder(
+                                          itemCount: categoryList.length,
+                                          itemBuilder: (context, index) {
+                                            return ListTile(
+                                              onTap: () {
+                                                setState(() {
+                                                  transactionType =
+                                                      categoryList[index]
+                                                          .transactionType;
+                                                  isIncome = categoryList[index]
+                                                      .isIncome;
+                                                  colorsValue =
+                                                      categoryList[index]
+                                                          .colorsValue;
+                                                });
+                                                context.pop();
+                                              },
+                                              leading: CircleAvatar(
+                                                backgroundColor:
+                                                    (categoryList[index]
+                                                                .isIncome) ==
+                                                            true
+                                                        ? Colors.blue
+                                                        : Colors.red,
+                                                child: (categoryList[index]
+                                                            .isIncome ==
+                                                        true)
+                                                    ? const Icon(
+                                                        Icons.addchart,
+                                                        color: Colors.white,
+                                                      )
+                                                    : const Icon(
+                                                        Icons
+                                                            .highlight_remove_sharp,
+                                                        color: Colors.white,
+                                                      ),
+                                              ),
+                                              //
+                                              title: Text(
+                                                categoryList[index]
+                                                    .transactionType,
+                                              ),
+                                            );
+                                          },
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 8, bottom: 8),
+                                            child: TextButton(
+                                              onPressed: () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return const CategoryModifyDialog(
+                                                      editMode: false,
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                              child: const Text(
+                                                "+Add item",
+                                                style: TextStyle(
+                                                  color: Colors.blue,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  );
+                                } else {
+                                  return const Center(
+                                    child: Text("No Data"),
+                                  );
+                                }
+                              },
                             ),
                           ),
                         );
