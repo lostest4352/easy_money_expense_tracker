@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -48,7 +50,14 @@ class _HomePageState extends State<HomePage> {
             bottom: () {
               if (bottomOpen.value == true) {
                 return PreferredSize(
-                  preferredSize: const Size.fromHeight(200),
+                  // preferredSize: const Size.fromHeight(200),
+                  preferredSize: () {
+                    if (Platform.isWindows) {
+                      return const Size.fromHeight(130);
+                    } else {
+                      return const Size.fromHeight(200);
+                    }
+                  }(),
                   child: Column(
                     children: [
                       Padding(
