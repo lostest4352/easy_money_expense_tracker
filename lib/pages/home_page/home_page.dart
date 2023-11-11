@@ -35,7 +35,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   ValueNotifier<bool> bottomOpen = ValueNotifier(false);
   final currentTime = DateTime.now();
-  // TODO
+  //
   String get titleText => context.read<TimeRangeCubit>().state.buttonName;
 
   @override
@@ -57,19 +57,9 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             const Spacer(),
                             // This month
-                            // TODO
                             DateSelectButton(
                               bottomOpen: bottomOpen,
                               buttonText: "This Month",
-                              timeRangeState: TimeRangeState(
-                                buttonName: "This Month",
-                                startTime: DateTime(
-                                  currentTime.year,
-                                  currentTime.month,
-                                  1,
-                                ).toString(),
-                                endTime: currentTime.toString(),
-                              ),
                             ),
                             const SizedBox(
                               width: 25,
@@ -78,19 +68,6 @@ class _HomePageState extends State<HomePage> {
                             DateSelectButton(
                               bottomOpen: bottomOpen,
                               buttonText: "Last Month",
-                              timeRangeState: TimeRangeState(
-                                buttonName: "Last Month",
-                                startTime: DateTime(
-                                  currentTime.year,
-                                  currentTime.month - 1,
-                                  1,
-                                ).toString(),
-                                endTime: DateTime(
-                                  currentTime.year,
-                                  currentTime.month,
-                                  0,
-                                ).toString(),
-                              ),
                             ),
                             const Spacer(),
                           ],
@@ -105,15 +82,6 @@ class _HomePageState extends State<HomePage> {
                             DateSelectButton(
                               bottomOpen: bottomOpen,
                               buttonText: "Last 3 Months",
-                              timeRangeState: TimeRangeState(
-                                buttonName: "Last 3 Months",
-                                startTime: DateTime(
-                                  currentTime.year,
-                                  currentTime.month - 2,
-                                  1,
-                                ).toString(),
-                                endTime: currentTime.toString(),
-                              ),
                             ),
                             const SizedBox(
                               width: 25,
@@ -122,15 +90,6 @@ class _HomePageState extends State<HomePage> {
                             DateSelectButton(
                               bottomOpen: bottomOpen,
                               buttonText: "Last 6 Months",
-                              timeRangeState: TimeRangeState(
-                                buttonName: "Last 6 Months",
-                                startTime: DateTime(
-                                  currentTime.year,
-                                  currentTime.month - 5,
-                                  1,
-                                ).toString(),
-                                endTime: currentTime.toString(),
-                              ),
                             ),
                             const Spacer(),
                           ],
@@ -145,8 +104,6 @@ class _HomePageState extends State<HomePage> {
                             DateSelectButton(
                               bottomOpen: bottomOpen,
                               buttonText: "All Time",
-                              timeRangeState:
-                                  const TimeRangeState(buttonName: "All Time"),
                             ),
                             const SizedBox(
                               width: 25,
@@ -371,13 +328,14 @@ class DateSelectButton extends StatelessWidget {
     Key? key,
     required this.bottomOpen,
     required this.buttonText,
-    required this.timeRangeState,
+    this.startTime,
+    this.endTime,
   }) : super(key: key);
 
   final ValueNotifier<bool> bottomOpen;
-
   final String buttonText;
-  final TimeRangeState timeRangeState;
+  final String? startTime;
+  final String? endTime;
 
   @override
   Widget build(BuildContext context) {
@@ -396,15 +354,17 @@ class DateSelectButton extends StatelessWidget {
       onPressed: () {
         //
         transactionsBloc.add(
-          TransactionsLoadedEvent(timeRangeState: timeRangeState),
+          TransactionsLoadedEvent(
+            timeRangeState: TimeRangeState(buttonName: buttonText),
+          ),
         );
         //
         bottomOpen.value = false;
         // save new state
         context.read<TimeRangeCubit>().timeRangeState(
-              timeRangeState.startTime,
-              timeRangeState.endTime,
-              timeRangeState.buttonName,
+              startTime,
+              endTime,
+              buttonText,
             );
       },
       child: Text(
