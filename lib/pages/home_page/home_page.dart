@@ -47,144 +47,134 @@ class _HomePageState extends State<HomePage> {
           appBar: AppBar(
             bottom: () {
               if (bottomOpen.value == true) {
+                final transactionsBloc = context.read<TransactionsBloc>();
                 return PreferredSize(
                   preferredSize: const Size.fromHeight(130),
-                  child: BlocBuilder<TransactionsBloc, TransactionsState>(
-                    builder: (context, state) {
-                      final transactionsBloc = context.read<TransactionsBloc>();
-                      if (state is TransactionsLoadedState) {
-                        return Column(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Row(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8),
-                              child: Row(
-                                children: [
-                                  const Spacer(),
-                                  // This month
-                                  DateSelectButton(
-                                    transactionsBloc: transactionsBloc,
-                                    bottomOpen: bottomOpen,
-                                    buttonText: "This Month",
-                                    titleText: titleText,
-                                    timeRangeState: TimeRangeState(
-                                      buttonName: "This Month",
-                                      startTime: DateTime(
-                                        currentTime.year,
-                                        currentTime.month,
-                                        1,
-                                      ).toString(),
-                                      endTime: currentTime.toString(),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 25,
-                                  ),
-                                  // Last month
-                                  DateSelectButton(
-                                    transactionsBloc: transactionsBloc,
-                                    bottomOpen: bottomOpen,
-                                    buttonText: "Last Month",
-                                    titleText: titleText,
-                                    timeRangeState: TimeRangeState(
-                                      buttonName: "Last Month",
-                                      startTime: DateTime(
-                                        currentTime.year,
-                                        currentTime.month - 1,
-                                        1,
-                                      ).toString(),
-                                      endTime: DateTime(
-                                        currentTime.year,
-                                        currentTime.month,
-                                        0,
-                                      ).toString(),
-                                    ),
-                                  ),
-                                  const Spacer(),
-                                ],
+                            const Spacer(),
+                            // This month
+                            DateSelectButton(
+                              transactionsBloc: transactionsBloc,
+                              bottomOpen: bottomOpen,
+                              buttonText: "This Month",
+                              titleText: titleText,
+                              timeRangeState: TimeRangeState(
+                                buttonName: "This Month",
+                                startTime: DateTime(
+                                  currentTime.year,
+                                  currentTime.month,
+                                  1,
+                                ).toString(),
+                                endTime: currentTime.toString(),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(8),
-                              child: Row(
-                                children: [
-                                  const Spacer(),
-                                  // Last 3 months
-                                  DateSelectButton(
-                                    transactionsBloc: transactionsBloc,
-                                    bottomOpen: bottomOpen,
-                                    buttonText: "Last 3 Months",
-                                    titleText: titleText,
-                                    timeRangeState: TimeRangeState(
-                                      buttonName: "Last 3 Months",
-                                      startTime: DateTime(
-                                        currentTime.year,
-                                        currentTime.month - 2,
-                                        1,
-                                      ).toString(),
-                                      endTime: currentTime.toString(),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 25,
-                                  ),
-                                  // Last 6 months
-                                  DateSelectButton(
-                                    transactionsBloc: transactionsBloc,
-                                    bottomOpen: bottomOpen,
-                                    buttonText: "Last 6 Months",
-                                    titleText: titleText,
-                                    timeRangeState: TimeRangeState(
-                                      buttonName: "Last 6 Months",
-                                      startTime: DateTime(
-                                        currentTime.year,
-                                        currentTime.month - 5,
-                                        1,
-                                      ).toString(),
-                                      endTime: currentTime.toString(),
-                                    ),
-                                  ),
-                                  const Spacer(),
-                                ],
+                            const SizedBox(
+                              width: 25,
+                            ),
+                            // Last month
+                            DateSelectButton(
+                              transactionsBloc: transactionsBloc,
+                              bottomOpen: bottomOpen,
+                              buttonText: "Last Month",
+                              titleText: titleText,
+                              timeRangeState: TimeRangeState(
+                                buttonName: "Last Month",
+                                startTime: DateTime(
+                                  currentTime.year,
+                                  currentTime.month - 1,
+                                  1,
+                                ).toString(),
+                                endTime: DateTime(
+                                  currentTime.year,
+                                  currentTime.month,
+                                  0,
+                                ).toString(),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(8),
-                              child: Row(
-                                children: [
-                                  const Spacer(),
-                                  // All Time
-                                  DateSelectButton(
-                                    transactionsBloc: transactionsBloc,
-                                    bottomOpen: bottomOpen,
-                                    isAllTime: true,
-                                    buttonText: "All Time",
-                                    titleText: titleText,
-                                    timeRangeState:
-                                        TimeRangeState(buttonName: "All Time"),
-                                  ),
-                                  const SizedBox(
-                                    width: 25,
-                                  ),
-                                  // TODO For this make new one
-                                  TextButton(
-                                    onPressed: () {},
-                                    child: const Text(
-                                      'Custom',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ),
-                                  const Spacer(),
-                                ],
-                              ),
-                            ),
+                            const Spacer(),
                           ],
-                        );
-                      } else {
-                        return const Center(
-                          child: Text("No Data"),
-                        );
-                      }
-                    },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Row(
+                          children: [
+                            const Spacer(),
+                            // Last 3 months
+                            DateSelectButton(
+                              transactionsBloc: transactionsBloc,
+                              bottomOpen: bottomOpen,
+                              buttonText: "Last 3 Months",
+                              titleText: titleText,
+                              timeRangeState: TimeRangeState(
+                                buttonName: "Last 3 Months",
+                                startTime: DateTime(
+                                  currentTime.year,
+                                  currentTime.month - 2,
+                                  1,
+                                ).toString(),
+                                endTime: currentTime.toString(),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 25,
+                            ),
+                            // Last 6 months
+                            DateSelectButton(
+                              transactionsBloc: transactionsBloc,
+                              bottomOpen: bottomOpen,
+                              buttonText: "Last 6 Months",
+                              titleText: titleText,
+                              timeRangeState: TimeRangeState(
+                                buttonName: "Last 6 Months",
+                                startTime: DateTime(
+                                  currentTime.year,
+                                  currentTime.month - 5,
+                                  1,
+                                ).toString(),
+                                endTime: currentTime.toString(),
+                              ),
+                            ),
+                            const Spacer(),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Row(
+                          children: [
+                            const Spacer(),
+                            // All Time
+                            DateSelectButton(
+                              transactionsBloc: transactionsBloc,
+                              bottomOpen: bottomOpen,
+                              isAllTime: true,
+                              buttonText: "All Time",
+                              titleText: titleText,
+                              timeRangeState:
+                                  TimeRangeState(buttonName: "All Time"),
+                            ),
+                            const SizedBox(
+                              width: 25,
+                            ),
+                            // TODO For this make new one
+                            TextButton(
+                              onPressed: () {},
+                              child: const Text(
+                                'Custom',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                            const Spacer(),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 );
               }
