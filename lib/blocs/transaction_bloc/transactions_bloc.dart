@@ -11,7 +11,13 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
   final IsarService isarService;
 
   TransactionsBloc({required this.isarService}) : super(TransactionsInitial()) {
-    final currentTime = DateTime.now();
+    final currentTimeExact = DateTime.now();
+    final currentTime = DateTime(
+      currentTimeExact.year,
+      currentTimeExact.month,
+      // For some reason current day doesnt get saved in endTime so added one day as a hack
+      (currentTimeExact.day + 1),
+    );
 
     on<TransactionsLoadedEvent>((event, emit) async {
       // All Time
