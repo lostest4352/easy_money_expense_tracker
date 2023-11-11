@@ -147,7 +147,6 @@ class _HomePageState extends State<HomePage> {
                             // All Time
                             DateSelectButton(
                               bottomOpen: bottomOpen,
-                              isAllTime: true,
                               buttonText: "All Time",
                               titleText: titleText,
                               timeRangeState:
@@ -377,14 +376,12 @@ class DateSelectButton extends StatelessWidget {
     required this.bottomOpen,
     required this.titleText,
     required this.buttonText,
-    this.isAllTime,
     required this.timeRangeState,
   }) : super(key: key);
 
   final ValueNotifier<bool> bottomOpen;
   final String titleText;
   final String buttonText;
-  final bool? isAllTime;
   final TimeRangeState timeRangeState;
 
   @override
