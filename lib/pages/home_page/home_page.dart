@@ -35,6 +35,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   ValueNotifier<bool> bottomOpen = ValueNotifier(false);
   final currentTime = DateTime.now();
+  // TODO
   String get titleText => context.read<TimeRangeCubit>().state.buttonName;
 
   @override
@@ -56,10 +57,10 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             const Spacer(),
                             // This month
+                            // TODO
                             DateSelectButton(
                               bottomOpen: bottomOpen,
                               buttonText: "This Month",
-                              titleText: titleText,
                               timeRangeState: TimeRangeState(
                                 buttonName: "This Month",
                                 startTime: DateTime(
@@ -77,7 +78,6 @@ class _HomePageState extends State<HomePage> {
                             DateSelectButton(
                               bottomOpen: bottomOpen,
                               buttonText: "Last Month",
-                              titleText: titleText,
                               timeRangeState: TimeRangeState(
                                 buttonName: "Last Month",
                                 startTime: DateTime(
@@ -105,7 +105,6 @@ class _HomePageState extends State<HomePage> {
                             DateSelectButton(
                               bottomOpen: bottomOpen,
                               buttonText: "Last 3 Months",
-                              titleText: titleText,
                               timeRangeState: TimeRangeState(
                                 buttonName: "Last 3 Months",
                                 startTime: DateTime(
@@ -123,7 +122,6 @@ class _HomePageState extends State<HomePage> {
                             DateSelectButton(
                               bottomOpen: bottomOpen,
                               buttonText: "Last 6 Months",
-                              titleText: titleText,
                               timeRangeState: TimeRangeState(
                                 buttonName: "Last 6 Months",
                                 startTime: DateTime(
@@ -147,7 +145,6 @@ class _HomePageState extends State<HomePage> {
                             DateSelectButton(
                               bottomOpen: bottomOpen,
                               buttonText: "All Time",
-                              titleText: titleText,
                               timeRangeState:
                                   const TimeRangeState(buttonName: "All Time"),
                             ),
@@ -373,19 +370,19 @@ class DateSelectButton extends StatelessWidget {
   const DateSelectButton({
     Key? key,
     required this.bottomOpen,
-    required this.titleText,
     required this.buttonText,
     required this.timeRangeState,
   }) : super(key: key);
 
   final ValueNotifier<bool> bottomOpen;
-  final String titleText;
+
   final String buttonText;
   final TimeRangeState timeRangeState;
 
   @override
   Widget build(BuildContext context) {
     final transactionsBloc = context.read<TransactionsBloc>();
+    final titleText = context.read<TimeRangeCubit>().state.buttonName;
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         backgroundColor: () {
