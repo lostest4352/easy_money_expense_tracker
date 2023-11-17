@@ -143,13 +143,10 @@ class _HomePageState extends State<HomePage> {
                   Text(
                     titleText,
                   ),
-                  () {
-                    if (bottomOpen.value == false) {
-                      return const Icon(Icons.arrow_drop_down);
-                    } else {
-                      return const Icon(Icons.arrow_drop_up);
-                    }
-                  }(),
+                  if (bottomOpen.value == false)
+                    const Icon(Icons.arrow_drop_down)
+                  else
+                    const Icon(Icons.arrow_drop_up),
                 ],
               ),
             ),
@@ -232,11 +229,15 @@ class _HomePageState extends State<HomePage> {
                                         Text(
                                           "Balance: Rs. ${calculatedMonthData.totalValue}",
                                           style: TextStyle(
-                                            color: (calculatedMonthData
-                                                        .totalValue >
-                                                    0)
-                                                ? Colors.green
-                                                : Colors.red,
+                                            color: () {
+                                              if (calculatedMonthData
+                                                      .totalValue >
+                                                  0) {
+                                                return Colors.green;
+                                              } else {
+                                                return Colors.red;
+                                              }
+                                            }(),
                                           ),
                                         )
                                       ],
@@ -269,10 +270,11 @@ class _HomePageState extends State<HomePage> {
                                                   Padding(
                                                     padding:
                                                         const EdgeInsets.only(
-                                                            left: 17,
-                                                            right: 17,
-                                                            top: 4,
-                                                            bottom: 4),
+                                                      left: 17,
+                                                      right: 17,
+                                                      top: 4,
+                                                      bottom: 4,
+                                                    ),
                                                     child: Row(
                                                       children: [
                                                         // Key is day here
@@ -281,11 +283,17 @@ class _HomePageState extends State<HomePage> {
                                                         Text(
                                                           "Total: ${calculatedDayData.totalValue}",
                                                           style: TextStyle(
-                                                            color: (calculatedDayData
-                                                                        .totalValue >
-                                                                    0)
-                                                                ? Colors.green
-                                                                : Colors.red,
+                                                            color: () {
+                                                              if (calculatedDayData
+                                                                      .totalValue >
+                                                                  0) {
+                                                                return Colors
+                                                                    .green;
+                                                              } else {
+                                                                return Colors
+                                                                    .red;
+                                                              }
+                                                            }(),
                                                           ),
                                                         ),
                                                       ],
