@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expense_tracker/database/isar_classes.dart';
 import 'package:flutter_expense_tracker/database/isar_service.dart';
-import 'package:flutter_expense_tracker/models/dropdown_colors.dart';
+import 'package:flutter_expense_tracker/global_variables/dropdown_colors.dart';
 import 'package:isar/isar.dart';
 
 part 'category_event.dart';

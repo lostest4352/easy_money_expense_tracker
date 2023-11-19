@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expense_tracker/blocs/search_cubit/search_cubit.dart';
+import 'package:flutter_expense_tracker/global_variables/date_formatter.dart';
 import 'package:flutter_expense_tracker/pages/home_page/transaction_view.dart';
 import 'package:flutter_expense_tracker/pages/widgets/popup_textfield_items.dart';
 
@@ -12,7 +13,7 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  final TextEditingController textEditingController = TextEditingController();
+  TextEditingController textEditingController = TextEditingController();
 
   @override
   void dispose() {
@@ -59,8 +60,16 @@ class _SearchPageState extends State<SearchPage> {
                         itemCount: transactionsList?.length,
                         itemBuilder: (context, index) {
                           if (transactionsList != null) {
-                            return TransactionView(
-                              transaction: transactionsList[index],
+                            final String transactionDate =
+                                DateTime.parse(transactionsList[index].dateTime)
+                                    .formatDay();
+                            return Column(
+                              children: [
+                                Text(transactionDate),
+                                TransactionView(
+                                  transaction: transactionsList[index],
+                                ),
+                              ],
                             );
                           } else {
                             return const Center(

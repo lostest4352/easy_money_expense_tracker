@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_expense_tracker/global_variables/date_formatter.dart';
 import 'package:flutter_expense_tracker/routes/app_routes.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter_expense_tracker/blocs/time_range_cubit/time_range_cubit.dart';
 import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
 import 'package:flutter_expense_tracker/pages/home_page/entry_dialog.dart';
@@ -13,21 +13,6 @@ import 'package:flutter_expense_tracker/pages/home_page/homepage_value_tile.dart
 import 'package:flutter_expense_tracker/pages/home_page/transaction_view.dart';
 import 'package:flutter_expense_tracker/pages/page_functions/calculate_total.dart';
 import 'package:flutter_expense_tracker/pages/widgets/app_drawer.dart';
-
-const String monthFormatter = "MMMM, y";
-const String dayFormatter = "MMMM d, y: EEEE";
-
-extension DateHelper on DateTime {
-  String formatMonth() {
-    final formatter = DateFormat(monthFormatter);
-    return formatter.format(this);
-  }
-
-  String formatDay() {
-    final formatter = DateFormat(dayFormatter);
-    return formatter.format(this);
-  }
-}
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
 import 'package:flutter_expense_tracker/database/isar_classes.dart';
-import 'package:flutter_expense_tracker/models/dropdown_colors.dart';
+import 'package:flutter_expense_tracker/global_variables/dropdown_colors.dart';
 
 import 'package:flutter_expense_tracker/blocs/category_bloc/category_bloc.dart';
 import 'package:flutter_expense_tracker/pages/widgets/popup_textfield_items.dart';
