@@ -58,6 +58,9 @@ class _SearchPageState extends State<SearchPage> {
                   final transactionsList = state.listOfTransactionData;
                   return Column(
                     children: [
+                      const SizedBox(
+                        height: 25,
+                      ),
                       Expanded(
                         child: ListView.builder(
                           itemCount: transactionsList?.length,
