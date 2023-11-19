@@ -61,11 +61,15 @@ class MyApp extends StatelessWidget {
           BlocProvider(
             create: (context) =>
                 CategoryBloc(isarService: context.read<IsarService>())
-                  ..add(CategoryInitialEvent()),
+                  ..add(
+                    CategoryInitialEvent(),
+                  ),
           ),
-          BlocProvider(create: (context) {
-            return SearchCubit(isarService: context.read<IsarService>());
-          },)
+          BlocProvider(
+            create: (context) {
+              return SearchCubit(isarService: context.read<IsarService>());
+            },
+          ),
         ],
         child: SafeArea(
           child: MaterialApp.router(
