@@ -44,11 +44,11 @@ class TransactionView extends StatelessWidget {
                         maxRadius: 12,
                         child: (transaction.isIncome == true)
                             ? const Icon(
-                                Icons.add,
+                                Icons.add_circle_outline_rounded,
                                 color: Colors.white,
                               )
                             : const Icon(
-                                Icons.remove,
+                                Icons.remove_circle_outline_rounded,
                                 color: Colors.white,
                               ),
                       ),
