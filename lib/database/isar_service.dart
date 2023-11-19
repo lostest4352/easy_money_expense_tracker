@@ -47,6 +47,18 @@ class IsarService {
     yield* listenToData;
   }
 
+  Stream<List<TransactionModelIsar>> listenTransactionSearchItem(
+      {required String searchPattern}) async* {
+    final isar = await isarDB;
+
+    final listenToData = isar.transactionModelIsars
+        .where()
+        .filter()
+        .transactionTypeContains(searchPattern, caseSensitive: false)
+        .watch(fireImmediately: true);
+    yield* listenToData;
+  }
+
   // Future<void> addTransactionData(
   //     TransactionModelIsar transactionModelIsar) async {
   //   final isar = await isarDB;

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expense_tracker/blocs/category_bloc/category_bloc.dart';
+import 'package:flutter_expense_tracker/blocs/search_cubit/search_cubit.dart';
 import 'package:flutter_expense_tracker/blocs/time_range_cubit/time_range_cubit.dart';
 import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
 import 'package:flutter_expense_tracker/database/isar_service.dart';
@@ -62,6 +63,9 @@ class MyApp extends StatelessWidget {
                 CategoryBloc(isarService: context.read<IsarService>())
                   ..add(CategoryInitialEvent()),
           ),
+          BlocProvider(create: (context) {
+            return SearchCubit(isarService: context.read<IsarService>());
+          },)
         ],
         child: SafeArea(
           child: MaterialApp.router(
