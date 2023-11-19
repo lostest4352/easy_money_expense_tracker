@@ -5,12 +5,15 @@ class PopupTextFieldItems extends StatelessWidget {
   final TextEditingController textEditingController;
   final TextInputType? keyboardType;
   final List<TextInputFormatter>? inputFormatters;
+  final Widget? suffixIcon;
   final String hintText;
+  
   const PopupTextFieldItems({
     Key? key,
     required this.textEditingController,
     this.keyboardType,
     this.inputFormatters,
+    this.suffixIcon,
     required this.hintText,
   }) : super(key: key);
 
@@ -33,6 +36,7 @@ class PopupTextFieldItems extends StatelessWidget {
           contentPadding: const EdgeInsets.all(12),
           filled: true,
           fillColor: Colors.grey.shade800,
+          suffixIcon: suffixIcon,
           border: OutlineInputBorder(
             borderSide: BorderSide.none,
             borderRadius: BorderRadius.circular(15),

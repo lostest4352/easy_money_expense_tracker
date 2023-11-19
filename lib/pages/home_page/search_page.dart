@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_expense_tracker/pages/widgets/popup_textfield_items.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -8,6 +9,8 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  final TextEditingController textEditingController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +18,14 @@ class _SearchPageState extends State<SearchPage> {
         title: Row(
           children: [
             Expanded(
-              child: TextField(),
+              child: PopupTextFieldItems(
+                textEditingController: textEditingController,
+                hintText: "Search",
+                suffixIcon: IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.search),
+                ),
+              ),
             ),
           ],
         ),
