@@ -46,8 +46,8 @@ class _SearchPageState extends State<SearchPage> {
               ],
             ),
           ),
-          body: BlocBuilder<SearchCubit, SearchState>(
-            builder: (context, state) {
+          body: Builder(
+            builder: (context) {
               if (state is SearchLoadedState) {
                 final transactionsList = state.listOfTransactionData;
                 return Column(
