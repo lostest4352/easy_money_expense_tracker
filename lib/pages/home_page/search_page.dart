@@ -59,23 +59,22 @@ class _SearchPageState extends State<SearchPage> {
                       child: ListView.builder(
                         itemCount: transactionsList?.length,
                         itemBuilder: (context, index) {
-                          if (transactionsList != null) {
-                            final String transactionDate =
-                                DateTime.parse(transactionsList[index].dateTime)
-                                    .formatDay();
-                            return Column(
-                              children: [
-                                Text(transactionDate),
-                                TransactionView(
-                                  transaction: transactionsList[index],
-                                ),
-                              ],
-                            );
-                          } else {
+                          if (transactionsList == null) {
                             return const Center(
                               child: Text("No Data"),
                             );
                           }
+                          final String transactionDate =
+                              DateTime.parse(transactionsList[index].dateTime)
+                                  .formatDay();
+                          return Column(
+                            children: [
+                              Text(transactionDate),
+                              TransactionView(
+                                transaction: transactionsList[index],
+                              ),
+                            ],
+                          );
                         },
                       ),
                     ),
