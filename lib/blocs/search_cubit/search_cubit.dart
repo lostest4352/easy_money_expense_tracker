@@ -16,7 +16,6 @@ class SearchCubit extends Cubit<SearchState> {
         .listenTransactionSearchItem(searchPattern: searchPattern)
         .listen((event) {
       emit(SearchLoadedState(listOfTransactionData: event));
-      _streamSubscription?.cancel();
     });
   }
 
