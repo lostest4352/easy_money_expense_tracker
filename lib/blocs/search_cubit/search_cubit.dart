@@ -7,21 +7,22 @@ import 'package:flutter_expense_tracker/database/isar_service.dart';
 part 'search_state.dart';
 
 class SearchCubit extends Cubit<SearchState> {
-  late StreamSubscription _streamSubscription;
+  StreamSubscription? _streamSubscription;
   final IsarService isarService;
   SearchCubit({required this.isarService}) : super(SearchInitial());
 
-  void searchClicked(String searchPattern) async {
+  void searchClicked(String searchPattern) {
     _streamSubscription = isarService
         .listenTransactionSearchItem(searchPattern: searchPattern)
         .listen((event) {
       emit(SearchLoadedState(listOfTransactionData: event));
+      _streamSubscription?.cancel();
     });
   }
 
   @override
   Future<void> close() {
-    _streamSubscription.cancel();
+    _streamSubscription?.cancel();
     return super.close();
   }
 }
