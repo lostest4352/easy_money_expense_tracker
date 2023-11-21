@@ -267,8 +267,21 @@ class _HomePageState extends State<HomePage> {
                                                   ),
                                                   child: Row(
                                                     children: [
-                                                      // Key is day here
-                                                      Text(dayEntry.key),
+                                                      () {
+                                                        if (dayEntry.key ==
+                                                            DateTime.now()
+                                                                .formatDay()
+                                                                .toString()) {
+                                                          return const Text(
+                                                            'Today',
+                                                          );
+                                                        } else {
+                                                          // Key is day here
+                                                          return Text(
+                                                            dayEntry.key,
+                                                          );
+                                                        }
+                                                      }(),
                                                       const Spacer(),
                                                       Text(
                                                         "Total: ${calculatedDayData.totalValue}",

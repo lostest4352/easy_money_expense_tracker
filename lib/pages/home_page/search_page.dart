@@ -71,7 +71,19 @@ class _SearchPageState extends State<SearchPage> {
                                   .formatDay();
                           return Column(
                             children: [
-                              Text(transactionDate),
+                              () {
+                                if (transactionDate ==
+                                    DateTime.now().formatDay().toString()) {
+                                  return const Text(
+                                    'Today',
+                                  );
+                                } else {
+                                  // Key is day here
+                                  return Text(
+                                    transactionDate,
+                                  );
+                                }
+                              }(),
                               TransactionView(
                                 transaction: transactionsList[index],
                               ),
