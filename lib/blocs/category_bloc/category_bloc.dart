@@ -24,7 +24,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     });
 
     on<CategoryAddEvent>((event, emit) async {
-      final isar = await isarService.isarDB;
+      final Isar isar = await isarService.isarDB;
       await isar.writeTxn(() async {
         await isar.categoryModelIsars.put(event.categoryModelIsars);
       });

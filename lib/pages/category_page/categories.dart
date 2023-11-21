@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_expense_tracker/blocs/category_bloc/category_bloc.dart';
+import 'package:flutter_expense_tracker/database/isar_classes.dart';
 import 'package:flutter_expense_tracker/pages/widgets/app_drawer.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,7 +14,7 @@ class ExpenseCategories extends StatefulWidget {
 }
 
 class _ExpenseCategoriesState extends State<ExpenseCategories> {
-  final categoryController = TextEditingController();
+  final TextEditingController categoryController = TextEditingController();
 
   CategoryBloc get blocCategories => context.read<CategoryBloc>();
 
@@ -61,7 +62,8 @@ class _ExpenseCategoriesState extends State<ExpenseCategories> {
           // });
 
           if (state is CategoryLoadedState) {
-            final categoryList = state.listOfCategoryData;
+            final List<CategoryModelIsar>? categoryList =
+                state.listOfCategoryData;
 
             if (categoryList!.isEmpty) {
               blocCategories.add(CategoryAddDefaultItemsEvent());

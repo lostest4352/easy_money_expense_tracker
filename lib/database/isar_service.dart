@@ -29,7 +29,7 @@ class IsarService {
   // }
 
   Stream<List<TransactionModelIsar>> listenTransactionData() async* {
-    final isar = await isarDB;
+    final Isar isar = await isarDB;
     final listenToData =
         isar.transactionModelIsars.where().watch(fireImmediately: true);
     yield* listenToData;
@@ -37,7 +37,7 @@ class IsarService {
 
   Stream<List<TransactionModelIsar>> listenTransactionDateRange(
       {required String startTime, required String endTime}) async* {
-    final isar = await isarDB;
+    final Isar isar = await isarDB;
 
     final listenToData = isar.transactionModelIsars
         .where()
@@ -49,7 +49,7 @@ class IsarService {
 
   Stream<List<TransactionModelIsar>> listenTransactionSearchItem(
       {required String searchPattern}) async* {
-    final isar = await isarDB;
+    final Isar isar = await isarDB;
 
     final listenToData = isar.transactionModelIsars
         .where()

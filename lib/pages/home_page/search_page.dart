@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expense_tracker/blocs/search_cubit/search_cubit.dart';
+import 'package:flutter_expense_tracker/database/isar_classes.dart';
 import 'package:flutter_expense_tracker/global_variables/date_formatter.dart';
 import 'package:flutter_expense_tracker/pages/home_page/transaction_view.dart';
 import 'package:flutter_expense_tracker/pages/widgets/popup_textfield_items.dart';
@@ -13,7 +14,7 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  TextEditingController textEditingController = TextEditingController();
+  final TextEditingController textEditingController = TextEditingController();
 
   @override
   void dispose() {
@@ -49,7 +50,8 @@ class _SearchPageState extends State<SearchPage> {
           body: Builder(
             builder: (context) {
               if (state is SearchLoadedState) {
-                final transactionsList = state.listOfTransactionData;
+                final List<TransactionModelIsar>? transactionsList =
+                    state.listOfTransactionData;
                 return Column(
                   children: [
                     const SizedBox(

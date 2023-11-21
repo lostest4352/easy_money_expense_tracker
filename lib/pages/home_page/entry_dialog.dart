@@ -28,17 +28,18 @@ class EntryDialog extends StatefulWidget {
 
 class _EntryDialogState extends State<EntryDialog> {
   // Text Controllers
-  final amountController = TextEditingController();
-  final noteController = TextEditingController();
-  final categoryController = TextEditingController();
+  final TextEditingController amountController = TextEditingController();
+  final TextEditingController noteController = TextEditingController();
+  final TextEditingController categoryController = TextEditingController();
 
   // Date Related
   DateTime selectedDate = DateTime.now();
-  final formatter = DateFormat('yyyy-MM-dd');
+  final DateFormat formatter = DateFormat('yyyy-MM-dd');
   String get formattedDate => formatter.format(selectedDate);
 
   // Current date unchanged unlike above
-  final currentDateFormatted = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  final String currentDateFormatted =
+      DateFormat('yyyy-MM-dd').format(DateTime.now());
 
   String? transactionType;
   bool? isIncome;
