@@ -78,7 +78,6 @@ class _SearchPageState extends State<SearchPage> {
                                     'Today',
                                   );
                                 } else {
-                                  // Key is day here
                                   return Text(
                                     transactionDate,
                                   );
