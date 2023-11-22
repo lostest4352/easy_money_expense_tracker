@@ -12,7 +12,7 @@ class SearchCubit extends Cubit<SearchState> {
   SearchCubit({required this.isarService}) : super(SearchInitial());
 
   void searchClicked(String searchPattern) {
-    // _streamSubscription?.cancel(); // If function is called in multiple places
+    _streamSubscription?.cancel(); // Remove later if issues occur
     _streamSubscription = isarService
         .listenTransactionSearchItem(searchPattern: searchPattern)
         .listen((event) {
