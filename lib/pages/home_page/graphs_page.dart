@@ -146,8 +146,18 @@ class TransactionWidget extends StatelessWidget {
                 for (final pieChartTransaction in pieChartModelList)
                   if (pieChartTransaction.isIncome == isIncome)
                     PieChartSectionData(
-                      title:
-                          "${pieChartTransaction.transactionType} ${((pieChartTransaction.amount / totalValue) * 100).toStringAsFixed(2)}%",
+                      // title:
+                      //     "${pieChartTransaction.transactionType}%",
+                      showTitle: false,
+                      badgeWidget: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: Colors.black45,
+                        ),
+                        padding: const EdgeInsets.all(2),
+                        
+                        child: Text("${((pieChartTransaction.amount / totalValue) * 100).toStringAsFixed(1)}%"),
+                      ),
                       titlePositionPercentageOffset: 1.8,
                       value: pieChartTransaction.amount.toDouble(),
                       color: Color(pieChartTransaction.colorsValue),
