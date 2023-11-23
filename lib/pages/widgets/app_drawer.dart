@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_expense_tracker/routes/app_routes.dart';
 import 'package:go_router/go_router.dart';
@@ -8,8 +10,11 @@ class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      // TODO Remove later
-      width: 260,
+      width: () {
+        if (Platform.isWindows) {
+          return 270.0;
+        }
+      }(),
       child: ListView(
         children: [
           const DrawerHeader(
