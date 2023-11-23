@@ -107,18 +107,32 @@ class _HomePageState extends State<HomePage> {
                               width: 25,
                             ),
                             // TODO For this make new one
-                            TextButton(
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: () {
+                                  if (titleText == 'Custom') {
+                                    return Colors.blue;
+                                  } else {
+                                    return Colors.transparent;
+                                  }
+                                }(),
+                              ),
                               onPressed: () {
                                 showDialog(
                                   context: context,
                                   builder: (context) {
-                                    return CustomDateDialog();
+                                    return CustomDateDialog(
+                                      bottomOpen: bottomOpen,
+                                    );
                                   },
                                 );
                               },
                               child: const Text(
                                 'Custom',
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w400,
+                                ),
                               ),
                             ),
                             const Spacer(),

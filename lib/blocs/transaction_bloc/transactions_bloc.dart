@@ -107,6 +107,24 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
           },
         );
       }
+
+      // Custom
+      if (event.timeRangeState.buttonName == "Custom") {
+        if (event.timeRangeState.startTime != null &&
+            event.timeRangeState.endTime != null) {
+          final transactionListFromStream =
+              isarService.listenTransactionDateRange(
+            startTime: event.timeRangeState.startTime!,
+            endTime: event.timeRangeState.endTime!,
+          );
+          await emit.forEach(
+            transactionListFromStream,
+            onData: (data) {
+              return TransactionsLoadedState(listOfTransactionData: data);
+            },
+          );
+        }
+      }
     });
 
     on<TransactionsAddEvent>((event, emit) async {

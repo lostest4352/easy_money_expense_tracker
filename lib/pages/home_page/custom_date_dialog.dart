@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_expense_tracker/pages/widgets/popup_category_items.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:table_calendar/table_calendar.dart';
+
+import 'package:flutter_expense_tracker/blocs/time_range_cubit/time_range_cubit.dart';
+import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
 import 'package:flutter_expense_tracker/pages/page_functions/date_formatter.dart';
+import 'package:flutter_expense_tracker/pages/widgets/popup_category_items.dart';
 
 class CustomDateDialog extends StatefulWidget {
-  const CustomDateDialog({super.key});
+  final ValueNotifier<bool> bottomOpen;
+  const CustomDateDialog({
+    Key? key,
+    required this.bottomOpen,
+  }) : super(key: key);
 
   @override
   State<CustomDateDialog> createState() => _CustomDateDialogState();
@@ -14,6 +22,10 @@ class CustomDateDialog extends StatefulWidget {
 class _CustomDateDialogState extends State<CustomDateDialog> {
   DateTime? selectedDateForStart;
   DateTime? selectedDateForEnd;
+
+  TransactionsBloc get transactionsBloc => context.read<TransactionsBloc>();
+
+  String buttonText = "Custom";
 
   @override
   Widget build(BuildContext context) {
@@ -43,13 +55,15 @@ class _CustomDateDialogState extends State<CustomDateDialog> {
                       showDialog(
                         context: context,
                         builder: (context) {
+                          final currentDay = DateTime.now();
+                          // final nextDay = DateTime(currentDay.year, currentDay.month, currentDay.day);
                           return Dialog(
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 TableCalendar(
                                   firstDay: DateTime.utc(2010, 01, 01),
-                                  lastDay: selectedDateForEnd ?? DateTime.now(),
+                                  lastDay: selectedDateForEnd ?? currentDay,
                                   availableCalendarFormats: const {
                                     CalendarFormat.month: 'Month',
                                   },
@@ -113,7 +127,8 @@ class _CustomDateDialogState extends State<CustomDateDialog> {
                                       selectedDateForEnd ?? DateTime.now(),
                                   onDaySelected: (selectedDay, focusedDay) {
                                     setState(() {
-                                      selectedDateForEnd = selectedDay;
+                                      final currentDate = selectedDay;                                  
+                                      selectedDateForEnd = currentDate;
                                     });
                                     context.pop();
                                   },
@@ -147,14 +162,36 @@ class _CustomDateDialogState extends State<CustomDateDialog> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      context.pop();
+                    },
                     child: const Text("Cancel"),
                   ),
                   const SizedBox(
                     width: 30,
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      //TODO
+                      if (selectedDateForStart != null &&
+                          selectedDateForEnd != null) {
+                            // Added one day more to get proper range
+                            final selectedDayEndPlusOne = DateTime(selectedDateForEnd!.year, selectedDateForEnd!.month, selectedDateForEnd!.day+1);
+                        transactionsBloc.add(
+                          TransactionsLoadedEvent(
+                            timeRangeState:
+                                TimeRangeState(buttonName: buttonText),
+                          ),
+                        );
+                        widget.bottomOpen.value = false;
+                        context.read<TimeRangeCubit>().timeRangeState(
+                              selectedDateForStart.toString(),
+                              selectedDayEndPlusOne.toString(),
+                              buttonText,
+                            );
+                        context.pop();
+                      }
+                    },
                     child: const Text(
                       "Save",
                       style: TextStyle(
