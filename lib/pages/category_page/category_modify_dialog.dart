@@ -22,14 +22,14 @@ class CategoryModifyDialog extends StatefulWidget {
 }
 
 class _CategoryModifyDialogState extends State<CategoryModifyDialog> {
-  late bool isIncome;
+  ValueNotifier<bool?> isIncome = ValueNotifier(null);
   late int colorsValue;
   final TextEditingController categoryController = TextEditingController();
 
   @override
   void initState() {
     categoryController.text = widget.selectedListItem?.transactionType ?? "";
-    isIncome = widget.selectedListItem?.isIncome ?? true;
+    isIncome.value = widget.selectedListItem?.isIncome ?? true;
     colorsValue = widget.selectedListItem?.colorsValue ?? Colors.red.value;
     super.initState();
   }
@@ -47,202 +47,202 @@ class _CategoryModifyDialogState extends State<CategoryModifyDialog> {
   Widget build(BuildContext context) {
     return Dialog(
       child: SizedBox(
-        child: StatefulBuilder(builder: (context, newState) {
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: PopupTextFieldItems(
-                  textEditingController: categoryController,
-                  hintText: "Enter Category Name",
+        child: ListenableBuilder(
+          listenable: isIncome,
+          builder: (context, child) {
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(
+                  height: 20,
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
-                child: Row(
-                  children: [
-                    const Text("Transaction Type"),
-                    const Spacer(),
-                    DropdownButton(
-                      value: isIncome,
-                      items: const [
-                        DropdownMenuItem(
-                          value: true,
-                          child: Text("Income"),
-                        ),
-                        DropdownMenuItem(
-                          value: false,
-                          child: Text("Expense"),
-                        ),
-                      ],
-                      onChanged: (value) {
-                        newState(() {
-                          isIncome = value ?? true;
-                        });
-                      },
-                    ),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: PopupTextFieldItems(
+                    textEditingController: categoryController,
+                    hintText: "Enter Category Name",
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
-                child: Row(
-                  children: [
-                    const Text("Select Color"),
-                    const Spacer(),
-                    DropdownButton(
-                      value: colorsValue,
-                      items: [
-                        for (final dropdownColors in dropdownColorsList)
+                const SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
+                  child: Row(
+                    children: [
+                      const Text("Transaction Type"),
+                      const Spacer(),
+                      DropdownButton(
+                        value: isIncome.value,
+                        items: const [
                           DropdownMenuItem(
-                            value: dropdownColors.colorsValue,
-                            child: Text(dropdownColors.colorsName),
+                            value: true,
+                            child: Text("Income"),
                           ),
-                      ],
-                      onChanged: (value) {
-                        newState(() {
-                          colorsValue = value ?? Colors.red.value;
-                        });
-                      },
-                    ),
-                  ],
+                          DropdownMenuItem(
+                            value: false,
+                            child: Text("Expense"),
+                          ),
+                        ],
+                        onChanged: (value) {
+                          isIncome.value = value ?? true;
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              BlocBuilder<CategoryBloc, CategoryState>(
-                builder: (context, state) {
-                  return Padding(
-                    padding: const EdgeInsets.only(left: 30, right: 30),
-                    child: Row(
-                      children: [
-                        () {
-                          if (widget.editMode == true) {
-                            return ElevatedButton(
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      actions: [
-                                        const Wrap(
-                                          children: [
-                                            Text(
-                                              "Are you sure that you want to delete this category?",
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            TextButton(
-                                              onPressed: () {
-                                                blocCategories.add(
-                                                  CategoryDeleteEvent(
-                                                    selectedCategoryModelIsar:
-                                                        widget
-                                                            .selectedListItem!,
-                                                  ),
-                                                );
-                                                context.pop();
-                                                context.pop();
-                                              },
-                                              child: const Text(
-                                                "Ok",
-                                                style: TextStyle(
-                                                    color: Colors.blue),
+                const SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
+                  child: Row(
+                    children: [
+                      const Text("Select Color"),
+                      const Spacer(),
+                      DropdownButton(
+                        value: colorsValue,
+                        items: [
+                          for (final dropdownColors in dropdownColorsList)
+                            DropdownMenuItem(
+                              value: dropdownColors.colorsValue,
+                              child: Text(dropdownColors.colorsName),
+                            ),
+                        ],
+                        onChanged: (value) {
+                          colorsValue = value ?? Colors.red.value;
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                BlocBuilder<CategoryBloc, CategoryState>(
+                  builder: (context, state) {
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 30, right: 30),
+                      child: Row(
+                        children: [
+                          () {
+                            if (widget.editMode == true) {
+                              return ElevatedButton(
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        actions: [
+                                          const Wrap(
+                                            children: [
+                                              Text(
+                                                "Are you sure that you want to delete this category?",
                                               ),
-                                            ),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            TextButton(
-                                              onPressed: () {
-                                                context.pop();
-                                              },
-                                              child: const Text(
-                                                "Cancel",
-                                                style: TextStyle(
-                                                  color: Colors.red,
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  blocCategories.add(
+                                                    CategoryDeleteEvent(
+                                                      selectedCategoryModelIsar:
+                                                          widget
+                                                              .selectedListItem!,
+                                                    ),
+                                                  );
+                                                  context.pop();
+                                                  context.pop();
+                                                },
+                                                child: const Text(
+                                                  "Ok",
+                                                  style: TextStyle(
+                                                      color: Colors.blue),
                                                 ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              },
-                              child: const Text("Delete"),
-                            );
-                          } else {
-                            return const SizedBox();
-                          }
-                        }(),
-                        const Spacer(),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
-                          ),
-                          onPressed: () {
-                            if (categoryController.text != "") {
-                              CategoryModelIsar categoryModelIsar =
-                                  CategoryModelIsar()
-                                    ..transactionType = categoryController.text
-                                    ..colorsValue = colorsValue
-                                    ..isIncome = isIncome;
-                              if (widget.editMode == false) {
-                                blocCategories.add(
-                                  CategoryAddEvent(
-                                    categoryModelIsars: categoryModelIsar,
-                                  ),
-                                );
-                                context.pop();
-                              } else if (widget.editMode == true) {
-                                blocCategories.add(
-                                  CategoryEditEvent(
-                                    selectedCategoryModelIsar:
-                                        widget.selectedListItem!,
-                                    selectedCategoryModelId:
-                                        widget.selectedListItem!.id,
-                                    transactionType: categoryController.text,
-                                    isIncome: isIncome,
-                                    colorsValue: colorsValue,
-                                  ),
-                                );
-                                context.pop();
-                              }
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  context.pop();
+                                                },
+                                                child: const Text(
+                                                  "Cancel",
+                                                  style: TextStyle(
+                                                    color: Colors.red,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                                child: const Text("Delete"),
+                              );
+                            } else {
+                              return const SizedBox();
                             }
-                          },
-                          child: const Text("Save"),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-            ],
-          );
-        }),
+                          }(),
+                          const Spacer(),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                            ),
+                            onPressed: () {
+                              if (categoryController.text != "") {
+                                CategoryModelIsar categoryModelIsar =
+                                    CategoryModelIsar()
+                                      ..transactionType =
+                                          categoryController.text
+                                      ..colorsValue = colorsValue
+                                      ..isIncome = isIncome.value ?? true;
+                                if (widget.editMode == false) {
+                                  blocCategories.add(
+                                    CategoryAddEvent(
+                                      categoryModelIsars: categoryModelIsar,
+                                    ),
+                                  );
+                                  context.pop();
+                                } else if (widget.editMode == true) {
+                                  blocCategories.add(
+                                    CategoryEditEvent(
+                                      selectedCategoryModelIsar:
+                                          widget.selectedListItem!,
+                                      selectedCategoryModelId:
+                                          widget.selectedListItem!.id,
+                                      transactionType: categoryController.text,
+                                      isIncome: isIncome.value ?? true,
+                                      colorsValue: colorsValue,
+                                    ),
+                                  );
+                                  context.pop();
+                                }
+                              }
+                            },
+                            child: const Text("Save"),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }
