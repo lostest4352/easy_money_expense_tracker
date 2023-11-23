@@ -127,7 +127,7 @@ class _CustomDateDialogState extends State<CustomDateDialog> {
                                       selectedDateForEnd ?? DateTime.now(),
                                   onDaySelected: (selectedDay, focusedDay) {
                                     setState(() {
-                                      final currentDate = selectedDay;                                  
+                                      final currentDate = selectedDay;
                                       selectedDateForEnd = currentDate;
                                     });
                                     context.pop();
@@ -172,23 +172,30 @@ class _CustomDateDialogState extends State<CustomDateDialog> {
                   ),
                   TextButton(
                     onPressed: () {
-                      //TODO
                       if (selectedDateForStart != null &&
                           selectedDateForEnd != null) {
-                            // Added one day more to get proper range
-                            final selectedDayEndPlusOne = DateTime(selectedDateForEnd!.year, selectedDateForEnd!.month, selectedDateForEnd!.day+1);
-                        transactionsBloc.add(
-                          TransactionsLoadedEvent(
-                            timeRangeState:
-                                TimeRangeState(buttonName: buttonText),
-                          ),
-                        );
-                        widget.bottomOpen.value = false;
+                        // Added one day more to get proper range
+                        final selectedDayEndPlusOne = DateTime(
+                            selectedDateForEnd!.year,
+                            selectedDateForEnd!.month,
+                            selectedDateForEnd!.day + 1);
+
                         context.read<TimeRangeCubit>().timeRangeState(
                               selectedDateForStart.toString(),
                               selectedDayEndPlusOne.toString(),
                               buttonText,
                             );
+
+                        transactionsBloc.add(
+                          TransactionsLoadedEvent(
+                            timeRangeState: TimeRangeState(
+                              buttonName: buttonText,
+                              startTime: selectedDateForStart.toString(),
+                              endTime: selectedDayEndPlusOne.toString(),
+                            ),
+                          ),
+                        );
+                        widget.bottomOpen.value = false;
                         context.pop();
                       }
                     },

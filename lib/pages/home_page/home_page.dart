@@ -106,7 +106,7 @@ class _HomePageState extends State<HomePage> {
                             const SizedBox(
                               width: 25,
                             ),
-                            // TODO For this make new one
+                            // Seperate for this one
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: () {
