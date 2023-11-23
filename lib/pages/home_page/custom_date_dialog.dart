@@ -53,8 +53,17 @@ class _CustomDateDialogState extends State<CustomDateDialog> {
                                   availableCalendarFormats: const {
                                     CalendarFormat.month: 'Month',
                                   },
-                                  focusedDay:
-                                      selectedDateForStart ?? DateTime.now(),
+                                  focusedDay: () {
+                                    if (selectedDateForStart != null) {
+                                      return selectedDateForStart;
+                                    } else if (selectedDateForStart == null &&
+                                        selectedDateForEnd != null) {
+                                      return selectedDateForEnd;
+                                    } else {
+                                      return DateTime.now();
+                                    }
+                                  }() as DateTime,
+                                  // selectedDateForStart ?? DateTime.now(),
                                   onDaySelected: (selectedDay, focusedDay) {
                                     setState(() {
                                       selectedDateForStart = selectedDay;
@@ -99,6 +108,7 @@ class _CustomDateDialogState extends State<CustomDateDialog> {
                                   availableCalendarFormats: const {
                                     CalendarFormat.month: 'Month',
                                   },
+                                  // Issues may happen here
                                   focusedDay:
                                       selectedDateForEnd ?? DateTime.now(),
                                   onDaySelected: (selectedDay, focusedDay) {
