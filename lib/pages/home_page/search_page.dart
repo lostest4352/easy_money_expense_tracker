@@ -52,6 +52,9 @@ class _SearchPageState extends State<SearchPage> {
               if (state is SearchLoadedState) {
                 final List<TransactionModelIsar>? transactionsList =
                     state.listOfTransactionData;
+                transactionsList?.sort(
+                  (a, b) => b.dateTime.compareTo(a.dateTime),
+                );
                 return Column(
                   children: [
                     const SizedBox(
