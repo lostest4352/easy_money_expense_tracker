@@ -26,8 +26,6 @@ class _CustomDateDialogState extends State<CustomDateDialog> {
 
   TransactionsBloc get transactionsBloc => context.read<TransactionsBloc>();
 
-  String buttonText = customTimeRange;
-
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -184,13 +182,13 @@ class _CustomDateDialogState extends State<CustomDateDialog> {
                         context.read<TimeRangeCubit>().timeRangeState(
                               selectedDateForStart.toString(),
                               selectedDayEndPlusOne.toString(),
-                              buttonText,
+                              customTimeRange,
                             );
 
                         transactionsBloc.add(
                           TransactionsLoadedEvent(
                             timeRangeState: TimeRangeState(
-                              buttonName: buttonText,
+                              buttonName: customTimeRange,
                               startTime: selectedDateForStart.toString(),
                               endTime: selectedDayEndPlusOne.toString(),
                             ),
