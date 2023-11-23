@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class HomePageValueTile extends StatelessWidget {
+class HomePageTotalBar extends StatelessWidget {
   final int income;
   final int expenses;
-  const HomePageValueTile({
+  const HomePageTotalBar({
     Key? key,
     required this.income,
     required this.expenses,

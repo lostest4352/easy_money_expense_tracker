@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_expense_tracker/blocs/time_range_cubit/time_range_cubit.dart';
 import 'package:flutter_expense_tracker/database/isar_classes.dart';
 import 'package:flutter_expense_tracker/database/isar_service.dart';
+import 'package:flutter_expense_tracker/global_variables/time_range_global_vars.dart';
 
 part 'transactions_event.dart';
 part 'transactions_state.dart';
@@ -22,7 +23,7 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
 
     on<TransactionsLoadedEvent>((event, emit) async {
       // All Time
-      if (event.timeRangeState.buttonName == "All Time") {
+      if (event.timeRangeState.buttonName == allTime) {
         final transactionListFromStream = isarService.listenTransactionData();
         await emit.forEach(
           transactionListFromStream,
@@ -32,7 +33,7 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
         );
       }
       // This Month
-      if (event.timeRangeState.buttonName == "This Month") {
+      if (event.timeRangeState.buttonName == thisMonth) {
         final transactionListFromStream =
             isarService.listenTransactionDateRange(
           startTime: DateTime(
@@ -50,7 +51,7 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
         );
       }
       // Last Month
-      if (event.timeRangeState.buttonName == "Last Month") {
+      if (event.timeRangeState.buttonName == lastMonth) {
         final transactionListFromStream =
             isarService.listenTransactionDateRange(
           startTime: DateTime(
@@ -72,7 +73,7 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
         );
       }
       // Last 3 Months
-      if (event.timeRangeState.buttonName == "Last 3 Months") {
+      if (event.timeRangeState.buttonName == last3Months) {
         final transactionListFromStream =
             isarService.listenTransactionDateRange(
           startTime: DateTime(
@@ -90,7 +91,7 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
         );
       }
       // Last 6 Months
-      if (event.timeRangeState.buttonName == "Last 6 Months") {
+      if (event.timeRangeState.buttonName == last6Months) {
         final transactionListFromStream =
             isarService.listenTransactionDateRange(
           startTime: DateTime(
@@ -109,7 +110,7 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
       }
 
       // Custom
-      if (event.timeRangeState.buttonName == "Custom") {
+      if (event.timeRangeState.buttonName == customTimeRange) {
         if (event.timeRangeState.startTime != null &&
             event.timeRangeState.endTime != null) {
           final transactionListFromStream =

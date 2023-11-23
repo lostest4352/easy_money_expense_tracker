@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_expense_tracker/global_variables/time_range_global_vars.dart';
 import 'package:go_router/go_router.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -25,7 +26,7 @@ class _CustomDateDialogState extends State<CustomDateDialog> {
 
   TransactionsBloc get transactionsBloc => context.read<TransactionsBloc>();
 
-  String buttonText = "Custom";
+  String buttonText = customTimeRange;
 
   @override
   Widget build(BuildContext context) {

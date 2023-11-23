@@ -4,14 +4,16 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expense_tracker/database/isar_classes.dart';
-import 'package:flutter_expense_tracker/pages/home_page/custom_date_dialog.dart';
+import 'package:flutter_expense_tracker/global_variables/time_range_global_vars.dart';
+import 'package:flutter_expense_tracker/pages/home_page/date_custom_select.dart';
+import 'package:flutter_expense_tracker/pages/home_page/date_fixed_range_select.dart';
 import 'package:flutter_expense_tracker/pages/page_functions/date_formatter.dart';
 import 'package:flutter_expense_tracker/routes/app_routes.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_expense_tracker/blocs/time_range_cubit/time_range_cubit.dart';
 import 'package:flutter_expense_tracker/blocs/transaction_bloc/transactions_bloc.dart';
 import 'package:flutter_expense_tracker/pages/home_page/entry_dialog.dart';
-import 'package:flutter_expense_tracker/pages/home_page/homepage_value_tile.dart';
+import 'package:flutter_expense_tracker/pages/home_page/homepage_total_bar.dart';
 import 'package:flutter_expense_tracker/pages/home_page/transaction_view.dart';
 import 'package:flutter_expense_tracker/pages/page_functions/calculate_total.dart';
 import 'package:flutter_expense_tracker/pages/widgets/app_drawer.dart';
@@ -57,7 +59,7 @@ class _HomePageState extends State<HomePage> {
                             // This month
                             DateSelectButton(
                               bottomOpen: bottomOpen,
-                              buttonText: "This Month",
+                              buttonText: thisMonth,
                             ),
                             const SizedBox(
                               width: 25,
@@ -65,7 +67,7 @@ class _HomePageState extends State<HomePage> {
                             // Last month
                             DateSelectButton(
                               bottomOpen: bottomOpen,
-                              buttonText: "Last Month",
+                              buttonText: lastMonth,
                             ),
                             const Spacer(),
                           ],
@@ -79,7 +81,7 @@ class _HomePageState extends State<HomePage> {
                             // Last 3 months
                             DateSelectButton(
                               bottomOpen: bottomOpen,
-                              buttonText: "Last 3 Months",
+                              buttonText: last3Months,
                             ),
                             const SizedBox(
                               width: 25,
@@ -87,7 +89,7 @@ class _HomePageState extends State<HomePage> {
                             // Last 6 months
                             DateSelectButton(
                               bottomOpen: bottomOpen,
-                              buttonText: "Last 6 Months",
+                              buttonText: last6Months,
                             ),
                             const Spacer(),
                           ],
@@ -101,7 +103,7 @@ class _HomePageState extends State<HomePage> {
                             // All Time
                             DateSelectButton(
                               bottomOpen: bottomOpen,
-                              buttonText: "All Time",
+                              buttonText: allTime,
                             ),
                             const SizedBox(
                               width: 25,
@@ -110,7 +112,7 @@ class _HomePageState extends State<HomePage> {
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: () {
-                                  if (titleText == 'Custom') {
+                                  if (titleText == customTimeRange) {
                                     return Colors.blue;
                                   } else {
                                     return Colors.transparent;
@@ -128,7 +130,7 @@ class _HomePageState extends State<HomePage> {
                                 );
                               },
                               child: const Text(
-                                'Custom',
+                                customTimeRange,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w400,
@@ -208,7 +210,7 @@ class _HomePageState extends State<HomePage> {
                     const SizedBox(
                       height: 2,
                     ),
-                    HomePageValueTile(
+                    HomePageTotalBar(
                       income: calculatedValue.totalIncome,
                       expenses: calculatedValue.totalExpense,
                     ),
@@ -364,57 +366,4 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class DateSelectButton extends StatelessWidget {
-  const DateSelectButton({
-    Key? key,
-    required this.bottomOpen,
-    required this.buttonText,
-    this.startTime,
-    this.endTime,
-  }) : super(key: key);
 
-  final ValueNotifier<bool> bottomOpen;
-  final String buttonText;
-  final String? startTime;
-  final String? endTime;
-
-  @override
-  Widget build(BuildContext context) {
-    final TransactionsBloc transactionsBloc = context.read<TransactionsBloc>();
-    final String titleText = context.read<TimeRangeCubit>().state.buttonName;
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: () {
-          if (titleText == buttonText) {
-            return Colors.blue;
-          } else {
-            return Colors.transparent;
-          }
-        }(),
-      ),
-      onPressed: () {
-        //
-        transactionsBloc.add(
-          TransactionsLoadedEvent(
-            timeRangeState: TimeRangeState(buttonName: buttonText),
-          ),
-        );
-        //
-        bottomOpen.value = false;
-        // save new state
-        context.read<TimeRangeCubit>().timeRangeState(
-              startTime,
-              endTime,
-              buttonText,
-            );
-      },
-      child: Text(
-        buttonText,
-        style: const TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.w400,
-        ),
-      ),
-    );
-  }
-}
