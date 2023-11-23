@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expense_tracker/database/isar_classes.dart';
 import 'package:flutter_expense_tracker/pages/page_functions/date_formatter.dart';
+import 'package:flutter_expense_tracker/pages/widgets/popup_category_items.dart';
 import 'package:flutter_expense_tracker/routes/app_routes.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_expense_tracker/blocs/time_range_cubit/time_range_cubit.dart';
@@ -107,7 +108,85 @@ class _HomePageState extends State<HomePage> {
                             ),
                             // TODO For this make new one
                             TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return Dialog(
+                                      child: SizedBox(
+                                        height: 200,
+                                        child: Column(
+                                          children: [
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
+                                            const Text(
+                                              "Set Custom Time Period",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  InkWell(
+                                                    onTap: () {},
+                                                    child:
+                                                        const PopupCategoryItems(
+                                                      title: "Start Date     ",
+                                                    ),
+                                                  ),
+                                                  const Text(" - "),
+                                                  InkWell(
+                                                    onTap: () {},
+                                                    child:
+                                                        const PopupCategoryItems(
+                                                      title: "End Date       ",
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            // Cancel and Save
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  TextButton(
+                                                    onPressed: () {},
+                                                    child: const Text("Cancel"),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 30,
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () {},
+                                                    child: const Text(
+                                                      "Save",
+                                                      style: TextStyle(
+                                                        color: Colors.blue,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
                               child: const Text(
                                 'Custom',
                                 style: TextStyle(color: Colors.white),
