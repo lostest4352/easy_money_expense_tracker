@@ -9,7 +9,7 @@ final class TimeRangeState extends Equatable {
   const TimeRangeState({
     this.startTime,
     this.endTime,
-    this.buttonName = "This Month",
+    this.buttonName = thisMonth,
   });
 
   factory TimeRangeState.fromJson(Map<String, dynamic> json) =>
