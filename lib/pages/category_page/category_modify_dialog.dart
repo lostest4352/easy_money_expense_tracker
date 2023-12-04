@@ -37,6 +37,7 @@ class _CategoryModifyDialogState extends State<CategoryModifyDialog> {
   @override
   void dispose() {
     categoryController.dispose();
+    isIncome.dispose();
     super.dispose();
   }
 

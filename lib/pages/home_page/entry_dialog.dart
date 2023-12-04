@@ -63,6 +63,7 @@ class _EntryDialogState extends State<EntryDialog> {
   void dispose() {
     amountController.dispose();
     noteController.dispose();
+    categoryController.dispose();
     super.dispose();
   }
 

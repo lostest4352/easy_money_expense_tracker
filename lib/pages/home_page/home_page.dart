@@ -32,6 +32,12 @@ class _HomePageState extends State<HomePage> {
   String get titleText => context.read<TimeRangeCubit>().state.buttonName;
 
   @override
+  void dispose() {
+    bottomOpen.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ListenableBuilder(
       listenable: bottomOpen,
@@ -365,5 +371,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-
