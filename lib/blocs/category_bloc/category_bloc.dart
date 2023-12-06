@@ -12,13 +12,19 @@ part 'category_state.dart';
 class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   final IsarService isarService;
 
-  CategoryBloc({required this.isarService}) : super(CategoryInitial()) {
+  CategoryBloc({required this.isarService})
+  // make initial data [] if any issue happens
+      : super(CategoryState(listOfCategoryData: null)) {
     on<CategoryInitialEvent>((event, emit) async {
       final categoryListFromStream = isarService.listenCategoryData();
       await emit.forEach(
         categoryListFromStream,
         onData: (data) {
-          return CategoryLoadedState(listOfCategoryData: data);
+          return state.copyWith(
+            listOfCategoryData: data,
+            snackBarStatus: SnackBarStatus.isNotShown,
+          );
+          // return CategoryState(listOfCategoryData: data);
         },
       );
     });
@@ -27,6 +33,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
       final Isar isar = await isarService.isarDB;
       await isar.writeTxn(() async {
         await isar.categoryModelIsars.put(event.categoryModelIsars);
+        // emit(state.copyWith(snackBarStatus: SnackBarStatus.isNotShown));
       });
     });
 
@@ -47,10 +54,12 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
         if (filteredTransactionModelList.isEmpty) {
           if (selectedCategoryModel != null) {
             await isar.categoryModelIsars.put(selectedCategoryModel);
+            // emit(state.copyWith(snackBarStatus: SnackBarStatus.isNotShown));
           }
         } else {
-          emit(DisallowModificationState());
-          add(CategoryInitialEvent());
+          emit(state.copyWith(snackBarStatus: SnackBarStatus.isShown));
+          await Future.delayed(Duration.zero);
+          emit(state.copyWith(snackBarStatus: SnackBarStatus.isNotShown));
         }
       });
     });
@@ -67,9 +76,11 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
         if (filteredTransactionModelList.isEmpty) {
           await isar.categoryModelIsars
               .delete(event.selectedCategoryModelIsar.id);
+          // emit(state.copyWith(snackBarStatus: SnackBarStatus.isNotShown));
         } else {
-          emit(DisallowModificationState());
-          add(CategoryInitialEvent());
+          emit(state.copyWith(snackBarStatus: SnackBarStatus.isShown));
+          await Future.delayed(Duration.zero);
+          emit(state.copyWith(snackBarStatus: SnackBarStatus.isNotShown));
         }
       });
     });
@@ -78,6 +89,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
       final isar = await isarService.isarDB;
       await isar.writeTxn(() async {
         await isar.categoryModelIsars.putAll(defaultListItems);
+        // emit(state.copyWith(snackBarStatus: SnackBarStatus.isNotShown));
       });
     });
   }

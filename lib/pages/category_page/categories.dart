@@ -50,7 +50,15 @@ class _ExpenseCategoriesState extends State<ExpenseCategories> {
             ),
           );
 
-          if (state is DisallowModificationState) {
+          if (state.listOfCategoryData != null &&
+              state.listOfCategoryData!.isEmpty) {
+            debugPrint(
+              "from listener length is ${state.listOfCategoryData?.length.toString()}",
+            );
+            blocCategories.add(CategoryAddDefaultItemsEvent());
+          }
+
+          if (state.snackBarStatus == SnackBarStatus.isShown) {
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
           }
         },
@@ -61,66 +69,61 @@ class _ExpenseCategoriesState extends State<ExpenseCategories> {
           //       itemsInList.transactionType == "otherExpense";
           // });
 
-          if (state is CategoryLoadedState) {
-            final List<CategoryModelIsar>? categoryList =
-                state.listOfCategoryData;
+          final List<CategoryModelIsar>? categoryList =
+              state.listOfCategoryData;
 
-            if (categoryList!.isEmpty) {
-              blocCategories.add(CategoryAddDefaultItemsEvent());
-            }
-
-            return Column(
-              children: [
-                const SizedBox(
-                  height: 10,
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: categoryList.length,
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return CategoryModifyDialog(
-                                editMode: true,
-                                selectedListItem: categoryList[index],
-                              );
-                            },
-                          );
-                        },
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            backgroundColor:
-                                categoryList[index].isIncome == true
-                                    ? Colors.blue
-                                    : Colors.red,
-                            child: categoryList[index].isIncome == true
-                                ? const Icon(
-                                    Icons.addchart,
-                                    color: Colors.white,
-                                  )
-                                : const Icon(
-                                    Icons.highlight_remove_sharp,
-                                    color: Colors.white,
-                                  ),
-                          ),
-                          title: Text(
-                            categoryList[index].transactionType,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            );
-          } else {
+          if (categoryList == null) {
             return const Center(
               child: Text("No data"),
             );
           }
+
+          return Column(
+            children: [
+              const SizedBox(
+                height: 10,
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: categoryList.length,
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return CategoryModifyDialog(
+                              editMode: true,
+                              selectedListItem: categoryList[index],
+                            );
+                          },
+                        );
+                      },
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: categoryList[index].isIncome == true
+                              ? Colors.blue
+                              : Colors.red,
+                          child: categoryList[index].isIncome == true
+                              ? const Icon(
+                                  Icons.addchart,
+                                  color: Colors.white,
+                                )
+                              : const Icon(
+                                  Icons.highlight_remove_sharp,
+                                  color: Colors.white,
+                                ),
+                        ),
+                        title: Text(
+                          categoryList[index].transactionType,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          );
         },
       ),
     );

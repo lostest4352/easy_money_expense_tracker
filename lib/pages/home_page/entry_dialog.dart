@@ -268,7 +268,7 @@ class _EntryDialogState extends State<EntryDialog> {
                             height: 400,
                             child: BlocBuilder<CategoryBloc, CategoryState>(
                               builder: (context, state) {
-                                if (state is CategoryLoadedState) {
+                                if (state.listOfCategoryData != null) {
                                   CategoryBloc blocCategories =
                                       context.read<CategoryBloc>();
                                   final categoryList = state.listOfCategoryData;
