@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_expense_tracker/database/isar_classes.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
@@ -11,6 +12,7 @@ class IsarService {
 
   Future<Isar> openIsarDB() async {
     final dir = await getApplicationDocumentsDirectory();
+    debugPrint("path is ${dir.path}");
     if (Isar.instanceNames.isEmpty) {
       return await Isar.open(
         [TransactionModelIsarSchema, CategoryModelIsarSchema],
@@ -18,6 +20,7 @@ class IsarService {
         inspector: true,
       );
     }
+
     return Future.value(Isar.getInstance());
   }
 
