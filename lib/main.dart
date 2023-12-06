@@ -50,20 +50,14 @@ class MyApp extends StatelessWidget {
             },
           ),
           BlocProvider(
-            create: (context) =>
-                TransactionsBloc(isarService: context.read<IsarService>())
-                  ..add(
-                    TransactionsLoadedEvent(
-                      timeRangeState: context.read<TimeRangeCubit>().state,
-                    ),
-                  ),
-          ),
+              create: (context) =>
+                  TransactionsBloc(isarService: context.read<IsarService>())
+                    ..add(TransactionsLoadedEvent(
+                        timeRangeState: context.read<TimeRangeCubit>().state))),
           BlocProvider(
             create: (context) =>
                 CategoryBloc(isarService: context.read<IsarService>())
-                  ..add(
-                    CategoryInitialEvent(),
-                  ),
+                  ..add(CategoryInitialEvent()),
           ),
           BlocProvider(
             create: (context) {
