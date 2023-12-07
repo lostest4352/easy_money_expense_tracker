@@ -40,6 +40,10 @@ class _ExpenseCategoriesState extends State<ExpenseCategories> {
         child: const Icon(Icons.add),
       ),
       body: BlocConsumer<CategoryBloc, CategoryState>(
+        // remove this if any issues happen
+        buildWhen: (previous, current) {
+          return previous != current;
+        },
         listener: (context, state) {
           const snackBar = SnackBar(
             duration: Duration(milliseconds: 1200),
