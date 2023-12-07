@@ -9,9 +9,10 @@ final class CategoryState with EquatableMixin {
   final List<CategoryModelIsar>? listOfCategoryData;
   final SnackBarStatus snackBarStatus;
 
-  CategoryState(
-      {required this.listOfCategoryData,
-      this.snackBarStatus = SnackBarStatus.isNotShown});
+  CategoryState({
+    required this.listOfCategoryData,
+    this.snackBarStatus = SnackBarStatus.isNotShown,
+  });
 
   CategoryState copyWith({
     List<CategoryModelIsar>? listOfCategoryData,
