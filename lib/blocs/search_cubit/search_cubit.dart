@@ -15,8 +15,8 @@ class SearchCubit extends Cubit<SearchState> {
     _streamSubscription?.cancel(); // Remove later if issues occur
     _streamSubscription = isarService
         .listenTransactionSearchItem(searchPattern: searchPattern)
-        .listen((event) {
-      emit(SearchLoadedState(listOfTransactionData: event));
+        .listen((listOfTransactions) {
+      emit(SearchLoadedState(listOfTransactionData: listOfTransactions));
     });
   }
 
