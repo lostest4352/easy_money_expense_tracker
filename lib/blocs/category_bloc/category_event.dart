@@ -18,12 +18,13 @@ final class CategoryEditEvent extends CategoryEvent {
   final bool isIncome;
   final int colorsValue;
 
-  CategoryEditEvent(
-      {required this.selectedCategoryModelIsar,
-      required this.selectedCategoryModelId,
-      required this.transactionType,
-      required this.isIncome,
-      required this.colorsValue});
+  CategoryEditEvent({
+    required this.selectedCategoryModelIsar,
+    required this.selectedCategoryModelId,
+    required this.transactionType,
+    required this.isIncome,
+    required this.colorsValue,
+  });
 }
 
 final class CategoryDeleteEvent extends CategoryEvent {
