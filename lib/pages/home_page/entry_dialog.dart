@@ -83,310 +83,312 @@ class _EntryDialogState extends State<EntryDialog> {
           backgroundColor: Colors.grey.shade900,
           child: Padding(
             padding: const EdgeInsets.all(12),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                () {
-                  if (widget.editMode == true) {
-                    return Align(
-                      alignment: Alignment.topRight,
-                      child: InkWell(
-                        onTap: () {
-                          blocTransaction.add(
-                            TransactionsDeleteEvent(
-                              widgetTransactionModelIsar: widget.transaction,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  () {
+                    if (widget.editMode == true) {
+                      return Align(
+                        alignment: Alignment.topRight,
+                        child: InkWell(
+                          onTap: () {
+                            blocTransaction.add(
+                              TransactionsDeleteEvent(
+                                widgetTransactionModelIsar: widget.transaction,
+                              ),
+                            );
+                            context.pop();
+                          },
+                          child: const Icon(
+                            Icons.delete_outline,
+                            size: 20,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      );
+                    } else {
+                      return const SizedBox();
+                    }
+                  }(),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  const PopupTextFieldTitle(
+                    title: "Date",
+                  ),
+                  InkWell(
+                    onTap: () {
+                      if (widget.editMode == false) {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return Dialog(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  TableCalendar(
+                                    firstDay: DateTime.utc(2010, 01, 01),
+                                    lastDay: DateTime.now(),
+                                    availableCalendarFormats: const {
+                                      CalendarFormat.month: 'Month',
+                                    },
+                                    focusedDay: selectedDate,
+                                    onDaySelected: (selectedDay, focusedDay) {
+                                      setState(() {
+                                        selectedDate = selectedDay;
+                                      });
+                                      context.pop();
+                                    },
+                                    selectedDayPredicate: (day) {
+                                      return isSameDay(selectedDate, day);
+                                    },
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      }
+                    },
+                    child: PopupCategoryItems(
+                      title: (formattedDate == currentDateFormatted)
+                          ? "Today"
+                          : formattedDate.toString(),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  const PopupTextFieldTitle(
+                    title: "Amount",
+                  ),
+                  PopupTextFieldItems(
+                    textEditingController: amountController,
+                    keyboardType:
+                        const TextInputType.numberWithOptions(signed: true),
+                    inputFormatters: [
+                      // FilteringTextInputFormatter.digitsOnly,
+                      FilteringTextInputFormatter.allow(
+                          RegExp(r'^(\d+)?\.?\d{0,2}')),
+                    ],
+                    hintText: "Enter Amount",
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      const Spacer(),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10, bottom: 10),
+                        child: InkWell(
+                          onTap: () {
+                            context.pop();
+                          },
+                          child: Text(
+                            "Cancel",
+                            style: TextStyle(
+                              color: Colors.red.shade400,
+                              fontWeight: FontWeight.bold,
                             ),
-                          );
-                          context.pop();
-                        },
-                        child: const Icon(
-                          Icons.delete_outline,
-                          size: 20,
-                          color: Colors.grey,
+                          ),
                         ),
                       ),
-                    );
-                  } else {
-                    return const SizedBox();
-                  }
-                }(),
-                const SizedBox(
-                  height: 15,
-                ),
-                const PopupTextFieldTitle(
-                  title: "Date",
-                ),
-                InkWell(
-                  onTap: () {
-                    if (widget.editMode == false) {
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 10, bottom: 10),
+                        child: InkWell(
+                          onTap: () {
+                            if (transactionType != null &&
+                                isIncome != null &&
+                                colorsValue != null) {
+                              TransactionModelIsar transactionModelIsar =
+                                  TransactionModelIsar()
+                                    ..amount = int.parse(amountController.text)
+                                    ..dateTime = selectedDate.toString()
+                                    ..note = (noteController.text.trim() == "")
+                                        ? null
+                                        : noteController.text.trim()
+                                    //
+                                    ..transactionType = transactionType ?? ""
+                                    ..isIncome = isIncome ?? true
+                                    ..colorsValue =
+                                        colorsValue ?? Colors.red.value;
+                              if (widget.editMode == false) {
+                                blocTransaction.add(
+                                  TransactionsAddEvent(
+                                    transactionModelIsar: transactionModelIsar,
+                                  ),
+                                );
+                              } else {
+                                blocTransaction.add(
+                                  TransactionsEditEvent(
+                                    selectedTransactionModelId:
+                                        widget.transaction!.id,
+                                    amount: int.parse(amountController.text),
+                                    dateTime: selectedDate.toString(),
+                                    note: (noteController.text.trim() == "")
+                                        ? null
+                                        : noteController.text.trim(),
+                                    //
+                                    transactionType: transactionType!,
+                                    isIncome: isIncome!,
+                                    colorsValue: colorsValue!,
+                                  ),
+                                );
+                              }
+                            }
+                            context.pop();
+                          },
+                          child: Text(
+                            "Save",
+                            style: TextStyle(
+                              color: Colors.blue.shade400,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Divider(),
+                  const PopupTextFieldTitle(
+                    title: "Category",
+                  ),
+                  InkWell(
+                    onTap: () {
                       showDialog(
                         context: context,
                         builder: (context) {
                           return Dialog(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                TableCalendar(
-                                  firstDay: DateTime.utc(2010, 01, 01),
-                                  lastDay: DateTime.now(),
-                                  availableCalendarFormats: const {
-                                    CalendarFormat.month: 'Month',
-                                  },
-                                  focusedDay: selectedDate,
-                                  onDaySelected: (selectedDay, focusedDay) {
-                                    setState(() {
-                                      selectedDate = selectedDay;
-                                    });
-                                    context.pop();
-                                  },
-                                  selectedDayPredicate: (day) {
-                                    return isSameDay(selectedDate, day);
-                                  },
-                                ),
-                              ],
+                            child: SizedBox(
+                              height: 400,
+                              child: BlocBuilder<CategoryBloc, CategoryState>(
+                                builder: (context, state) {
+                                  if (state.listOfCategoryData != null) {
+                                    CategoryBloc blocCategories =
+                                        context.read<CategoryBloc>();
+                                    final categoryList = state.listOfCategoryData;
+            
+                                    if (categoryList!.isEmpty) {
+                                      blocCategories
+                                          .add(CategoryAddDefaultItemsEvent());
+                                    }
+                                    return Column(
+                                      children: [
+                                        Expanded(
+                                          child: ListView.builder(
+                                            itemCount: categoryList.length,
+                                            itemBuilder: (context, index) {
+                                              return ListTile(
+                                                onTap: () {
+                                                  setState(() {
+                                                    transactionType =
+                                                        categoryList[index]
+                                                            .transactionType;
+                                                    isIncome = categoryList[index]
+                                                        .isIncome;
+                                                    colorsValue =
+                                                        categoryList[index]
+                                                            .colorsValue;
+                                                  });
+                                                  context.pop();
+                                                },
+                                                leading: CircleAvatar(
+                                                  backgroundColor:
+                                                      (categoryList[index]
+                                                                  .isIncome) ==
+                                                              true
+                                                          ? Colors.blue
+                                                          : Colors.red,
+                                                  child: (categoryList[index]
+                                                              .isIncome ==
+                                                          true)
+                                                      ? const Icon(
+                                                          Icons.addchart,
+                                                          color: Colors.white,
+                                                        )
+                                                      : const Icon(
+                                                          Icons
+                                                              .highlight_remove_sharp,
+                                                          color: Colors.white,
+                                                        ),
+                                                ),
+                                                //
+                                                title: Text(
+                                                  categoryList[index]
+                                                      .transactionType,
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 8, bottom: 8),
+                                              child: TextButton(
+                                                onPressed: () {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return const CategoryModifyDialog(
+                                                        editMode: false,
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                                child: const Text(
+                                                  "+Add item",
+                                                  style: TextStyle(
+                                                    color: Colors.blue,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    );
+                                  } else {
+                                    return const Center(
+                                      child: Text("No Data"),
+                                    );
+                                  }
+                                },
+                              ),
                             ),
                           );
                         },
                       );
-                    }
-                  },
-                  child: PopupCategoryItems(
-                    title: (formattedDate == currentDateFormatted)
-                        ? "Today"
-                        : formattedDate.toString(),
+                    },
+                    child: PopupCategoryItems(
+                      title: transactionType ?? "Select Category",
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                const PopupTextFieldTitle(
-                  title: "Amount",
-                ),
-                PopupTextFieldItems(
-                  textEditingController: amountController,
-                  keyboardType:
-                      const TextInputType.numberWithOptions(signed: true),
-                  inputFormatters: [
-                    // FilteringTextInputFormatter.digitsOnly,
-                    FilteringTextInputFormatter.allow(
-                        RegExp(r'^(\d+)?\.?\d{0,2}')),
-                  ],
-                  hintText: "Enter Amount",
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    const Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10, bottom: 10),
-                      child: InkWell(
-                        onTap: () {
-                          context.pop();
-                        },
-                        child: Text(
-                          "Cancel",
-                          style: TextStyle(
-                            color: Colors.red.shade400,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10, bottom: 10),
-                      child: InkWell(
-                        onTap: () {
-                          if (transactionType != null &&
-                              isIncome != null &&
-                              colorsValue != null) {
-                            TransactionModelIsar transactionModelIsar =
-                                TransactionModelIsar()
-                                  ..amount = int.parse(amountController.text)
-                                  ..dateTime = selectedDate.toString()
-                                  ..note = (noteController.text.trim() == "")
-                                      ? null
-                                      : noteController.text.trim()
-                                  //
-                                  ..transactionType = transactionType ?? ""
-                                  ..isIncome = isIncome ?? true
-                                  ..colorsValue =
-                                      colorsValue ?? Colors.red.value;
-                            if (widget.editMode == false) {
-                              blocTransaction.add(
-                                TransactionsAddEvent(
-                                  transactionModelIsar: transactionModelIsar,
-                                ),
-                              );
-                            } else {
-                              blocTransaction.add(
-                                TransactionsEditEvent(
-                                  selectedTransactionModelId:
-                                      widget.transaction!.id,
-                                  amount: int.parse(amountController.text),
-                                  dateTime: selectedDate.toString(),
-                                  note: (noteController.text.trim() == "")
-                                      ? null
-                                      : noteController.text.trim(),
-                                  //
-                                  transactionType: transactionType!,
-                                  isIncome: isIncome!,
-                                  colorsValue: colorsValue!,
-                                ),
-                              );
-                            }
-                          }
-                          context.pop();
-                        },
-                        child: Text(
-                          "Save",
-                          style: TextStyle(
-                            color: Colors.blue.shade400,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const Divider(),
-                const PopupTextFieldTitle(
-                  title: "Category",
-                ),
-                InkWell(
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return Dialog(
-                          child: SizedBox(
-                            height: 400,
-                            child: BlocBuilder<CategoryBloc, CategoryState>(
-                              builder: (context, state) {
-                                if (state.listOfCategoryData != null) {
-                                  CategoryBloc blocCategories =
-                                      context.read<CategoryBloc>();
-                                  final categoryList = state.listOfCategoryData;
-
-                                  if (categoryList!.isEmpty) {
-                                    blocCategories
-                                        .add(CategoryAddDefaultItemsEvent());
-                                  }
-                                  return Column(
-                                    children: [
-                                      Expanded(
-                                        child: ListView.builder(
-                                          itemCount: categoryList.length,
-                                          itemBuilder: (context, index) {
-                                            return ListTile(
-                                              onTap: () {
-                                                setState(() {
-                                                  transactionType =
-                                                      categoryList[index]
-                                                          .transactionType;
-                                                  isIncome = categoryList[index]
-                                                      .isIncome;
-                                                  colorsValue =
-                                                      categoryList[index]
-                                                          .colorsValue;
-                                                });
-                                                context.pop();
-                                              },
-                                              leading: CircleAvatar(
-                                                backgroundColor:
-                                                    (categoryList[index]
-                                                                .isIncome) ==
-                                                            true
-                                                        ? Colors.blue
-                                                        : Colors.red,
-                                                child: (categoryList[index]
-                                                            .isIncome ==
-                                                        true)
-                                                    ? const Icon(
-                                                        Icons.addchart,
-                                                        color: Colors.white,
-                                                      )
-                                                    : const Icon(
-                                                        Icons
-                                                            .highlight_remove_sharp,
-                                                        color: Colors.white,
-                                                      ),
-                                              ),
-                                              //
-                                              title: Text(
-                                                categoryList[index]
-                                                    .transactionType,
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 8, bottom: 8),
-                                            child: TextButton(
-                                              onPressed: () {
-                                                showDialog(
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return const CategoryModifyDialog(
-                                                      editMode: false,
-                                                    );
-                                                  },
-                                                );
-                                              },
-                                              child: const Text(
-                                                "+Add item",
-                                                style: TextStyle(
-                                                  color: Colors.blue,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  );
-                                } else {
-                                  return const Center(
-                                    child: Text("No Data"),
-                                  );
-                                }
-                              },
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  },
-                  child: PopupCategoryItems(
-                    title: transactionType ?? "Select Category",
+                  const SizedBox(
+                    height: 5,
                   ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                const PopupTextFieldTitle(
-                  title: "Note",
-                ),
-                PopupTextFieldItems(
-                  textEditingController: noteController,
-                  hintText: "Note(Optional)",
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-              ],
+                  const PopupTextFieldTitle(
+                    title: "Note",
+                  ),
+                  PopupTextFieldItems(
+                    textEditingController: noteController,
+                    hintText: "Note(Optional)",
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                ],
+              ),
             ),
           ),
         );

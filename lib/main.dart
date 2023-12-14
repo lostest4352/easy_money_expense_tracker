@@ -73,6 +73,7 @@ class MyApp extends StatelessWidget {
               scheme: FlexScheme.mandyRed,
               colorScheme: const ColorScheme.dark(primary: Colors.red),
               appBarBackground: (Colors.grey[850]),
+              // dialogBackground: (Colors.grey[850]),
             ),
             // home: const HomePage(),
             routerConfig: goRouter,
