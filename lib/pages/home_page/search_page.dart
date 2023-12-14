@@ -36,9 +36,11 @@ class _SearchPageState extends State<SearchPage> {
                     hintText: "Search",
                     suffixIcon: IconButton(
                       onPressed: () {
-                        context
-                            .read<SearchCubit>()
-                            .searchClicked(textEditingController.text);
+                        if (textEditingController.text.trim().isNotEmpty) {
+                          context
+                              .read<SearchCubit>()
+                              .searchClicked(textEditingController.text);
+                        }
                       },
                       icon: const Icon(Icons.search),
                     ),
