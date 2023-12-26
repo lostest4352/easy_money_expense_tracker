@@ -1174,7 +1174,7 @@ const CategoryModelIsarSchema = CollectionSchema(
         IndexPropertySchema(
           name: r'transactionType',
           type: IndexType.hash,
-          caseSensitive: true,
+          caseSensitive: false,
         )
       ],
     )

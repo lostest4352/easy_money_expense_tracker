@@ -18,7 +18,7 @@ class TransactionModelIsar {
 @collection
 class CategoryModelIsar {
   Id id = Isar.autoIncrement;
-  @Index(unique: true)
+  @Index(unique: true, caseSensitive: false)
   late String transactionType;
   late bool isIncome;
   late int colorsValue;
