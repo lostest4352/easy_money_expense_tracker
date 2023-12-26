@@ -10,7 +10,7 @@ TimeRangeState _$TimeRangeStateFromJson(Map<String, dynamic> json) =>
     TimeRangeState(
       startTime: json['startTime'] as String?,
       endTime: json['endTime'] as String?,
-      buttonName: json['buttonName'] as String? ?? "This Month",
+      buttonName: json['buttonName'] as String? ?? thisMonth,
     );
 
 Map<String, dynamic> _$TimeRangeStateToJson(TimeRangeState instance) =>

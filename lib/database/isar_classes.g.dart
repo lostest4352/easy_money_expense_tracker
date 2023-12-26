@@ -1164,7 +1164,21 @@ const CategoryModelIsarSchema = CollectionSchema(
   deserialize: _categoryModelIsarDeserialize,
   deserializeProp: _categoryModelIsarDeserializeProp,
   idName: r'id',
-  indexes: {},
+  indexes: {
+    r'transactionType': IndexSchema(
+      id: -8267383906769644232,
+      name: r'transactionType',
+      unique: true,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'transactionType',
+          type: IndexType.hash,
+          caseSensitive: true,
+        )
+      ],
+    )
+  },
   links: {},
   embeddedSchemas: {},
   getId: _categoryModelIsarGetId,
@@ -1238,6 +1252,64 @@ List<IsarLinkBase<dynamic>> _categoryModelIsarGetLinks(
 void _categoryModelIsarAttach(
     IsarCollection<dynamic> col, Id id, CategoryModelIsar object) {
   object.id = id;
+}
+
+extension CategoryModelIsarByIndex on IsarCollection<CategoryModelIsar> {
+  Future<CategoryModelIsar?> getByTransactionType(String transactionType) {
+    return getByIndex(r'transactionType', [transactionType]);
+  }
+
+  CategoryModelIsar? getByTransactionTypeSync(String transactionType) {
+    return getByIndexSync(r'transactionType', [transactionType]);
+  }
+
+  Future<bool> deleteByTransactionType(String transactionType) {
+    return deleteByIndex(r'transactionType', [transactionType]);
+  }
+
+  bool deleteByTransactionTypeSync(String transactionType) {
+    return deleteByIndexSync(r'transactionType', [transactionType]);
+  }
+
+  Future<List<CategoryModelIsar?>> getAllByTransactionType(
+      List<String> transactionTypeValues) {
+    final values = transactionTypeValues.map((e) => [e]).toList();
+    return getAllByIndex(r'transactionType', values);
+  }
+
+  List<CategoryModelIsar?> getAllByTransactionTypeSync(
+      List<String> transactionTypeValues) {
+    final values = transactionTypeValues.map((e) => [e]).toList();
+    return getAllByIndexSync(r'transactionType', values);
+  }
+
+  Future<int> deleteAllByTransactionType(List<String> transactionTypeValues) {
+    final values = transactionTypeValues.map((e) => [e]).toList();
+    return deleteAllByIndex(r'transactionType', values);
+  }
+
+  int deleteAllByTransactionTypeSync(List<String> transactionTypeValues) {
+    final values = transactionTypeValues.map((e) => [e]).toList();
+    return deleteAllByIndexSync(r'transactionType', values);
+  }
+
+  Future<Id> putByTransactionType(CategoryModelIsar object) {
+    return putByIndex(r'transactionType', object);
+  }
+
+  Id putByTransactionTypeSync(CategoryModelIsar object,
+      {bool saveLinks = true}) {
+    return putByIndexSync(r'transactionType', object, saveLinks: saveLinks);
+  }
+
+  Future<List<Id>> putAllByTransactionType(List<CategoryModelIsar> objects) {
+    return putAllByIndex(r'transactionType', objects);
+  }
+
+  List<Id> putAllByTransactionTypeSync(List<CategoryModelIsar> objects,
+      {bool saveLinks = true}) {
+    return putAllByIndexSync(r'transactionType', objects, saveLinks: saveLinks);
+  }
 }
 
 extension CategoryModelIsarQueryWhereSort
@@ -1316,6 +1388,51 @@ extension CategoryModelIsarQueryWhere
         upper: upperId,
         includeUpper: includeUpper,
       ));
+    });
+  }
+
+  QueryBuilder<CategoryModelIsar, CategoryModelIsar, QAfterWhereClause>
+      transactionTypeEqualTo(String transactionType) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'transactionType',
+        value: [transactionType],
+      ));
+    });
+  }
+
+  QueryBuilder<CategoryModelIsar, CategoryModelIsar, QAfterWhereClause>
+      transactionTypeNotEqualTo(String transactionType) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'transactionType',
+              lower: [],
+              upper: [transactionType],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'transactionType',
+              lower: [transactionType],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'transactionType',
+              lower: [transactionType],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'transactionType',
+              lower: [],
+              upper: [transactionType],
+              includeUpper: false,
+            ));
+      }
     });
   }
 }

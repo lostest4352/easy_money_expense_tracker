@@ -13,7 +13,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   final IsarService isarService;
 
   CategoryBloc({required this.isarService})
-  // make initial data [] if any issue happens
+      // make initial data [] if any issue happens
       : super(CategoryState(listOfCategoryData: null)) {
     on<CategoryInitialEvent>((event, emit) async {
       final categoryListFromStream = isarService.listenCategoryData();
@@ -34,6 +34,8 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
       await isar.writeTxn(() async {
         await isar.categoryModelIsars.put(event.categoryModelIsars);
         // emit(state.copyWith(snackBarStatus: SnackBarStatus.isNotShown));
+      }).onError((error, stackTrace) {
+        debugPrint(error.toString());
       });
     });
 
