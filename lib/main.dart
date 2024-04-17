@@ -70,6 +70,7 @@ class MyApp extends StatelessWidget {
           child: MaterialApp.router(
             debugShowCheckedModeBanner: false,
             theme: FlexThemeData.dark(
+              useMaterial3: false,
               scheme: FlexScheme.mandyRed,
               colorScheme: const ColorScheme.dark(primary: Colors.red),
               appBarBackground: (Colors.grey[850]),
